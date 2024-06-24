@@ -24,4 +24,9 @@ public class PageController {
     public String types() {
         return "issue_type";
     }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
 }

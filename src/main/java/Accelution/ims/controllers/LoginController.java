@@ -65,9 +65,7 @@ public class LoginController {
         } else {
 
             session.setAttribute("uid", user.getId());
-            session.setAttribute("branch", user.getBranch());
             session.setAttribute("username", username);
-            session.setAttribute("usertype", user.getUsertype());
 
             return "ok";
 

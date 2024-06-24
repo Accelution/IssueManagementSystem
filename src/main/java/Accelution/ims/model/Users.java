@@ -35,9 +35,7 @@ public class Users {
     private Integer id;
     private String username;
     private String name;
-    private Integer usertype;
     private String status;
-    private String branch;
     @CreatedBy
     private Integer ent_by;
     @CreatedDate

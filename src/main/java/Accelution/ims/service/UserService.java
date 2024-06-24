@@ -42,8 +42,8 @@ public class UserService {
         Users user = new Users();
         user.setUsername(username);
         user.setName(name);
-        user.setUsertype(usertype);
-        user.setBranch(branch);
+//        user.setUsertype(usertype);
+//        user.setBranch(branch);
         user.setStatus("active");
         user = userRepo.save(user);
         return user;
@@ -53,8 +53,8 @@ public class UserService {
         Users user = userRepo.findById(id).get();
         user.setUsername(username);
         user.setName(name);
-        user.setUsertype(usertype);
-        user.setBranch(branch);
+//        user.setUsertype(usertype);
+//        user.setBranch(branch);
         user = userRepo.save(user);
         return user;
     }
