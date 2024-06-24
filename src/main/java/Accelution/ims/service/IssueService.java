@@ -49,13 +49,13 @@ public class IssueService {
     @Autowired
     private UserRepo repors;
     @Autowired
-    private FilePendingRepo fmrrepo;
+    private FilePendingRepo issuerepo;
 
 //    Operation
     public DataTablesResponse<IssueDTO> getIssues(DataTableRequest param) throws Exception {
         String stage = param.getData();
 
-        String sql = "SELECT x.`id`,x.`issue_type`,x.`status`,x.`ref_number`,x.`comment`,(SELECT p.type FROM `priority` p WHERE p.`id`=x.`priority`)AS `priority`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`ent_by`) AS `ent_by`,`ent_on`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`mod_by`) AS `mod_by`,`mod_on` FROM `issues` X WHERE TRUE";
+        String sql = "SELECT x.`id`,x.`issue_type`,x.`status`,x.`ref_number`,x.`comment`,(SELECT i.name FROM `issue_types` i WHERE i.`id`=x.`type`)AS `type`,(SELECT p.type FROM `priority` p WHERE p.`id`=x.`priority`)AS `priority`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`ent_by`) AS `ent_by`,`ent_on`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`mod_by`) AS `mod_by`,`mod_on` FROM `issues` X WHERE TRUE";
         if (!stage.equals("all")) {
             if (stage.equals("queue")) {
                 sql += " AND `status`='Queue'";
@@ -68,7 +68,7 @@ public class IssueService {
             } else if (stage.equals("completed")) {
                 sql += " AND `status`='Completed'";
             } else if (stage.equals("unsucces")) {
-                sql += " AND `status`='Unsuccessfil'";
+                sql += " AND `status`='Unsuccessful'";
             }
         }
         return userDt.getData(IssueDTO.class, param, sql);
@@ -84,7 +84,7 @@ public class IssueService {
 //                + "x.`comment`, x.`approver`, x.`facility_status`, "
 //                + "(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`ent_by`) AS `ent_by`, `ent_on`, "
 //                + "(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`mod_by`) AS `mod_by`, `mod_on` "
-//                + "FROM `fmr` x WHERE TRUE AND x.branch = (SELECT `branch` FROM `users` WHERE `id` = ?)");
+//                + "FROM `issue` x WHERE TRUE AND x.branch = (SELECT `branch` FROM `users` WHERE `id` = ?)");
 //
 //        if (!"all".equals(stage)) {
 //            switch (stage) {
@@ -141,7 +141,7 @@ public class IssueService {
 //                    + "x.`ent_on`, "
 //                    + "(SELECT d.`name` FROM `users` d WHERE d.`id` = x.`mod_by`) AS `mod_by`, "
 //                    + "x.`mod_on` "
-//                    + "FROM `fmr` X "
+//                    + "FROM `issue` X "
 //                    + "WHERE x.`status` = 'Undertaking Recommendation'";
 //        } else {
 //            sql = "SELECT x.`id`, x.`customer_name`, x.`status`, x.`ref_number`, "
@@ -152,7 +152,7 @@ public class IssueService {
 //                    + "x.`ent_on`, "
 //                    + "(SELECT d.`name` FROM `users` d WHERE d.`id` = x.`mod_by`) AS `mod_by`, "
 //                    + "x.`mod_on` "
-//                    + "FROM `fmr` X "
+//                    + "FROM `issue` X "
 //                    + "WHERE x.`approver` = ? AND x.`status` = 'Undertaking Approval Pending'";
 //        }
 //
@@ -165,42 +165,42 @@ public class IssueService {
 //    }
 //
 //    public DataTablesResponse<IssueDTO> getIssueApprovse(DataTableRequest param, Integer userId) throws Exception {
-//        return userDt.getData(IssueDTO.class, param, "SELECT x.`id`,x.`customer_name`,x.`status`,x.`ref_number`,(SELECT `description` FROM `loan`.`product`  WHERE `id` = x.`product`) AS product,(SELECT `name` FROM `loan`.`branch`  WHERE `id` = x.`branch`) AS branch ,x.`amount`,x.`pendings`,x.`comment`,x.`approver`,x.`facility_status`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`ent_by`) AS `ent_by`,`ent_on`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`mod_by`) AS `mod_by`,`mod_on` FROM `fmr` X WHERE `status`='Acknowledgment Pending' AND x.branch = (SELECT `branch` FROM `users` WHERE `id` = ?)", userId);
+//        return userDt.getData(IssueDTO.class, param, "SELECT x.`id`,x.`customer_name`,x.`status`,x.`ref_number`,(SELECT `description` FROM `loan`.`product`  WHERE `id` = x.`product`) AS product,(SELECT `name` FROM `loan`.`branch`  WHERE `id` = x.`branch`) AS branch ,x.`amount`,x.`pendings`,x.`comment`,x.`approver`,x.`facility_status`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`ent_by`) AS `ent_by`,`ent_on`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`mod_by`) AS `mod_by`,`mod_on` FROM `issue` X WHERE `status`='Acknowledgment Pending' AND x.branch = (SELECT `branch` FROM `users` WHERE `id` = ?)", userId);
 //
 //    }
 //
 //    public DataTablesResponse<IssueDTO> getIssuefileBranch(DataTableRequest param, Integer userId) throws Exception {
-//        return userDt.getData(IssueDTO.class, param, "SELECT x.`id`,x.`customer_name`,x.`status`,x.`ref_number`,(SELECT `description` FROM `loan`.`product`  WHERE `id` = x.`product`) AS product,(SELECT `name` FROM `loan`.`branch`  WHERE `id` = x.`branch`) AS branch ,x.`amount`,x.`pendings`,x.`comment`,x.`approver`,x.`facility_status`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`ent_by`) AS `ent_by`,`ent_on`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`mod_by`) AS `mod_by`,`mod_on` FROM `fmr` X WHERE `status`='File Pending Details' AND x.branch = (SELECT `branch` FROM `users` WHERE `id` = ?)", userId);
+//        return userDt.getData(IssueDTO.class, param, "SELECT x.`id`,x.`customer_name`,x.`status`,x.`ref_number`,(SELECT `description` FROM `loan`.`product`  WHERE `id` = x.`product`) AS product,(SELECT `name` FROM `loan`.`branch`  WHERE `id` = x.`branch`) AS branch ,x.`amount`,x.`pendings`,x.`comment`,x.`approver`,x.`facility_status`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`ent_by`) AS `ent_by`,`ent_on`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`mod_by`) AS `mod_by`,`mod_on` FROM `issue` X WHERE `status`='File Pending Details' AND x.branch = (SELECT `branch` FROM `users` WHERE `id` = ?)", userId);
 //
 //    }
 //
 //    public DataTablesResponse<IssueDTO> getIssueclearanceBranch(DataTableRequest param, Integer userId) throws Exception {
-//        return userDt.getData(IssueDTO.class, param, "SELECT x.`id`,x.`customer_name`,x.`status`,x.`ref_number`,(SELECT `description` FROM `loan`.`product`  WHERE `id` = x.`product`) AS product,(SELECT `name` FROM `loan`.`branch`  WHERE `id` = x.`branch`) AS branch ,x.`amount`,x.`pendings`,x.`comment`,x.`approver`,x.`facility_status`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`ent_by`) AS `ent_by`,`ent_on`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`mod_by`) AS `mod_by`,`mod_on` FROM `fmr` X WHERE `status`='File Pending Clearance' AND x.branch = (SELECT `branch` FROM `users` WHERE `id` = ?)", userId);
+//        return userDt.getData(IssueDTO.class, param, "SELECT x.`id`,x.`customer_name`,x.`status`,x.`ref_number`,(SELECT `description` FROM `loan`.`product`  WHERE `id` = x.`product`) AS product,(SELECT `name` FROM `loan`.`branch`  WHERE `id` = x.`branch`) AS branch ,x.`amount`,x.`pendings`,x.`comment`,x.`approver`,x.`facility_status`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`ent_by`) AS `ent_by`,`ent_on`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`mod_by`) AS `mod_by`,`mod_on` FROM `issue` X WHERE `status`='File Pending Clearance' AND x.branch = (SELECT `branch` FROM `users` WHERE `id` = ?)", userId);
 //
 //    }
 //
 //    public DataTablesResponse<IssueDTO> getIssueapprovalBranch(DataTableRequest param, Integer userId) throws Exception {
-//        return userDt.getData(IssueDTO.class, param, "SELECT x.`id`,x.`customer_name`,x.`status`,x.`ref_number`,(SELECT `description` FROM `loan`.`product`  WHERE `id` = x.`product`) AS product,(SELECT `name` FROM `loan`.`branch`  WHERE `id` = x.`branch`) AS branch ,x.`amount`,x.`pendings`,x.`comment`,(SELECT `name` FROM `users` WHERE `id` = x.`approver`)AS approver,x.`facility_status`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`ent_by`) AS `ent_by`,`ent_on`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`mod_by`) AS `mod_by`,`mod_on` FROM `fmr` X WHERE `status`='Undertaking Approval Pending' AND x.branch = (SELECT `branch` FROM `users` WHERE `id` = ?)", userId);
+//        return userDt.getData(IssueDTO.class, param, "SELECT x.`id`,x.`customer_name`,x.`status`,x.`ref_number`,(SELECT `description` FROM `loan`.`product`  WHERE `id` = x.`product`) AS product,(SELECT `name` FROM `loan`.`branch`  WHERE `id` = x.`branch`) AS branch ,x.`amount`,x.`pendings`,x.`comment`,(SELECT `name` FROM `users` WHERE `id` = x.`approver`)AS approver,x.`facility_status`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`ent_by`) AS `ent_by`,`ent_on`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`mod_by`) AS `mod_by`,`mod_on` FROM `issue` X WHERE `status`='Undertaking Approval Pending' AND x.branch = (SELECT `branch` FROM `users` WHERE `id` = ?)", userId);
 //
 //    }
 //
 //    public DataTablesResponse<IssueDTO> getIssuepaymentBranch(DataTableRequest param, Integer userId) throws Exception {
-//        return userDt.getData(IssueDTO.class, param, "SELECT x.`id`,x.`customer_name`,x.`status`,x.`ref_number`,(SELECT `description` FROM `loan`.`product`  WHERE `id` = x.`product`) AS product,(SELECT `name` FROM `loan`.`branch`  WHERE `id` = x.`branch`) AS branch ,x.`amount`,x.`pendings`,x.`comment`,x.`approver`,x.`facility_status`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`ent_by`) AS `ent_by`,`ent_on`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`mod_by`) AS `mod_by`,`mod_on` FROM `fmr` X WHERE `status`='Payment Voucher Hand Over To Finance' AND x.branch = (SELECT `branch` FROM `users` WHERE `id` = ?)", userId);
+//        return userDt.getData(IssueDTO.class, param, "SELECT x.`id`,x.`customer_name`,x.`status`,x.`ref_number`,(SELECT `description` FROM `loan`.`product`  WHERE `id` = x.`product`) AS product,(SELECT `name` FROM `loan`.`branch`  WHERE `id` = x.`branch`) AS branch ,x.`amount`,x.`pendings`,x.`comment`,x.`approver`,x.`facility_status`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`ent_by`) AS `ent_by`,`ent_on`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`mod_by`) AS `mod_by`,`mod_on` FROM `issue` X WHERE `status`='Payment Voucher Hand Over To Finance' AND x.branch = (SELECT `branch` FROM `users` WHERE `id` = ?)", userId);
 //
 //    }
 //
 //    public DataTablesResponse<IssueDTO> getIssuepaymentUABranch(DataTableRequest param, Integer userId) throws Exception {
-//        return userDt.getData(IssueDTO.class, param, "SELECT x.`id`,x.`customer_name`,x.`status`,x.`ref_number`,(SELECT `description` FROM `loan`.`product`  WHERE `id` = x.`product`) AS product,(SELECT `name` FROM `loan`.`branch`  WHERE `id` = x.`branch`) AS branch ,x.`amount`,x.`pendings`,x.`comment`,x.`approver`,x.`facility_status`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`ent_by`) AS `ent_by`,`ent_on`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`mod_by`) AS `mod_by`,`mod_on` FROM `fmr` X WHERE `status`='Payment Voucher Hand Over To Finance(Undertaking Approval)' AND x.branch = (SELECT `branch` FROM `users` WHERE `id` = ?)", userId);
+//        return userDt.getData(IssueDTO.class, param, "SELECT x.`id`,x.`customer_name`,x.`status`,x.`ref_number`,(SELECT `description` FROM `loan`.`product`  WHERE `id` = x.`product`) AS product,(SELECT `name` FROM `loan`.`branch`  WHERE `id` = x.`branch`) AS branch ,x.`amount`,x.`pendings`,x.`comment`,x.`approver`,x.`facility_status`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`ent_by`) AS `ent_by`,`ent_on`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`mod_by`) AS `mod_by`,`mod_on` FROM `issue` X WHERE `status`='Payment Voucher Hand Over To Finance(Undertaking Approval)' AND x.branch = (SELECT `branch` FROM `users` WHERE `id` = ?)", userId);
 //
 //    }
 //
 //    public DataTablesResponse<IssueDTO> getIssueCompletedBranch(DataTableRequest param, Integer userId) throws Exception {
-//        return userDt.getData(IssueDTO.class, param, "SELECT x.`id`,x.`customer_name`,x.`status`,x.`ref_number`,(SELECT `description` FROM `loan`.`product`  WHERE `id` = x.`product`) AS product,(SELECT `name` FROM `loan`.`branch`  WHERE `id` = x.`branch`) AS branch ,x.`amount`,x.`pendings`,x.`comment`,x.`approver`,x.`facility_status`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`ent_by`) AS `ent_by`,`ent_on`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`mod_by`) AS `mod_by`,`mod_on` FROM `fmr` X WHERE `status`='Completed' AND x.branch = (SELECT `branch` FROM `users` WHERE `id` = ?)", userId);
+//        return userDt.getData(IssueDTO.class, param, "SELECT x.`id`,x.`customer_name`,x.`status`,x.`ref_number`,(SELECT `description` FROM `loan`.`product`  WHERE `id` = x.`product`) AS product,(SELECT `name` FROM `loan`.`branch`  WHERE `id` = x.`branch`) AS branch ,x.`amount`,x.`pendings`,x.`comment`,x.`approver`,x.`facility_status`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`ent_by`) AS `ent_by`,`ent_on`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`mod_by`) AS `mod_by`,`mod_on` FROM `issue` X WHERE `status`='Completed' AND x.branch = (SELECT `branch` FROM `users` WHERE `id` = ?)", userId);
 //
 //    }
 //
 //    public DataTablesResponse<IssueDTO> getIssueRejectBranch(DataTableRequest param, Integer userId) throws Exception {
-//        return userDt.getData(IssueDTO.class, param, "SELECT x.`id`,x.`customer_name`,x.`status`,x.`ref_number`,(SELECT `description` FROM `loan`.`product`  WHERE `id` = x.`product`) AS product,(SELECT `name` FROM `loan`.`branch`  WHERE `id` = x.`branch`) AS branch ,x.`amount`,x.`pendings`,x.`comment`,x.`approver`,x.`facility_status`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`ent_by`) AS `ent_by`,`ent_on`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`mod_by`) AS `mod_by`,`mod_on` FROM `fmr` X WHERE `status`='Rejected' AND x.branch = (SELECT `branch` FROM `users` WHERE `id` = ?)", userId);
+//        return userDt.getData(IssueDTO.class, param, "SELECT x.`id`,x.`customer_name`,x.`status`,x.`ref_number`,(SELECT `description` FROM `loan`.`product`  WHERE `id` = x.`product`) AS product,(SELECT `name` FROM `loan`.`branch`  WHERE `id` = x.`branch`) AS branch ,x.`amount`,x.`pendings`,x.`comment`,x.`approver`,x.`facility_status`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`ent_by`) AS `ent_by`,`ent_on`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`mod_by`) AS `mod_by`,`mod_on` FROM `issue` X WHERE `status`='Rejected' AND x.branch = (SELECT `branch` FROM `users` WHERE `id` = ?)", userId);
 //
 //    }
 //
@@ -221,46 +221,42 @@ public class IssueService {
         return repor.getPrio("%" + search.trim() + "%");
     }
 
-    public Issue saveIssue(String issue_type, String priority, String comment, String assign, HttpSession session) {
-        Issue savefmr = new Issue();
-        savefmr.setIssue_type(issue_type);
-        savefmr.setPriority(priority);
-        savefmr.setComment(comment);
-        savefmr.setAssign(assign);
+    public Issue saveIssue(String issue_type, String priority, String comment, String assign, String type, HttpSession session) {
+        Issue saveissue = new Issue();
+        saveissue.setIssue_type(issue_type);
+        saveissue.setPriority(priority);
+        saveissue.setComment(comment);
+        saveissue.setAssign(assign);
+        saveissue.setType(type);
 //        String branchFromSession = (String) session.getAttribute("branch");
-//        savefmr.setBranch(branchFromSession);
-        savefmr.setStatus("Queue");
-        savefmr = repo.save(savefmr);
+//        saveissue.setBranch(branchFromSession);
+        saveissue.setStatus("Queue");
+        saveissue = repo.save(saveissue);
 
-        return savefmr;
+        return saveissue;
     }
 
-//    public Issue updateIssue(Integer id, String ref_number, String customer_name, String product, String amount, String statustype, String reason) throws Exception {
-//        Issue updatefmr = repo.findById(id).get();
-//
-//        updatefmr.setRef_number(ref_number);
-//        updatefmr.setCustomer_name(customer_name);
-//        updatefmr.setProduct(product);
-//        updatefmr.setAmount(amount);
-//
-//        switch (statustype) {
-//            case "reject":
-//                updatefmr.setStatus("Rejected");
-//                updatefmr.setReason(reason);
-//                break;
-//
-//            case "acknowledged":
-//                updatefmr.setStatus("Acknowledged");
-//                break;
-//
-//            default:
-//                // Handle default case if necessary
-//                break;
-//        }
-//
-//        updatefmr = repo.save(updatefmr);
-//        return updatefmr;
-//    }
+    public Issue updateIssue(Integer id, String statusque, String reason) throws Exception {
+        Issue updateissue = repo.findById(id).get();
+
+        switch (statusque) {
+            case "uns":
+                updateissue.setStatus("Unsuccessful");
+                updateissue.setReason(reason);
+                break;
+
+            case "devPen":
+                updateissue.setStatus("Development Pending");
+                break;
+
+            default:
+
+                break;
+        }
+
+        updateissue = repo.save(updateissue);
+        return updateissue;
+    }
 //
     @Autowired
     private JdbcTemplate jdbc;
@@ -314,7 +310,7 @@ public class IssueService {
 //                    attachment.setJustification(fileItem.get("justification").asText());
 //                    attachment.setDate(LocalDate.parse(fileItem.get("completionDate").asText()));
 //                    attachment.setStatus("active");
-//                    fmrrepo.save(attachment);
+//                    issuerepo.save(attachment);
 //                }
 //                break;
 //
@@ -355,7 +351,7 @@ public class IssueService {
 //
 //        // Fetch content again to ensure it's up-to-date
 //        Issue content = repo.findById(id).orElseThrow(() -> new Exception("Issue not found for id: " + id));
-//        List<FilePendings> videos = fmrrepo.findByPendingsAndStatus(id, "active");
+//        List<FilePendings> videos = issuerepo.findByPendingsAndStatus(id, "active");
 //
 //        for (FilePendings video : videos) {
 //            try {
@@ -386,11 +382,11 @@ public class IssueService {
 //            if (deleteIds != null) {
 //                JsonNode toBeDeleted = mapper.readTree(deleteIds);
 //                for (JsonNode jsonNode : toBeDeleted) {
-//                    Optional<FilePendings> optionalMembers = fmrrepo.findById(Integer.parseInt(jsonNode.asText()));
+//                    Optional<FilePendings> optionalMembers = issuerepo.findById(Integer.parseInt(jsonNode.asText()));
 //                    if (optionalMembers.isPresent()) {
 //                        FilePendings attachmentToDelete = optionalMembers.get();
 //                        attachmentToDelete.setStatus("deactivate");
-//                        fmrrepo.save(attachmentToDelete);
+//                        issuerepo.save(attachmentToDelete);
 //                    } else {
 //                        throw new Exception("FMR with ID " + jsonNode.asText() + " not found");
 //                    }
@@ -408,7 +404,7 @@ public class IssueService {
 //                    attachment.setPendings(system.getId());
 //                    attachment.setName(fileName);
 //                    attachment.setStatus("active");
-//                    fmrrepo.save(attachment);
+//                    issuerepo.save(attachment);
 //                }
 //            }
 //
@@ -454,15 +450,15 @@ public class IssueService {
 //    }
 //
 //    public Issue updateUndertaking(Integer id, String statusund) throws Exception {
-//        Issue updatefmr = repo.findById(id).get();
+//        Issue updateissue = repo.findById(id).get();
 //
 //        switch (statusund) {
 //            case "returned":
-//                updatefmr.setStatus("Exceptions");
+//                updateissue.setStatus("Exceptions");
 //
 //                break;
 //            case "approved":
-//                updatefmr.setStatus("Payment Voucher Hand Over To Finance(Undertaking Approval)");
+//                updateissue.setStatus("Payment Voucher Hand Over To Finance(Undertaking Approval)");
 //                break;
 //
 //            default:
@@ -470,8 +466,8 @@ public class IssueService {
 //                break;
 //        }
 //
-//        updatefmr = repo.save(updatefmr);
-//        return updatefmr;
+//        updateissue = repo.save(updateissue);
+//        return updateissue;
 //    }
 //
 //    public Issue updatePaymentUP(Integer id, String desclist, String deleteIds, String statusvoucherun) {
@@ -482,11 +478,11 @@ public class IssueService {
 //            if (deleteIds != null) {
 //                JsonNode toBeDeleted = mapper.readTree(deleteIds);
 //                for (JsonNode jsonNode : toBeDeleted) {
-//                    Optional<FilePendings> optionalMembers = fmrrepo.findById(Integer.parseInt(jsonNode.asText()));
+//                    Optional<FilePendings> optionalMembers = issuerepo.findById(Integer.parseInt(jsonNode.asText()));
 //                    if (optionalMembers.isPresent()) {
 //                        FilePendings attachmentToDelete = optionalMembers.get();
 //                        attachmentToDelete.setStatus("deactivate");
-//                        fmrrepo.save(attachmentToDelete);
+//                        issuerepo.save(attachmentToDelete);
 //                    } else {
 //                        throw new Exception("FMR with ID " + jsonNode.asText() + " not found");
 //                    }
@@ -504,7 +500,7 @@ public class IssueService {
 //                    attachment.setPendings(system.getId());
 //                    attachment.setName(fileName);
 //                    attachment.setStatus("active");
-//                    fmrrepo.save(attachment);
+//                    issuerepo.save(attachment);
 //                }
 //            }
 //            switch (statusvoucherun) {
@@ -563,11 +559,11 @@ public class IssueService {
 //    }
 //
 //    public Issue updateVoucher(Integer id, String statusvoucher) throws Exception {
-//        Issue updatefmr = repo.findById(id).get();
+//        Issue updateissue = repo.findById(id).get();
 //
 //        switch (statusvoucher) {
 //            case "completed":
-//                updatefmr.setStatus("Completed");
+//                updateissue.setStatus("Completed");
 //                break;
 //
 //            default:
@@ -575,8 +571,8 @@ public class IssueService {
 //                break;
 //        }
 //
-//        updatefmr = repo.save(updatefmr);
-//        return updatefmr;
+//        updateissue = repo.save(updateissue);
+//        return updateissue;
 //    }
 
     public Long countAllStatus() {

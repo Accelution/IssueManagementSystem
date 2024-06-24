@@ -116,19 +116,19 @@ public class IssueController {
 //        return service.getProduct(search);
 //    }
     @PostMapping("/save")
-    public ResponseEntity<CommonResponse> saveIssue(@RequestParam String issue_type, @RequestParam String priority, @RequestParam String comment, @RequestParam String assign, HttpSession session) throws Exception {
-        service.saveIssue(issue_type, priority, comment, assign, session);
+    public ResponseEntity<CommonResponse> saveIssue(@RequestParam String issue_type, @RequestParam String priority, @RequestParam String comment, @RequestParam String assign, @RequestParam String type, HttpSession session) throws Exception {
+        service.saveIssue(issue_type, priority, comment, assign, type, session);
         CommonResponse response = new CommonResponse("Success!", 200);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-//    @PostMapping("/update-ack")
-//    public ResponseEntity<CommonResponse> updateIssue(@RequestParam Integer id, @RequestParam String ref_number, @RequestParam String customer_name, @RequestParam String product, @RequestParam String amount, @RequestParam String statustype, @RequestParam(required = false) String reason) throws Exception {
-//        service.updateIssue(id, ref_number, customer_name, product, amount, statustype, reason);
-//        CommonResponse response = new CommonResponse("Success!", 200);
-//        return ResponseEntity.ok(response);
-//    }
-//
+    @PostMapping("/update-ack")
+    public ResponseEntity<CommonResponse> updateIssue(@RequestParam Integer id, @RequestParam String statusque, @RequestParam(required = false) String reason) throws Exception {
+        service.updateIssue(id, statusque, reason);
+        CommonResponse response = new CommonResponse("Success!", 200);
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping("/details-all/{id}")
     public ResponseEntity<CommonResponse> details(@PathVariable Integer id) throws Exception {
         CommonResponse response = new CommonResponse("Success!", service.getIssueses(id), 200);

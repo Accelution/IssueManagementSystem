@@ -257,10 +257,10 @@
                     <div class="text-right" style="margin-top: 1rem;">
                         <button id="addFmrBtn" class="btn btn-sm waves-effect waves-light btn-danger" style="width: 10rem;">
                             <div class="row" style="margin-top: 2px;">
-                                <div class="col-3">
+                                <div class="col-2">
                                     <i class="icon feather icon-plus" style="font-size: 1.5rem;"></i>
                                 </div> 
-                                <div class="col-9">
+                                <div class="col-10">
                                     <h5>Add Issues</h5>  
                                 </div>   
                             </div>
@@ -289,7 +289,8 @@
                                             <tr>
                                                 <th style="display: none">ID</th>
                                                 <th>Reference Number</th>   
-                                                <th>Issue</th>
+                                                <th>Issue Type</th>   
+                                                <th>Description</th>
                                                 <th>Priority</th>
                                                 <th>ENT Date</th>                                            
                                                 <th>Status</th>
@@ -316,13 +317,24 @@
                 </div>
                 <div class="card-block p-b-0" >
 
-
-                    <div class="form-group" style="padding-bottom: 2rem">
-                        <label for="" class="col-sm-4 col-form-label allFontByCustomerEdit">Select Priority</label>
-                        <div class="col-sm-6">
-                            <select class="form-control-sm pull-right" id="prio">  </select>                                      
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group" style="padding-bottom: 2rem">
+                                <label for="" class="col-sm-4 col-form-label allFontByCustomerEdit">Issue Type</label>
+                                <select class="form-control-sm pull-right" id="typeIssue">  </select>                                      
+                            </div>  
                         </div>
+                        <div class="col">
+                            <div class="form-group" style="padding-bottom: 2rem">
+                                <label for="" class="col-sm-4 col-form-label allFontByCustomerEdit">Select Priority</label>
+
+                                <select class="form-control-sm pull-right" id="prio">  </select>                                      
+
+                            </div>  
+                        </div>
+
                     </div>
+
                     <div class="form-group">
                         <label for="issue">Issue<span class="text-danger">*</span></label>
                         <input id="issue" type="text" name="issue" class="form-control" required autocomplete="off">
@@ -356,7 +368,7 @@
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
-                                <label for="ref_number">Agreement Number / Vehicle Number<span class="text-danger">*</span></label>
+                                <label for="ref_number">Reference Number<span class="text-danger">*</span></label>
                                 <input id="ref_numberq" type="text" name="ref_number" class="form-control" required autocomplete="off" disabled="">
                             </div>
                         </div>
@@ -372,7 +384,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="Issueq">Issue<span class="text-danger">*</span></label>
-                                <input id="Issueq" type="text" name="Issueq" class="form-control" required autocomplete="off" disabled="">
+                                <input id="Issuequ" type="text" name="Issueq" class="form-control" required autocomplete="off" disabled="">
                             </div>
                         </div>
                         <div class="col">
@@ -384,10 +396,23 @@
 
 
                     </div>
-
+                    <div class="form-group" style="padding-bottom: 2rem">
+                        <label for="acknow_status" class="col-sm-4 col-form-label allFontByCustomerEdit">Choose Next Action </label>
+                        <div class="col-sm-6">
+                            <select class="form-control-sm pull-right" id="statusque" style="width: 20rem;margin-right: 15rem;">
+                                <option value="" disabled selected>Select Action</option>
+                                <option value="devPen">Development Pending</option>
+                                <option value="uns">Unsuccessful</option>
+                            </select>                                      
+                        </div>
+                    </div>
+                    <div class="form-group" id="reason_section" style="display: none;">
+                        <label for="reason">Reject Reason<span class="text-danger">*</span></label>
+                        <textarea id="reason_textarea" name="reason" class="form-control" required></textarea>
+                    </div>
 
                     <div class="card-footer d-flex justify-content-end" style="background-color: white;">
-
+                        <button id="saveBtnin" class="btn btn-sm waves-effect waves-light btn-primary" style="margin-right: 10px"><i class="icon feather icon-save"></i>Save</button>
                         <button id="closeBtnin" class="btn btn-sm btn-danger"><i class="icon feather icon-x-circle"></i>Close</button>
                     </div>
                 </div>
@@ -894,29 +919,30 @@
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
-                                <label for="ref_number">Agreement Number / Vehicle Number<span class="text-danger">*</span></label>
+                                <label for="ref_number">Reference Number<span class="text-danger">*</span></label>
                                 <input id="ref_numberrej" type="text" name="ref_number" class="form-control" required autocomplete="off" disabled="">
                             </div>  
                         </div>
                         <div class="col">
                             <div class="form-group">
-                                <label for="customer_name">Customer's Name<span class="text-danger">*</span></label>
-                                <input id="customer_namerej" type="text" name="customer_name" class="form-control" required autocomplete="off" disabled="">
+                                <label for="ent_by">Ent By<span class="text-danger">*</span></label>
+                                <input id="ent_byrej" type="text" name="ent_by" class="form-control" required autocomplete="off" disabled="">
                             </div>
                         </div>
+
                     </div>
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
-                                <label for="customer_name">Product<span class="text-danger">*</span></label>
-                                <input id="productrej" type="text" name="customer_name" class="form-control" required autocomplete="off" disabled="">
-                            </div>  
+                                <label for="issue">Issue<span class="text-danger">*</span></label>
+                                <input id="issue_typerej" type="text" name="customer_name" class="form-control" required autocomplete="off" disabled="">
+                            </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
-                                <label for="amount">Amount<span class="text-danger">*</span></label>
-                                <input id="amountrej" type="number" name="amount" class="form-control" required autocomplete="off" disabled="">
-                            </div>
+                                <label for="customer_name">Comment<span class="text-danger">*</span></label>
+                                <textarea id="commentrej" type="text" name="customer_name" class="form-control" required autocomplete="off" disabled=""></textarea>
+                            </div>  
                         </div>
                     </div>
                     <div class="row">
@@ -1063,6 +1089,20 @@
                         allowDeselect: true,
                         deselectLabel: '<span class="red">✖</span>'
                     });
+            var typeIssue = new SlimSelect(
+                    {select: '#typeIssue',
+                        placeholder: "Issue Type",
+                        ajax: function (search, callback) {
+                            fetch('type/type-select', {
+                                method: 'POST',
+                                body: new URLSearchParams({search: search || ''})
+                            }).then(res => res.json()).then((data) => {
+                                callback(data);
+                            });
+                        },
+                        allowDeselect: true,
+                        deselectLabel: '<span class="red">✖</span>'
+                    });
 
 
             $('#addFmrBtn').click(function () {
@@ -1101,6 +1141,7 @@
                         priority: document.getElementById('prio').value,
                         comment: document.getElementById('commentissue').value,
                         assign: document.getElementById('assign').value,
+                        type: document.getElementById('typeIssue').value,
                     })
                 }).then(response => {
                     if (!response.ok) {
@@ -1201,11 +1242,13 @@
                 "columns": [
                     {"data": "id", className: "text-right", "visible": false},
                     {"data": "ref_number"},
+                    {"data": "type"},
                     {"data": "issue_type"},
                     {"data": "priority"},
                     {"data": "ent_on"},
                     {"data": "status"}
-                ], "language": {
+                ],
+                "language": {
                     'loadingRecords': '&nbsp;',
                     'processing': '<div class="loader2"></div>'
                 },
@@ -1219,9 +1262,22 @@
                     $(row).data('id', data['id']);
                     $(row).data('status', data['status']);
 
+                    // Color the text and make it bold in the priority column based on its value
+                    if (data['priority'] === 'Urgent') {
+                        $('td', row).eq(3).css({
+                            'color': 'red',
+                            'font-weight': 'bold'
+                        });
+                    } else {
+                        $('td', row).eq(3).css({
+                            'color': '#e0da16',
+                            'font-weight': 'bold'
+                        });
+                    }
                 }
-
             });
+
+
 
 
         </script>
@@ -1243,10 +1299,10 @@
                                 let obj = data.obj;
 
                                 $('#ref_numberq').val(obj.ref_number);
-                                $('#issueq').val(obj.issue_type);
+                                $('#Issuequ').val(obj.issue_type);
                                 $('#commentq').val(obj.comment);
-//                                $('#productack').val(d1.product_txt);
-//                                console.log(d1.issue);
+                                //                                $('#productack').val(d1.product_txt);
+                                //                                console.log(d1.issue);
                                 console.log(obj.issue_type);
                                 $('#ent_by').val(d2.entered);
                                 $('#saveBtnin').data('mode', 'update');
@@ -1256,7 +1312,7 @@
                                 $('#tableSection').hide();
                                 finishLoadDiv($('#tableSection'));
                             });
-                } else if (status === 'Acknowledged') {
+                } else if (status === 'Development Pending') {
                     loadDiv($('#tableSection'));
                     let id = $(this).parents('tr').data('id');
                     fetch('issue/details-file/' + id)
@@ -1594,23 +1650,23 @@
                                 // Handle fetch error
                                 console.error('Error fetching payment details:', error);
                             });
-                } else if (status === 'Rejected') {
+                } else if (status === 'Unsuccessful') {
                     loadDiv($('#tableSection'));
 
 
                     let id = $(this).parents('tr').data('id');
-                    fetch('issue/paymentv-details/' + id)
+                    fetch('issue/details-all/' + id)
                             .then(resp => resp.json())
                             .then((resp) => {
                                 let data = resp.data;
-                                let d1 = data.d1;
+                                let d2 = data.d2;
                                 let obj = data.obj;
 
 
                                 $('#ref_numberrej').val(obj.ref_number);
-                                $('#customer_namerej').val(obj.customer_name);
-                                $('#amountrej').val(obj.amount);
-                                $('#productrej').val(d1.product_txt);
+                                $('#ent_byrej').val(d2.entered);
+                                $('#issue_typerej').val(obj.issue_type);
+                                $('#commentrej').val(obj.comment);
                                 $('#resonrej').val(obj.reason);
                                 $('#saveBtnpv').data('mode', 'update-completed');
                                 $('#saveBtnpv').data('id', id);
@@ -1630,7 +1686,60 @@
             });
         </script>
 
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var ImsStatusSelect = document.getElementById("statusque");
+                var commentSection = document.getElementById("reason_section");
 
+                // Add event listener to the select element
+                ImsStatusSelect.addEventListener("change", function () {
+
+                    // Check if the selected value is "reject"
+                    if (this.value === "uns") {
+                        // Show the comment section
+                        commentSection.style.display = "block";
+                    } else {
+                        // Hide the comment section
+                        commentSection.style.display = "none";
+                    }
+                });
+
+            });
+
+            $('#saveBtnin').click(function () {
+                // Get the value of the facility status select element
+                var statusque = document.getElementById('statusque').value;
+
+                // Initialize request body
+                var requestBody = {
+                    id: $('#saveBtnin').data('id'),
+                    statusque: statusque,
+                };
+
+                // Check if the facility status is "reject"
+                if (statusque === "uns") {
+                    // Include comment in the request body
+                    requestBody.reason = document.getElementById('reason_textarea').value;
+                }
+
+                // Send the request
+                return fetch((($('#saveBtnin').data('mode') === 'save') ? 'issue/save' : 'issue/update-ack'), {
+                    method: 'POST',
+                    body: new URLSearchParams(requestBody)
+                }).then(response => {
+                    if (!response.ok) {
+                        throw new Error(response.statusText);
+                    } else {
+                        Swal.fire('Successfull!', 'FMR has been successfully saved');
+                        clearForm();
+                        $('#formSectionInprogress').hide();
+                        $('#tableSection').fadeIn();
+                        dtable.ajax.reload();
+                    }
+                    return response.json();
+                });
+            });
+        </script>
 
     </body>
 </html>

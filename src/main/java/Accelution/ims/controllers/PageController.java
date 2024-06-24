@@ -19,4 +19,9 @@ public class PageController {
     public String home() {
         return "home";
     }
+
+    @GetMapping("/Issue-Types")
+    public String types() {
+        return "issue_type";
+    }
 }

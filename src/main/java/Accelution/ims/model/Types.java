@@ -16,7 +16,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.relational.core.mapping.Table;
 
 /**
@@ -28,25 +27,14 @@ import org.springframework.data.relational.core.mapping.Table;
 @Setter
 @Getter
 @ToString
-@Table("issues")
-public class Issue {
+@Table("issue_types")
+public class Types {
 
     @Id
     private Integer id;
-    private String ref_number;
-    private String issue_type;
-    private String priority;
-    private String type;
-//    @Transient
-//    private String productTxt;
-//    @Transient
-//    private String approverName;
-    @Transient
-    private String entUser;
-    private String comment;
-    private String assign;
-    private String reason;
+    private String name;
     private String status;
+
     @CreatedBy
     private Integer ent_by;
     @CreatedDate
