@@ -29,12 +29,13 @@ import org.springframework.data.relational.core.mapping.Table;
 @Getter
 @ToString
 @Table("users")
-public class Users {
+public class User {
 
     @Id
     private Integer id;
     private String username;
     private String name;
+    private Integer usertype;
     private String status;
     @CreatedBy
     private Integer ent_by;

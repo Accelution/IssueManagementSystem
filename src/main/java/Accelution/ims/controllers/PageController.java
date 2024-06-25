@@ -29,4 +29,19 @@ public class PageController {
     public String login() {
         return "login";
     }
+
+    @GetMapping("/Users")
+    public String users() {
+        return "users";
+    }
+
+    @GetMapping("/User-Types")
+    public String userType() {
+        return "user_type";
+    }
+
+    @GetMapping("/Queue")
+    public String queue() {
+        return "queue";
+    }
 }

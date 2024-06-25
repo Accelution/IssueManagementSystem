@@ -8,18 +8,15 @@
 
 
     .bg-light {
-        background-color: #6c4892!important;
+        background-color: white!important;
         font-family: Jost;
-        font-size: 1.1rem;
+        font-size: 0.9rem;
         font-weight: bold;
-        color: white;
+        color: black;
     }
     .bg-light:hover {
-        color: #79c14e
+        color: black!important;
 
-    }
-    .nav-item{
-        padding-right: 10px;
     }
 
     .nav-item a:hover {
@@ -39,14 +36,20 @@
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    <a class="navbar-brand" href="#">
-        <img src="files/images/fintrex-din-white1.png" width="150" height="60" class="d-inline-block align-top" alt="">
+    <!--    <a class="navbar-brand" href="#">
+            <img src="files/images/fintrex-din-white1.png" width="150" height="60" class="d-inline-block align-top" alt="">
 
-    </a>
+        </a>-->
 
 
+    <div class="navbar-container container-fluid d-flex justify-content-center" id="sysss">
+        <div class="nav-item">
+            <a class="nav-link" href="home">Dashbaord</a>
+        </div>
 
-    <div class="navbar-container container-fluid d-flex justify-content-end">  
+
+    </div>
+    <div class="navbar-container container-fluid d-flex justify-content-end">
         <ul class="nav-right">
             <div class="dropdown-primary dropdown">
                 <div class="dropdown-toggle" data-toggle="dropdown">
@@ -66,3 +69,27 @@
 
     </div>
 </nav>
+<script>
+    fetch('admin/page-access')
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+
+                // Assuming you have a container with id 'sysss' where you want to append items
+                var navbarContainer = $('#sysss');
+
+                data.forEach(item => {
+                    if (item.url !== null && item.url !== undefined) {
+                        var listItem = $('<div class="nav-item"></div>'); // Use div instead of li for your structure
+                        var link = $('<a class="nav-link" href="' + item.url + '">' + item.name + '</a>');
+                        listItem.append(link);
+                        navbarContainer.append(listItem);
+                    } else {
+                        console.error('Item skipped due to missing or null URL:', item);
+                    }
+                });
+            })
+            .catch(err => {
+                console.error('Error fetching data:', err);
+            });
+</script>

@@ -1,6 +1,6 @@
 package Accelution.ims.controllers;
 
-import Accelution.ims.model.Users;
+import Accelution.ims.model.User;
 import Accelution.ims.service.LoginService;
 import jakarta.servlet.http.HttpSession;
 import java.util.Hashtable;
@@ -58,7 +58,7 @@ public class LoginController {
     @PostMapping("/login")
     public String checkLogin(@RequestParam String username, HttpSession session) {
 
-        Users user = servr.checkLogin(username);
+        User user = servr.checkLogin(username);
 
         if (user == null) {
             return "error";

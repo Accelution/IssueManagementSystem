@@ -6,73 +6,51 @@
 
 <style>
 
-
-    .bg-light {
-        background-color: #6c4892!important;
-        font-family: Jost;
-        font-size: 1.1rem;
-        font-weight: bold;
-        color: white;
-    }
-    .bg-light:hover {
-        color: #79c14e
-
-    }
-    .nav-item{
-        padding-right: 10px;
+    /* Sidebar */
+    .sidebar {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        padding: 58px 0 0; /* Height of navbar */
+        box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
+        width: 140px;
+        z-index: 600;
     }
 
-    .nav-item a:hover {
-        color: #79c14e;
+    @media (max-width: 991.98px) {
+        .sidebar {
+            width: 10%;
+        }
     }
-    .dropdown-item {
-        font-size: 0.8rem; /* You can adjust the size as needed */
+    .sidebar .active {
+        border-radius: 5px;
+        box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
     }
-    a{
-        color: white !important;
+
+    .sidebar-sticky {
+        position: relative;
+        top: 0;
+        height: calc(100vh - 48px);
+        padding-top: 0.5rem;
+        overflow-x: hidden;
+        overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
     }
 </style>
 
 
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
+    <div class="position-sticky">
+        <div class="list-group list-group-flush mx-3 mt-4">
+            <a href="home" class="list-group-item list-group-item-action py-2 ripple" aria-current="true">
+                <span>Dashboard</span>
+            </a>
 
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <a class="navbar-brand" href="home">
-        <img src="files/images/fintrex-din-white1.png" width="150" height="60" class="d-inline-block align-top" alt="">
-
-    </a>
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo03" >
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item" >
-                <a class="nav-link" href="users" >Users</a>
-            </li>
-        </ul>
-    </div>
-
-
-
-    <div class="navbar-container container-fluid d-flex justify-content-end">  
-
-        <ul class="nav-right">
-            <div class="dropdown-primary dropdown">
-                <div class="dropdown-toggle" data-toggle="dropdown">
-                    <img width="15%" src="files/images/user.png" class="img-radius" alt="My Photo">
-                    <span><%=session.getAttribute("username")%></span>
-                    <i class="feather icon-chevron-down"></i>
-                </div>
-                <ul class="show-notification profile-notification dropdown-menu" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
-                    <li>
-                        <a href="logout">
-                            <i class="feather icon-log-out" id="logout"></i> Logout
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </ul>
-
+        </div>
     </div>
 </nav>
+<!-- Sidebar -->
+
+
+

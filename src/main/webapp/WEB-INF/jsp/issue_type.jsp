@@ -39,6 +39,7 @@
                 color: #31d422;
             }
         </style>
+        <%@include file="jspf/navbar.jspf" %>
         <div class="tab-pane fade show active profile-overview" id="profile-overview">
 
             <div class="page-wrapper">

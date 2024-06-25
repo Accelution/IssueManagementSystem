@@ -5,7 +5,7 @@
 package Accelution.ims.service;
 
 import Accelution.ims.repo.UserRepo;
-import Accelution.ims.model.Users;
+import Accelution.ims.model.User;
 ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ public class LogoutService {
     @Autowired
     UserRepo UserRepo;
 
-    public Users Logout(String username) {
+    public User Logout(String username) {
         return UserRepo.findByUsername(username).orElse(null);
     }
 

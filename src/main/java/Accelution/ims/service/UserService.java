@@ -8,12 +8,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import Accelution.ims.datatable.DataTableRepo;
 import Accelution.ims.datatable.DataTableRequest;
 import Accelution.ims.datatable.DataTablesResponse;
+import Accelution.ims.dto.GetPagesAccDTO;
+import Accelution.ims.dto.GetPagesDTO;
 import Accelution.ims.dto.SlimSelectDTO;
 import Accelution.ims.dto.UserDataTable;
-import Accelution.ims.model.Users;
+import Accelution.ims.dto.UserTypeDataTable;
+import Accelution.ims.model.User;
+import Accelution.ims.model.UserType;
+import Accelution.ims.repo.PageRepo;
 import Accelution.ims.repo.UserRepo;
-import org.springframework.stereotype.Service;
-
+import Accelution.ims.repo.UserTypeRepo;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,54 +31,134 @@ public class UserService {
     UserRepo userRepo;
 
     @Autowired
+    PageRepo pageRepo;
+
+    @Autowired
+    UserTypeRepo userTypeRepo;
+
+    @Autowired
     private DataTableRepo<UserDataTable> userDt;
+    @Autowired
+    private DataTableRepo<UserTypeDataTable> userTypeDt;
 
     public DataTablesResponse<UserDataTable> getUsers(DataTableRequest param) throws Exception {
-        return userDt.getData(UserDataTable.class, param, "SELECT `id`,`username`,`name`,(SELECT `type` FROM `user_type` WHERE `id`= u.`usertype`) AS `user_type`,(SELECT d.`name` FROM `users` d WHERE d.`id`=u.`ent_by`) AS `ent_by`,`ent_on`,(SELECT d.`name` FROM `users` d WHERE d.`id`=u.`mod_by`) AS `mod_by`,`mod_on`,(SELECT `name` FROM `loan`.`branch` WHERE `id` = `branch`) AS branch,`status`FROM `users` u WHERE TRUE");
+        return userDt.getData(UserDataTable.class, param, "SELECT `id`,`username`,`name`,(SELECT `name` FROM `user_type` WHERE `id`= u.`userType`) AS `userTypes`,(SELECT d.`name` FROM `users` d WHERE d.`id`=u.`ent_by`) AS `ent_by`,`ent_on`,(SELECT d.`name` FROM `users` d WHERE d.`id`=u.`mod_by`) AS `mod_by`,`mod_on`,(SELECT `name` FROM `hris_new`.`department` WHERE `id` = `department`) AS department,`status` FROM `users` u WHERE TRUE ");
     }
 
-    public Users getUser(Integer id) throws Exception {
-        Users user = userRepo.findById(id).get();
+    public DataTablesResponse<UserTypeDataTable> getUserType(DataTableRequest param) throws Exception {
+        return userTypeDt.getData(UserTypeDataTable.class, param, "SELECT x.`id`,x.`name`,x.`status`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`ent_by`) AS `ent_by`,`ent_on`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`mod_by`) AS `mod_by`,`mod_on` FROM `user_type` X WHERE TRUE ");
+    }
+
+    public User getUser(Integer id) throws Exception {
+        User user = userRepo.findById(id).get();
+        
         return user;
     }
 
-    public Users saveUser(String name, String username, Integer usertype, String branch) throws Exception {
-        Users user = new Users();
+    public UserType saveUserType(String name, String pages) throws Exception {
+
+        List<Integer> pageNumbers = Arrays.asList(new ObjectMapper().readValue(pages, Integer[].class));
+
+        String pagesJson = new ObjectMapper().writeValueAsString(pageNumbers);
+
+        UserType page = new UserType();
+        page.setName(name);
+        page.setPages(pagesJson);
+        page.setStatus("active");
+
+        page = userTypeRepo.save(page);
+
+        return page;
+
+    }
+
+    public UserType updateUserType(Integer id, String name, String pages) throws Exception {
+
+        List<Integer> pageNumbers = Arrays.asList(new ObjectMapper().readValue(pages, Integer[].class));
+
+        String pagesJson = new ObjectMapper().writeValueAsString(pageNumbers);
+
+        UserType page = userTypeRepo.findById(id).get();
+        page.setName(name);
+        page.setPages(pagesJson);
+        page.setStatus("active");
+
+        page = userTypeRepo.save(page);
+
+        return page;
+
+    }
+
+    public User saveUser(String name, String username, Integer userType, String department) throws Exception {
+        User user = new User();
         user.setUsername(username);
         user.setName(name);
-//        user.setUsertype(usertype);
-//        user.setBranch(branch);
+        user.setUsertype(userType);
+//        user.setDepartment(department);
         user.setStatus("active");
         user = userRepo.save(user);
         return user;
     }
 
-    public Users updateUser(Integer id, String name, String username, Integer usertype, String branch) throws Exception {
-        Users user = userRepo.findById(id).get();
+    public User updateUser(Integer id, String name, String username, Integer userType, String department) throws Exception {
+        User user = userRepo.findById(id).get();
         user.setUsername(username);
         user.setName(name);
-//        user.setUsertype(usertype);
-//        user.setBranch(branch);
+        user.setUsertype(userType);
+//        user.setDepartment(department);
         user = userRepo.save(user);
         return user;
     }
 
-    public Users deactivateUser(Integer id) throws Exception {
-        Users user = userRepo.findById(id).get();
+    public UserType deactivateUserType(Integer id) throws Exception {
+        UserType utype = userTypeRepo.findById(id).get();
+        utype.setStatus("deactivate");
+        utype = userTypeRepo.save(utype);
+        return utype;
+    }
+
+    public UserType reactivateUserType(Integer id) throws Exception {
+        UserType utype = userTypeRepo.findById(id).get();
+        utype.setStatus("active");
+        utype = userTypeRepo.save(utype);
+        return utype;
+    }
+
+    public User deactivateUser(Integer id) throws Exception {
+        User user = userRepo.findById(id).get();
         user.setStatus("deactivate");
         user = userRepo.save(user);
         return user;
     }
 
-    public Users reactivateUser(Integer id) throws Exception {
-        Users user = userRepo.findById(id).get();
+    public User reactivateUser(Integer id) throws Exception {
+        User user = userRepo.findById(id).get();
         user.setStatus("active");
         user = userRepo.save(user);
         return user;
     }
 
-    public Iterable<SlimSelectDTO> getUsertype(String search) {
-        return userRepo.getUsertype("%" + search.trim() + "%");
+    public Iterable<SlimSelectDTO> getUserTypeIdAndName(String search) {
+        return userTypeRepo.getIdAndName("%" + search.trim() + "%");
+    }
+//
+//    public Iterable<SlimSelectDTO> getAdminTypeIdAndName(String search) {
+//        return adminTypeRepo.getAdminTypeIdAndName("%" + search.trim() + "%");
+//    }
+//
+
+    public GetPagesDTO getPage() {
+//    public Iterable<Page> getPage() {
+        return pageRepo.getPage();
     }
 
+    public Iterable<GetPagesAccDTO> getPageAccess(Integer uid) {
+//    public Iterable<Page> getPage() {
+        return pageRepo.getPageAccess(uid);
+    }
+
+    public GetPagesDTO getSelectedPage(Integer id) {
+//    public Iterable<Page> getPage() {
+        return pageRepo.getSelectedPage(id);
+    }
 }

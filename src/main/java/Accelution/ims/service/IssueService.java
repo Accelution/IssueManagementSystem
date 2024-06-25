@@ -64,7 +64,7 @@ public class IssueService {
             } else if (stage.equals("testing")) {
                 sql += " AND `status`='Testing Pending'";
             } else if (stage.equals("approve")) {
-                sql += " AND `status`='Approval Pending'";
+                sql += " AND `status`='QA Pending'";
             } else if (stage.equals("completed")) {
                 sql += " AND `status`='Completed'";
             } else if (stage.equals("unsucces")) {

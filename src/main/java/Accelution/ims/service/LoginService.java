@@ -4,7 +4,7 @@
  */
 package Accelution.ims.service;
 
-import Accelution.ims.model.Users;
+import Accelution.ims.model.User;
 import Accelution.ims.repo.UserRepo;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class LoginService {
     @Autowired
     JdbcTemplate temp;
 
-    public Users checkLogin(String username) {
+    public User checkLogin(String username) {
         return serv.findByUsername(username).orElse(null);
     }
 
