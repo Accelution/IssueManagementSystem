@@ -384,7 +384,7 @@
         <!--Table Details-->
         <script>
 
-            let stage = 'queue';
+            let stage = 'develop';
 
 
             $.fn.dataTable.ext.errMode = 'none';
@@ -460,7 +460,7 @@
             $(document).on('click', '.editrec', function () {
                 let row = $(this).closest('tr');
                 let status = row.data('status');
-                if (status === 'Queue') {
+                if (status === 'Development Pending') {
                     loadDiv($('#tableSection'));
                     let id = $(this).parents('tr').data('id');
                     fetch('issue/details-all/' + id)

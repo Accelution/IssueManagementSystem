@@ -155,13 +155,14 @@
 
 
         <div class="main" id="tableSection">
+            <div class="row " style="margin-bottom: 1px;margin-top: 10px;padding: 0rem 2rem;">
+                <div class="col-12 card" style="padding-top: 2px" >
+                    <h4>Ticket Management System</h4>
+                </div>
+            </div>
             <%@include file="jspf/navbar.jspf" %>
             <section class="navi-card" style="padding: 0rem 2rem;">
-                <div class="row " style="margin-bottom: 1px;margin-top: 10px;">
-                    <div class="col-12 card" style="padding-top: 2px" >
-                        <h4>Ticket Management System</h4>
-                    </div>
-                </div>
+
                 <div class="row" style="margin-top: 1rem;">
                     <div class="col">
                         <div class="cards bg-c-info  text-white widget-visitor-card cardActive" id="allcrd" style="height: 110px;background: linear-gradient(to right, #007bff, #5ba9fd);">
@@ -183,6 +184,17 @@
                                 <i class="feather ">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                                 </i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col" >
+                        <div class="cards bg-c-yellow text-white widget-visitor-card" id="quecrd" style="height: 110px; background: linear-gradient(to right,#24D5DB, #81D8DB);">
+                            <div class="card-block-small text-center" >
+                                <h4 id="acknowledgment">0</h4>
+                                <h6>In progress</h6>
+                                <i class="feather ">
+
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-book-open"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg></i>
                             </div>
                         </div>
                     </div>
@@ -255,26 +267,7 @@
                 </div>
 
 
-                <div class="row" style="padding: 1rem 2rem;">
 
-                    <br>
-                    <div class="text-right" style="margin-top: 1rem;">
-                        <button id="addFmrBtn" class="btn btn-sm waves-effect waves-light btn-danger" style="width: 8rem;">
-                            <div class="row" style="margin-top: 2px;">
-                                <div class="col-3">
-                                    <i class="icon feather icon-plus" style="font-size: 1.5rem;"></i>
-                                </div>
-                                <div class="col-9">
-                                    <h5> Ticket</h5>
-                                </div>
-                            </div>
-
-                        </button>
-                    </div>
-
-
-
-                </div>
                 <hr>
 
             </section>
@@ -303,6 +296,11 @@
                                         </thead>
                                         <tbody></tbody>
                                     </table>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="text-right">
+                                    <button id="addFmrBtn" class="btn btn-sm waves-effect waves-light btn-danger"><i class="icon feather icon-plus"></i>Add Ticket</button>
                                 </div>
                             </div>
                         </div>
@@ -1260,7 +1258,7 @@
                     let action_td = document.createElement('td');
                     $(action_td).addClass('text-center');
 
-                    $(action_td).append('<a href="javascript:void(0)" id="update" class="editrec"><i class="icon feather icon-list f-w-600 f-16 m-r-10 text-c-green"></i></a>');
+                    $(action_td).append('<a href="javascript:void(0)" id="update" class="editrec"><i class="icon feather icon-eye f-w-600 f-16 m-r-10 text-c-green"></i></a>');
 
                     $(row).append(action_td);
                     $(row).data('id', data['id']);

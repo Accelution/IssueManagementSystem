@@ -44,4 +44,9 @@ public class PageController {
     public String queue() {
         return "queue";
     }
+
+    @GetMapping("/Development")
+    public String develop() {
+        return "development";
+    }
 }
