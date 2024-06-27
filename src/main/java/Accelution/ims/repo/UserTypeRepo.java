@@ -13,4 +13,7 @@ public interface UserTypeRepo extends CrudRepository<UserType, Integer> {
     @Query("SELECT `id` as `value`,`name` as `text` from `user_type`")
     Iterable<SlimSelectDTO> getIdAndName(@Param("search") String search);
 
+    @Query("SELECT `id` AS `value`, `name` AS `text` FROM `dashbaords`")
+    Iterable<SlimSelectDTO> getDash(@Param("search") String search);
+
 }

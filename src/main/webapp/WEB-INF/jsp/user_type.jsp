@@ -1,5 +1,5 @@
 
-<%-- 
+<%--
     Document   : systems
     Created on : Aug 21, 2023, 3:24:58 PM
     Author     : cpm.999cc
@@ -48,7 +48,7 @@
 
 
                     <div class="row" id="table_sec">
-                        
+
 
                         <div class="card">
                             <div class="card-header">
@@ -103,15 +103,25 @@
 
                             <div class="row">
                                 <div class="col">
+
                                     <div class="form-group" style="padding-left: 10px;">
                                         <label for="name">User Type Name<span class="text-danger">*</span></label>
                                         <input id="name" type="text" name="name" class="form-control"  required autocomplete="off">
-                                    </div> 
-                                </div>
-                                <div class="col">
-                                    <label for="name">Access Page<span class="text-danger">*</span></label>
-                                    <div id="pages">
                                     </div>
+                                    <div class="form-group" style="padding-bottom: 2rem">
+                                        <label for="" class="col-sm-4 col-form-label allFontByCustomerEdit">Select Dashboard</label>
+
+                                        <select class="form-control-sm pull-right" id="dashboard">  </select>
+
+                                    </div>
+                                </div>
+                                <div class="col" >
+                                    <div class="pages"  id="pg">
+                                        <label for="name">Access Page<span class="text-danger">*</span></label>
+                                        <div id="pages" >
+                                        </div>
+                                    </div>
+
                                 </div>
 
                             </div>
@@ -142,11 +152,26 @@
 
 
     <script>
+
+        var typeIssue = new SlimSelect(
+                {select: '#dashboard',
+                    placeholder: "Select Dashboard",
+                    ajax: function (search, callback) {
+                        fetch('admin/dashbaord-type', {
+                            method: 'POST',
+                            body: new URLSearchParams({search: search || ''})
+                        }).then(res => res.json()).then((data) => {
+                            callback(data);
+                        });
+                    },
+                    allowDeselect: true,
+                    deselectLabel: '<span class="red">✖</span>'
+                });
 //        $.fn.dataTable.ext.errMode = 'none';
         var dtable = $('#userTypeTbl').DataTable({
             "aLengthMenu": [[5, 10, 25, -1], [5, 10, 25, "All"]],
             "pageLength": 5,
-            "ordering": true,   
+            "ordering": true,
             "autoWidth": false,
             "processing": true,
             "serverSide": true,
@@ -205,7 +230,7 @@
         $('#addUserTypeBtn').click(function () {
             $('#saveBtn').data('mode', 'save');
             $('#saveBtn').html('<i class="icon feather icon-save"></i>Save');
-                            clearForm();
+            clearForm();
             $('#table_sec').hide();
             $('#detail_sec').fadeIn();
         });
@@ -295,11 +320,11 @@
                 Swal.fire("Empty Name!", "Please Enter a Valid User Type Name !", "warning");
                 return;
             }
-
-            if ($('#pages').val() === null) {
-                Swal.fire("Pages not Selected!", "Please Select a Access Page !", "warning");
+            if ($('#dashboard').val() === null) {
+                Swal.fire("Dashboard not Selected!", "Please Select a Dashboard!", "warning");
                 return;
             }
+
 
             let page = $("#pages").jstree("get_json");
             let selectPages = [];
@@ -329,7 +354,7 @@
 
             if ($('#saveBtn').data('mode') === 'save') {
                 loadDiv($('#detail_sec').find('.card'));
-                //                        formData.append('data', JSON.stringify(data));
+
 
                 Swal.fire({
                     title: 'Are you sure?',
@@ -346,6 +371,7 @@
                             method: 'POST',
                             body: new URLSearchParams({
                                 name: document.getElementById('name').value,
+                                dashboard: document.getElementById('dashboard').value,
                                 pages: JSON.stringify(selectPages)
                             })
                         }).then(response => {
@@ -398,6 +424,7 @@
                             body: new URLSearchParams({
                                 id: $('#saveBtn').data('id'),
                                 name: document.getElementById('name').value,
+                                dashboard: document.getElementById('dashboard').value,
                                 pages: JSON.stringify(selectPages)
                             })
                         }).then(response => {
@@ -440,6 +467,8 @@
 
 
                 $('#name').val(result.name);
+                $('#dashboard').val(result.dashboard).change();
+
 
 
                 let data = JSON.parse(result.allPage);

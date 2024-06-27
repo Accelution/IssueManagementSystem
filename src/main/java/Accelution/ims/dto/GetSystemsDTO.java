@@ -17,10 +17,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class GetPagesDTO {
+public class GetSystemsDTO {
 
     private Integer id;
     private String name;
-    private String dashboard;
-    private String allPage;
+    private String allSystems;
 }

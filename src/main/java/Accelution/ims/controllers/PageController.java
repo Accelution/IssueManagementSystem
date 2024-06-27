@@ -49,4 +49,14 @@ public class PageController {
     public String develop() {
         return "development";
     }
+
+    @GetMapping("/Systems")
+    public String systems() {
+        return "system";
+    }
+
+    @GetMapping("/Companies")
+    public String company() {
+        return "company";
+    }
 }

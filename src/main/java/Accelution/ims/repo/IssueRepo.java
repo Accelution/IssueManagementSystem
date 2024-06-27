@@ -4,9 +4,11 @@
  */
 package Accelution.ims.repo;
 
+import Accelution.ims.dto.SlimSelectDTO;
 import Accelution.ims.model.Issue;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -17,6 +19,12 @@ import org.springframework.stereotype.Repository;
 public interface IssueRepo extends CrudRepository<Issue, Integer> {
 
     Iterable<Issue> findByStatus(String status);
+
+    @Query("SELECT `id` AS `value`, `name` AS `text` FROM `users`")
+    Iterable<SlimSelectDTO> getStatus(@Param("search") String search);
+
+    @Query("SELECT `id` AS `value`, `type` AS `text` FROM `priority`")
+    Iterable<SlimSelectDTO> getPrio(@Param("search") String search);
 
     @Query("SELECT COUNT(*) AS COUNT FROM fmr")
     Long countByStatusAll();

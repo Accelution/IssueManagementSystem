@@ -10,6 +10,7 @@ import Accelution.ims.datatable.DataTableRequest;
 import Accelution.ims.datatable.DataTablesResponse;
 import Accelution.ims.dto.GetPagesAccDTO;
 import Accelution.ims.dto.GetPagesDTO;
+import Accelution.ims.dto.GetSystemsDTO;
 import Accelution.ims.dto.SlimSelectDTO;
 import Accelution.ims.dto.UserDataTable;
 import Accelution.ims.dto.UserTypeDataTable;
@@ -32,7 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     @Autowired
-   UserService service;
+    UserService service;
 
     @PostMapping("/users")
     public DataTablesResponse<UserDataTable> getUsers(@RequestBody DataTableRequest param) throws Exception {
@@ -50,15 +51,15 @@ public class UserController {
     }
 
     @PostMapping("/user-type-save")
-    public ResponseEntity<CommonResponse> saveUserType(@RequestParam String name, @RequestParam String pages) throws Exception {
-        service.saveUserType(name, pages);
+    public ResponseEntity<CommonResponse> saveUserType(@RequestParam String name, @RequestParam Integer dashboard, @RequestParam(required = false) String pages) throws Exception {
+        service.saveUserType(name, dashboard, pages);
         CommonResponse response = new CommonResponse("Success!", 200);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping("/user-type-update")
-    public ResponseEntity<CommonResponse> updateUserType(@RequestParam Integer id, @RequestParam String name, @RequestParam String pages) throws Exception {
-        service.updateUserType(id, name, pages);
+    public ResponseEntity<CommonResponse> updateUserType(@RequestParam Integer id, @RequestParam String name, @RequestParam Integer dashboard, @RequestParam(required = false) String pages) throws Exception {
+        service.updateUserType(id, name, dashboard, pages);
         CommonResponse response = new CommonResponse("Success!", 200);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -126,8 +127,18 @@ public class UserController {
         return service.getUserTypeIdAndName(search);
     }
 
+    @PostMapping("/dashbaord-type")
+    public Iterable<SlimSelectDTO> searchDashbaords(@RequestParam String search) throws Exception {
+        return service.searchDashbaords(search);
+    }
+
 //    @PostMapping("/search-admin-types")
 //    public Iterable<SlimSelectDTO> searchAdminTypes(@RequestParam String search) throws Exception {
 //        return service.getAdminTypeIdAndName(search);
 //    }
+    @PostMapping("/get-all-systems")
+    public GetSystemsDTO getAllSystems() throws Exception {
+
+        return service.getAllSystems();
+    }
 }

@@ -2,26 +2,30 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Accelution.ims.model;
+package Accelution.ims.dto;
 
+import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
 
+/**
+ *
+ * @author cpm.999cc
+ */
 @AllArgsConstructor
 @NoArgsConstructor
-@Setter
 @Getter
-@ToString
-@Table("facility_status")
-public class FacilityType {
+@Setter
+public class CompanyDto {
 
-    @Id
-    private Integer id;
-    private String type;
+    public Integer id;
+    public String name;
+    public String ent_on;
+    public String ent_by;
+    public String mod_by;
+    public String mod_on;
+    public String status;
 
 }

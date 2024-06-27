@@ -10,12 +10,14 @@ import Accelution.ims.datatable.DataTableRequest;
 import Accelution.ims.datatable.DataTablesResponse;
 import Accelution.ims.dto.GetPagesAccDTO;
 import Accelution.ims.dto.GetPagesDTO;
+import Accelution.ims.dto.GetSystemsDTO;
 import Accelution.ims.dto.SlimSelectDTO;
 import Accelution.ims.dto.UserDataTable;
 import Accelution.ims.dto.UserTypeDataTable;
 import Accelution.ims.model.User;
 import Accelution.ims.model.UserType;
 import Accelution.ims.repo.PageRepo;
+import Accelution.ims.repo.SystemRepo;
 import Accelution.ims.repo.UserRepo;
 import Accelution.ims.repo.UserTypeRepo;
 import java.util.Arrays;
@@ -37,6 +39,9 @@ public class UserService {
     UserTypeRepo userTypeRepo;
 
     @Autowired
+    SystemRepo systemRepo;
+
+    @Autowired
     private DataTableRepo<UserDataTable> userDt;
     @Autowired
     private DataTableRepo<UserTypeDataTable> userTypeDt;
@@ -51,11 +56,11 @@ public class UserService {
 
     public User getUser(Integer id) throws Exception {
         User user = userRepo.findById(id).get();
-        
+
         return user;
     }
 
-    public UserType saveUserType(String name, String pages) throws Exception {
+    public UserType saveUserType(String name, Integer dashboard, String pages) throws Exception {
 
         List<Integer> pageNumbers = Arrays.asList(new ObjectMapper().readValue(pages, Integer[].class));
 
@@ -63,6 +68,7 @@ public class UserService {
 
         UserType page = new UserType();
         page.setName(name);
+        page.setDashboard(dashboard);
         page.setPages(pagesJson);
         page.setStatus("active");
 
@@ -72,7 +78,7 @@ public class UserService {
 
     }
 
-    public UserType updateUserType(Integer id, String name, String pages) throws Exception {
+    public UserType updateUserType(Integer id, String name, Integer dashboard, String pages) throws Exception {
 
         List<Integer> pageNumbers = Arrays.asList(new ObjectMapper().readValue(pages, Integer[].class));
 
@@ -80,6 +86,7 @@ public class UserService {
 
         UserType page = userTypeRepo.findById(id).get();
         page.setName(name);
+        page.setDashboard(dashboard);
         page.setPages(pagesJson);
         page.setStatus("active");
 
@@ -141,6 +148,10 @@ public class UserService {
     public Iterable<SlimSelectDTO> getUserTypeIdAndName(String search) {
         return userTypeRepo.getIdAndName("%" + search.trim() + "%");
     }
+
+    public Iterable<SlimSelectDTO> searchDashbaords(String search) {
+        return userTypeRepo.getDash("%" + search.trim() + "%");
+    }
 //
 //    public Iterable<SlimSelectDTO> getAdminTypeIdAndName(String search) {
 //        return adminTypeRepo.getAdminTypeIdAndName("%" + search.trim() + "%");
@@ -160,5 +171,9 @@ public class UserService {
     public GetPagesDTO getSelectedPage(Integer id) {
 //    public Iterable<Page> getPage() {
         return pageRepo.getSelectedPage(id);
+    }
+
+    public GetSystemsDTO getAllSystems() {
+        return systemRepo.getSystemsCheck();
     }
 }

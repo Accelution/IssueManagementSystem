@@ -11,9 +11,9 @@ import Accelution.ims.dto.SlimSelectDTO;
 import Accelution.ims.dto.IssueDTO;
 import Accelution.ims.model.FilePendings;
 import Accelution.ims.model.Issue;
-import Accelution.ims.repo.FacilityTypeRepo;
 import Accelution.ims.repo.FilePendingRepo;
 import Accelution.ims.repo.IssueRepo;
+import Accelution.ims.repo.TypeRepo;
 import Accelution.ims.repo.UserRepo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -45,7 +45,7 @@ public class IssueService {
     @Autowired
     private IssueRepo repo;
     @Autowired
-    private FacilityTypeRepo repor;
+    private TypeRepo repor;
     @Autowired
     private UserRepo repors;
     @Autowired
@@ -204,7 +204,7 @@ public class IssueService {
 //
 //    }
 //
-//    
+//
 //
 //    public Iterable<SlimSelectDTO> getBranches(String search) {
 //        return repor.getBranches("%" + search.trim() + "%");
@@ -214,11 +214,11 @@ public class IssueService {
 //        return repor.getProduct("%" + search.trim() + "%");
 //    }
     public Iterable<SlimSelectDTO> getStatus(String search) {
-        return repor.getStatus("%" + search.trim() + "%");
+        return repo.getStatus("%" + search.trim() + "%");
     }
 
     public Iterable<SlimSelectDTO> getPrio(String search) {
-        return repor.getPrio("%" + search.trim() + "%");
+        return repo.getPrio("%" + search.trim() + "%");
     }
 
     public Issue saveIssue(String issue_type, String priority, String comment, String assign, String type, HttpSession session) {

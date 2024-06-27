@@ -11,16 +11,20 @@ import lombok.Setter;
 
 /**
  *
- * @author asus
+ * @author cpm.999cc
  */
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class GetPagesDTO {
+public class SystemDto {
 
-    private Integer id;
-    private String name;
-    private String dashboard;
-    private String allPage;
+    public Integer id;
+    public String system;
+    public String status;
+    public String ent_by;
+    public String ent_on;
+    public String mod_by;
+    public String mod_on;
+
 }
