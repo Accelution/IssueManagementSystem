@@ -23,7 +23,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import Accelution.ims.model.Company;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  *
@@ -69,9 +72,14 @@ public class CompanyController {
     @PostMapping("/saves")
     @ResponseBody
     public Company uploads(MultipartHttpServletRequest req, HttpSession session) throws Exception {
-
         String name = req.getParameter("name");
-        return service.saves(name);
+        String email = req.getParameter("email");
+        String contact = req.getParameter("contact");
+        String con_name = req.getParameter("con_name");
+        String con_email = req.getParameter("con_email");
+        String checkedSystemsJson = req.getParameter("checkedSystems");
+
+        return service.saves(name, email, contact, con_name, con_email, checkedSystemsJson);
     }
 
     @PostMapping("/updates")
@@ -79,7 +87,12 @@ public class CompanyController {
     public Company updates(MultipartHttpServletRequest req, HttpSession session) throws Exception {
         Integer id = Integer.parseInt(req.getParameter("id"));
         String name = req.getParameter("name");
-        return service.updates(id, name);
+        String email = req.getParameter("email");
+        String contact = req.getParameter("contact");
+        String con_name = req.getParameter("con_name");
+        String con_email = req.getParameter("con_email");
+        String checkedSystemsJson = req.getParameter("checkedSystems");
+        return service.updates(id, name, email, contact, con_name, con_email, checkedSystemsJson);
     }
 
     @PostMapping("/company-select")

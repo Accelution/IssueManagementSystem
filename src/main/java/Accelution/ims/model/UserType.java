@@ -23,7 +23,6 @@ public class UserType {
     @Id
     private Integer id;
     private String name;
-    private Integer dashboard;
     private String pages;
     private String status;
 

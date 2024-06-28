@@ -1,5 +1,5 @@
 
-<%-- 
+<%--
     Document   : systems
     Created on : Aug 21, 2023, 3:24:58 PM
     Author     : cpm.999cc
@@ -47,7 +47,7 @@
                 <div class="page-body">
 
                     <div class="row" id="tableSection">
-                        
+
 
                         <div class="card">
                             <div class="card-header">
@@ -67,13 +67,12 @@
                                                 <th>Username</th>
                                                 <th>User</th>
 
-
-                                                <th>Ent On</th>  
+                                                <th>Ent On</th>
                                                 <th>Ent By</th>
-                                                <th>User Type</th> 
-                                                <th>Department</th>  
-                                                <th>Mod On</th>  
-                                                <th>Mod By</th>  
+                                                <th>User Type</th>
+                                                <th>Company</th>
+                                                <th>Mod On</th>
+                                                <th>Mod By</th>
                                                 <th style="width:1px;">Status</th>
                                                 <th style="width:1px;">Action</th>
                                             </tr>
@@ -117,18 +116,28 @@
                                     <label for="username">Username<span class="text-danger">*</span></label>
                                     <input id="username"  type="text" name="username" class="form-control" required autocomplete="off">
                                 </div>
-
-                                <div class="form-group">
-                                    <label for="user_type">User Type<span class="text-danger">*</span></label>
-                                    <select id="user_type" name="user_type" class="" required autocomplete="off">
-                                    </select>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="user_type">User Type<span class="text-danger">*</span></label>
+                                            <select id="user_type" name="user_type" class="" required autocomplete="off">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="company">Company<span class="text-danger">*</span></label>
+                                            <select id="company" name="company" class="" required autocomplete="off">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group" style="padding-bottom: 2rem">
+                                            <label for="company">Dashboard<span class="text-danger">*</span></label>
+                                            <select class="form-control-sm pull-right" id="dashboard">  </select>
+                                        </div>
+                                    </div>
                                 </div>
-
-<!--                                <div class="form-group">
-                                    <label for="department">Department<span class="text-danger">*</span></label>
-                                    <select id="department" name="department" class="" required autocomplete="off">
-                                    </select>
-                                </div>-->
 
                                 <div class="card-footer d-flex justify-content-end">
                                     <button id="saveBtn" class="btn btn-sm waves-effect waves-light btn-primary"><i class="icon feather icon-save"></i>Save</button>
@@ -153,21 +162,34 @@
         <script type="text/javascript" src="files/js/jquery.highlight.js"></script>
         <script type="text/javascript" src="files/js/dataTables.searchHighlight.min.js"></script>
         <script>
-
-//            var dptmnt = new SlimSelect({
-//                select: '#department',
-//                placeholder: "Department",
-//                ajax: function (search, callback) {
-//                    fetch('department/search-department', {
-//                        method: 'POST',
-//                        body: new URLSearchParams({search: search || ''})
-//                    }).then(res => res.json()).then((data) => {
-//                        callback(data);
-//                    });
-//                },
-//                allowDeselect: true,
-//                deselectLabel: '<span class="red">✖</span>'
-//            });
+            var typeIssue = new SlimSelect(
+                    {select: '#dashboard',
+                        placeholder: "Select Dashboard",
+                        ajax: function (search, callback) {
+                            fetch('admin/dashbaord-type', {
+                                method: 'POST',
+                                body: new URLSearchParams({search: search || ''})
+                            }).then(res => res.json()).then((data) => {
+                                callback(data);
+                            });
+                        },
+                        allowDeselect: true,
+                        deselectLabel: '<span class="red">✖</span>'
+                    });
+            var dptmnt = new SlimSelect({
+                select: '#company',
+                placeholder: "Company",
+                ajax: function (search, callback) {
+                    fetch('company/company-select', {
+                        method: 'POST',
+                        body: new URLSearchParams({search: search || ''})
+                    }).then(res => res.json()).then((data) => {
+                        callback(data);
+                    });
+                },
+                allowDeselect: true,
+                deselectLabel: '<span class="red">✖</span>'
+            });
 
 
             $.fn.dataTable.ext.errMode = 'none';
@@ -201,8 +223,8 @@
 
                     {"data": "ent_on"},
                     {"data": "ent_by"},
-                    {"data": "userTypes"},
-//                    {"data": "department"},
+                    {"data": "usertype"},
+                    {"data": "company"},
                     {"data": "mod_on"},
                     {"data": "mod_by"},
                     {"data": "status"}
@@ -311,11 +333,14 @@
                     Swal.fire("UserType not Selected!", "Please Select a UserType!", "warning");
                     return;
                 }
-
-//                if ($('#department').val() === null) {
-//                    Swal.fire("Department not Selected!", "Please Select a Department!", "warning");
-//                    return;
-//                }
+                if ($('#company').val() === null) {
+                    Swal.fire("Company not Selected!", "Please Select a Company!", "warning");
+                    return;
+                }
+                if ($('#dashboard').val() === null) {
+                    Swal.fire("Dashboard not Selected!", "Please Select a Dashboard!", "warning");
+                    return;
+                }
 
 
                 let mode = $('#saveBtn').data('mode');
@@ -326,8 +351,9 @@
                 }
                 formData.append('name', $('#name').val().trim());
                 formData.append('username', $('#username').val().trim());
-                formData.append('userType', $('#user_type').val());
-//                formData.append('department', $('#department').val());
+                formData.append('usertype', $('#user_type').val());
+                formData.append('company', $('#company').val());
+                formData.append('dashboard', $('#dashboard').val());
 
                 Swal.fire({
                     title: 'Are you sure?',

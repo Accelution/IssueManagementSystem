@@ -23,6 +23,6 @@ public interface CompanyRepo extends CrudRepository<Company, Integer> {
     @Query("SELECT p.`id`,(SELECT `name` FROM `hris_new`.`department` WHERE `id` = p.`subtype`) AS `subtype`,p.`name`,p.`link`,p.`status` FROM `forms` p WHERE `status`='active'")
     Iterable<Company> findByStatus(String status);
 
-    @Query("SELECT `id` AS `value`, `name` AS `text` FROM `issue_types`")
+    @Query("SELECT `id` AS `value`, `name` AS `text` FROM `company`")
     Iterable<SlimSelectDTO> getSelect(@Param("search") String search);
 }

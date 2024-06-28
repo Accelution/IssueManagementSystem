@@ -108,12 +108,7 @@
                                         <label for="name">User Type Name<span class="text-danger">*</span></label>
                                         <input id="name" type="text" name="name" class="form-control"  required autocomplete="off">
                                     </div>
-                                    <div class="form-group" style="padding-bottom: 2rem">
-                                        <label for="" class="col-sm-4 col-form-label allFontByCustomerEdit">Select Dashboard</label>
 
-                                        <select class="form-control-sm pull-right" id="dashboard">  </select>
-
-                                    </div>
                                 </div>
                                 <div class="col" >
                                     <div class="pages"  id="pg">
@@ -153,20 +148,7 @@
 
     <script>
 
-        var typeIssue = new SlimSelect(
-                {select: '#dashboard',
-                    placeholder: "Select Dashboard",
-                    ajax: function (search, callback) {
-                        fetch('admin/dashbaord-type', {
-                            method: 'POST',
-                            body: new URLSearchParams({search: search || ''})
-                        }).then(res => res.json()).then((data) => {
-                            callback(data);
-                        });
-                    },
-                    allowDeselect: true,
-                    deselectLabel: '<span class="red">✖</span>'
-                });
+
 //        $.fn.dataTable.ext.errMode = 'none';
         var dtable = $('#userTypeTbl').DataTable({
             "aLengthMenu": [[5, 10, 25, -1], [5, 10, 25, "All"]],
@@ -320,10 +302,7 @@
                 Swal.fire("Empty Name!", "Please Enter a Valid User Type Name !", "warning");
                 return;
             }
-            if ($('#dashboard').val() === null) {
-                Swal.fire("Dashboard not Selected!", "Please Select a Dashboard!", "warning");
-                return;
-            }
+
 
 
             let page = $("#pages").jstree("get_json");
@@ -371,7 +350,7 @@
                             method: 'POST',
                             body: new URLSearchParams({
                                 name: document.getElementById('name').value,
-                                dashboard: document.getElementById('dashboard').value,
+//                                dashboard: document.getElementById('dashboard').value,
                                 pages: JSON.stringify(selectPages)
                             })
                         }).then(response => {

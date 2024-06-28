@@ -33,6 +33,10 @@ public class Company {
     @Id
     private Integer id;
     private String name;
+    private String email;
+    private String contact;
+    private String con_name;
+    private String con_email;
     private String systems;
     private String status;
 

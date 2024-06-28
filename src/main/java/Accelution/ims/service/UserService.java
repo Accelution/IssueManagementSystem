@@ -47,7 +47,7 @@ public class UserService {
     private DataTableRepo<UserTypeDataTable> userTypeDt;
 
     public DataTablesResponse<UserDataTable> getUsers(DataTableRequest param) throws Exception {
-        return userDt.getData(UserDataTable.class, param, "SELECT `id`,`username`,`name`,(SELECT `name` FROM `user_type` WHERE `id`= u.`userType`) AS `userTypes`,(SELECT d.`name` FROM `users` d WHERE d.`id`=u.`ent_by`) AS `ent_by`,`ent_on`,(SELECT d.`name` FROM `users` d WHERE d.`id`=u.`mod_by`) AS `mod_by`,`mod_on`,(SELECT `name` FROM `hris_new`.`department` WHERE `id` = `department`) AS department,`status` FROM `users` u WHERE TRUE ");
+        return userDt.getData(UserDataTable.class, param, "SELECT `id`,`username`,`name`,(SELECT `name` FROM `user_type` WHERE `id`= u.`usertype`) AS `usertype`,(SELECT d.`name` FROM `users` d WHERE d.`id`=u.`ent_by`) AS `ent_by`,`ent_on`,(SELECT d.`name` FROM `users` d WHERE d.`id`=u.`mod_by`) AS `mod_by`,`mod_on`,(SELECT `name` FROM `company` WHERE `id` = `company`) AS company,`status` FROM `users` u WHERE TRUE");
     }
 
     public DataTablesResponse<UserTypeDataTable> getUserType(DataTableRequest param) throws Exception {
@@ -60,7 +60,7 @@ public class UserService {
         return user;
     }
 
-    public UserType saveUserType(String name, Integer dashboard, String pages) throws Exception {
+    public UserType saveUserType(String name, String pages) throws Exception {
 
         List<Integer> pageNumbers = Arrays.asList(new ObjectMapper().readValue(pages, Integer[].class));
 
@@ -68,7 +68,6 @@ public class UserService {
 
         UserType page = new UserType();
         page.setName(name);
-        page.setDashboard(dashboard);
         page.setPages(pagesJson);
         page.setStatus("active");
 
@@ -78,7 +77,7 @@ public class UserService {
 
     }
 
-    public UserType updateUserType(Integer id, String name, Integer dashboard, String pages) throws Exception {
+    public UserType updateUserType(Integer id, String name, String pages) throws Exception {
 
         List<Integer> pageNumbers = Arrays.asList(new ObjectMapper().readValue(pages, Integer[].class));
 
@@ -86,7 +85,6 @@ public class UserService {
 
         UserType page = userTypeRepo.findById(id).get();
         page.setName(name);
-        page.setDashboard(dashboard);
         page.setPages(pagesJson);
         page.setStatus("active");
 
@@ -96,23 +94,25 @@ public class UserService {
 
     }
 
-    public User saveUser(String name, String username, Integer userType, String department) throws Exception {
+    public User saveUser(String name, String username, String dashboard, String usertype, String company) throws Exception {
         User user = new User();
         user.setUsername(username);
         user.setName(name);
-        user.setUsertype(userType);
-//        user.setDepartment(department);
+        user.setDashboard(dashboard);
+        user.setUsertype(usertype);
+        user.setCompany(company);
         user.setStatus("active");
         user = userRepo.save(user);
         return user;
     }
 
-    public User updateUser(Integer id, String name, String username, Integer userType, String department) throws Exception {
+    public User updateUser(Integer id, String name, String username, String dashboard, String usertype, String company) throws Exception {
         User user = userRepo.findById(id).get();
         user.setUsername(username);
         user.setName(name);
-        user.setUsertype(userType);
-//        user.setDepartment(department);
+        user.setDashboard(dashboard);
+        user.setUsertype(usertype);
+        user.setCompany(company);
         user = userRepo.save(user);
         return user;
     }

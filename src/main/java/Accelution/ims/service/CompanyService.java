@@ -12,6 +12,7 @@ import Accelution.ims.dto.CompanyDto;
 import Accelution.ims.model.Company;
 import Accelution.ims.repo.CompanyRepo;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -52,20 +53,29 @@ public class CompanyService {
         return systems;
     }
 
-    public Company saves(String name) throws Exception {
-        Company system = new Company();
-        system.setName(name);
-        system.setStatus("active");
-        system = reporr.save(system);
+    public Company saves(String name, String email, String contact, String con_name, String con_email, String checkedSystemsJson) throws Exception {
+        Company company = new Company();
+        company.setName(name);
+        company.setEmail(email);
+        company.setContact(contact);
+        company.setCon_name(con_name);
+        company.setCon_email(con_email);
+        company.setSystems(checkedSystemsJson); // Save the JSON string directly
+        company.setStatus("active");
 
-        return reporr.save(system);
+        // Save the company entity
+        return reporr.save(company);
     }
 
-    public Company updates(Integer id, String name) throws Exception {
-        Company system = reporr.findById(id).get();
-        system.setName(name);
-
-        return reporr.save(system);
+    public Company updates(Integer id, String name, String email, String contact, String con_name, String con_email, String checkedSystemsJson) throws Exception {
+        Company company = reporr.findById(id).orElseThrow(() -> new Exception("Company not found"));
+        company.setName(name);
+        company.setEmail(email);
+        company.setContact(contact);
+        company.setCon_name(con_name);
+        company.setCon_email(con_email);
+        company.setSystems(checkedSystemsJson); // Update the systems JSON
+        return reporr.save(company);
     }
 
 //    public Iterable<Companys> findAllActiveImagess(Integer uid) {

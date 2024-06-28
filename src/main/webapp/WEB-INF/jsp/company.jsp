@@ -99,6 +99,22 @@
                                                 <label for="inputTime" >Company Name</label>
                                                 <input link="text" class="form-control" id="name">
                                             </div>
+                                            <div class="form-group" style="padding-left: 10px;">
+                                                <label for="inputTime" >Company Email</label>
+                                                <input link="text" class="form-control" id="email">
+                                            </div>
+                                            <div class="form-group" style="padding-left: 10px;">
+                                                <label for="inputTime" >Contact Number</label>
+                                                <input link="text" class="form-control" id="contact">
+                                            </div>
+                                            <div class="form-group" style="padding-left: 10px;">
+                                                <label for="inputTime" >Contact Name</label>
+                                                <input link="text" class="form-control" id="con_name">
+                                            </div>
+                                            <div class="form-group" style="padding-left: 10px;">
+                                                <label for="inputTime" >Contact Email</label>
+                                                <input link="text" class="form-control" id="con_email">
+                                            </div>
 
                                         </div>
                                         <div class="col" >
@@ -215,25 +231,59 @@
             <script>
 
                 $(document).on('click', '.editrec', function () {
-
                     loadDiv($('#tableSection'));
                     let id = $(this).parents('tr').data('id');
                     fetch('company/details/' + id)
                             .then(resp => resp.json())
                             .then((data) => {
-
                                 $('#name').val(data.name);
+                                $('#email').val(data.email);
+                                $('#contact').val(data.contact);
+                                $('#con_name').val(data.con_name);
+                                $('#con_email').val(data.con_email);
                                 $('#saveBtn').data('mode', 'update'); // Set the mode to 'update'
                                 $('#saveBtn').data('id', id);
                                 $('#saveBtn').html('<i class="icon feather icon-save"></i>Update'); // Change button text to 'Update'
                                 $('#formSection').fadeIn();
                                 $('#tableSection').hide();
                                 finishLoadDiv($('#tableSection'));
+
+                                // Fetch systems data from server
+                                fetch('system/attach-content')
+                                        .then(response => response.json())
+                                        .then(systemsData => {
+                                            // Clear previous checkboxes if any
+                                            $('#systems').empty();
+
+                                            // Iterate over fetched data and create checkboxes
+                                            systemsData.forEach(system => {
+                                                // Create a checkbox element
+                                                let checkbox = $('<input type="checkbox">')
+                                                        .attr('id', 'system_' + system.id) // Set unique id for each checkbox
+                                                        .attr('name', 'systems') // Set common name for checkboxes if needed
+                                                        .val(system.id); // Set value of checkbox, e.g., system id
+
+                                                // Check the checkbox if the system is part of the company systems
+                                                if (data.systems.includes(system.id)) {
+                                                    checkbox.prop('checked', true);
+                                                }
+
+                                                // Create a label for the checkbox
+                                                let label = $('<label>').text(system.system).prepend(checkbox);
+
+                                                // Append the label (with checkbox) to the systems div
+                                                $('#systems').append(label).append('<br>'); // Add a line break for better spacing
+                                            });
+                                        })
+                                        .catch(error => {
+                                            console.error('Error fetching systems:', error);
+                                            // Handle error if needed
+                                        });
                             });
                 });
+
                 document.getElementById('saveBtn').addEventListener('click', function () {
                     let saveBtn = document.getElementById('saveBtn');
-
                     if ($('#name').val().trim() === '') {
                         Swal.fire("Empty Name!", "Please Enter a Valid Name!", "warning");
                         return;
@@ -241,15 +291,27 @@
 
                     // Disable the button to prevent multiple clicks
                     saveBtn.disabled = true;
-
                     let mode = $('#saveBtn').data('mode'); // Get the mode (save or update) from the button's data
+
+                    let checkedSystems = [];
+                    $('input[name="systems"]:checked').each(function () {
+                        checkedSystems.push($(this).val());
+                    });
+                    let fd = new FormData();
+                    let name = document.getElementById('name').value;
+                    fd.append('name', name);
+                    let email = document.getElementById('email').value;
+                    fd.append('email', email);
+                    let contact = document.getElementById('contact').value;
+                    fd.append('contact', contact);
+                    let con_name = document.getElementById('con_name').value;
+                    fd.append('con_name', con_name);
+                    let con_email = document.getElementById('con_email').value;
+                    fd.append('con_email', con_email);
+                    fd.append('checkedSystems', JSON.stringify(checkedSystems)); // Send the checked systems as JSON string
 
                     if (mode === 'save') {
                         // Handle the 'save' action
-                        let fd = new FormData();
-                        let name = document.getElementById('name').value;
-                        fd.append('name', name);
-
                         fetch('company/saves', {
                             method: 'POST',
                             body: fd
@@ -274,17 +336,26 @@
                         // Handle the 'update' action
                         let id = $('#saveBtn').data('id');
                         let name = $('#name').val();
+                        let email = $('#email').val();
+                        let contact = $('#contact').val();
+                        let con_name = $('#con_name').val();
+                        let con_email = $('#con_email').val();
 
                         let formData = new FormData();
                         formData.append('id', id);
                         formData.append('name', name);
+                        formData.append('email', email);
+                        formData.append('contact', contact);
+                        formData.append('con_name', con_name);
+                        formData.append('con_email', con_email);
+                        formData.append('checkedSystems', JSON.stringify(checkedSystems)); // Send the checked systems as JSON string
 
                         $.ajax({
                             url: 'company/updates', // Replace with the actual update endpoint
-                            company: 'POST',
+                            type: 'POST',
                             data: formData,
                             processData: false,
-                            contentCompany: false,
+                            contentType: false, // Corrected from contentCompany
                             success: function (response) {
                                 if (response.status === 200) {
                                     Swal.fire('Successful!', 'Company details updated successfully', 'success');
@@ -311,6 +382,7 @@
                             }
                         });
                     }
+
                 });
 
 
@@ -403,7 +475,47 @@
                     clearForm();
                     $('#tableSection').hide();
                     $('#formSection').fadeIn();
+
+                    // Fetch systems data from server
+                    fetch('system/attach-content')  // Replace 'system/attach-content' with your actual endpoint URL
+                            .then(response => response.json())
+                            .then(systemsData => {
+                                // Clear previous checkboxes if any
+                                $('#systems').empty();
+
+                                // Iterate over fetched data and create checkboxes
+                                systemsData.forEach(system => {
+                                    // Create a row for each system
+                                    let row = $('<div>').addClass('row mb-2');
+
+                                    // Create a column for checkbox
+                                    let checkboxCol = $('<div>').addClass('col-auto');
+                                    let checkbox = $('<input type="checkbox">')
+                                            .attr('id', 'system_' + system.id)  // Set unique id for each checkbox
+                                            .attr('name', 'systems')  // Set common name for checkboxes if needed
+                                            .val(system.id);  // Set value of checkbox, e.g., system id
+                                    checkboxCol.append(checkbox);
+
+                                    // Create a column for system name
+                                    let systemCol = $('<div>').addClass('col');
+                                    let label = $('<label>').addClass('ml-2').text(system.system);
+                                    systemCol.append(label);
+
+                                    // Append checkbox and system name to the row
+                                    row.append(checkboxCol).append(systemCol);
+
+                                    // Append the row to the systems div
+                                    $('#systems').append(row);
+                                });
+                            })
+                            .catch(error => {
+                                console.error('Error fetching systems:', error);
+                                // Handle error if needed
+                            });
                 });
+
+
+
                 $('.cls-card').click(function () {
                     $('#formSection').hide();
                     $('#tableSection').fadeIn();

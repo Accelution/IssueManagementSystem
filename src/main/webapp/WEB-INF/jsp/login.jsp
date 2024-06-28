@@ -88,7 +88,7 @@
 
                     // var data = JSON.parse(res);
                     if (data === "ok") {
-                        window.location.href = 'home';
+                        window.location.href = 'index';
                     } else if (data === "locked") {
                         var alttemp = '<div class="alert alert-danger alert-dismissible">' +
                                 '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' +

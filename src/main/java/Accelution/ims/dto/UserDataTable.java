@@ -18,8 +18,8 @@ public class UserDataTable {
     public Integer id;
     public String username;
     public String name;
-//    public String user_type;
-//    public String branch;
+    public String usertype;
+    public String company;
 
     public String ent_on;
     public String ent_by;

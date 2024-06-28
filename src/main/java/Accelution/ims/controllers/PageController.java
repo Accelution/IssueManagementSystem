@@ -15,9 +15,40 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class PageController {
 
+    @GetMapping("/index")
+    public String viewDashboard(HttpSession session) {
+        String dashBoard = session.getAttribute("dashboard") + "";
+
+        if (dashBoard != null) {
+            switch (dashBoard) {
+                case "1":
+                    return "admin_dashbaord";
+                case "2":
+                    return "internal_dashbaord";
+                case "3":
+                    return "external_dashbaord";
+                default:
+                    return "login";
+            }
+        } else {
+
+            return "login";
+        }
+    }
+
     @GetMapping("/home")
     public String home() {
-        return "home";
+        return "admin_dashbaord";
+    }
+
+    @GetMapping("/externl-user")
+    public String external() {
+        return "external_dashbaord";
+    }
+
+    @GetMapping("/internal-user")
+    public String internal() {
+        return "internal_dashbaord";
     }
 
     @GetMapping("/Issue-Types")

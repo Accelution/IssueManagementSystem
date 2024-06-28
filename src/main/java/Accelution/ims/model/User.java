@@ -35,7 +35,9 @@ public class User {
     private Integer id;
     private String username;
     private String name;
-    private Integer usertype;
+    private String dashboard;
+    public String usertype;
+    public String company;
     private String status;
     @CreatedBy
     private Integer ent_by;

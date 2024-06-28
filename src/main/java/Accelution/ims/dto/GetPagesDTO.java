@@ -21,6 +21,6 @@ public class GetPagesDTO {
 
     private Integer id;
     private String name;
-    private String dashboard;
+//    private String dashboard;
     private String allPage;
 }
