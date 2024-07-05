@@ -2,312 +2,260 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <meta name="description" content=""/>
+        <meta name="author" content=""/>
         <title>Accelution - IMS</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap-extended.min.css">
-        <link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/fonts/simple-line-icons/style.min.css">
-        <link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/colors.min.css">
-        <link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap.min.css">
-        <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-        <%@include file="jspf/header.jspf" %>
-        <style>
-            .cards {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border-radius: 5px;
-                transition: transform 0.2s;
-            }
-            .widget-visitor-card {
-                padding: 10px;
-                text-align: center;
-            }
-            .card-block-small,
-            .card-block-large {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                height: 100%;
-            }
-            .card-block-small h4,
-            .card-block-large h4 {
-                margin: 0;
-                font-size: 24px;
-            }
-            .card-block-small h6,
-            .card-block-large h6 {
-                margin: 0;
-                font-size: 14px;
-            }
-            .feather {
-                margin-top: 50px;
-                transition: transform 0.2s; /* Smooth transition for hover effect */
-            }
-
-            .card-block-large .feather {
-                width: 74px; /* Larger size for the large card block */
-                height: 74px; /* Larger size for the large card block */
-            }
-            .placeholder {
-                background-color: white;
-                color: black;
-            }
-
-            hr {
-                height: 2px; /* Set the height of the hr to 2 pixels */
-                border: none; /* Remove the default border */
-                background-color: black; /* Optional: Set the background color of the hr */
-            }
-
-            h6{
-                margin-bottom: .5rem;
-                font-family: inherit;
-                font-weight: 500;
-                line-height: 1.1;
-                color: white;
-                font-weight: 400;
-                font-size: 1.2rem;
-            }
-            .cards .card-block-small {
-                padding: 15px 20px;
-            }
-            .cards {
-                position: relative;
-                overflow: hidden;
-                cursor: pointer;
-                border-radius: 10px;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
-                transition: transform 0.3s ease; /* Add a transition for the transform property */
-                /*margin-left: 30px;*/
-
-            }
-
-            .cards:hover {
-                transform: translateY(-5px); /* Move the card up slightly on hover */
-            }
-
-            .cards::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                transition: all 0.3s ease;
-                opacity: 0;
-                transform: translateY(100%);
-                overflow: hidden;
-                padding: 10px 0;
-                background-color: rgba(255, 255, 255, 0.9); /* Add a background color for the "like" popup */
-                border-radius: 10px; /* Match the border-radius of the card */
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5); /* Match the box-shadow of the card */
-            }
-
-            .cards:hover::before {
-                opacity: 1;
-                transform: translateY(-100%); /* Move the "like" popup up */
-            }
+        <link href="assets/css/pace.min.css" rel="stylesheet"/>
+        <script src="assets/js/pace.min.js"></script>
+        <!--favicon-->
+        <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+        <!-- Vector CSS -->
+        <link href="assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet"/>
+        <!-- simplebar CSS-->
+        <link href="assets/plugins/simplebar/css/simplebar.css" rel="stylesheet"/>
+        <!-- Bootstrap core CSS-->
+        <link href="assets/css/bootstrap.min.css" rel="stylesheet"/>
+        <!-- animate CSS-->
+        <link href="assets/css/animate.css" rel="stylesheet" type="text/css"/>
+        <!-- Icons CSS-->
+        <link href="assets/css/icons.css" rel="stylesheet" type="text/css"/>
+        <!-- Sidebar CSS-->
+        <link href="assets/css/sidebar-menu.css" rel="stylesheet"/>
+        <!-- Custom Style-->
+        <link href="assets/css/app-style.css" rel="stylesheet"/>
 
 
-            .cards i {
-                position: absolute;
-                bottom: 10px;
-                left: -20px;
-                transition: all 0.3s ease;
-                transform-origin: bottom left;
-                transform: scale(3.5) ;
-                opacity: 0.5; /* Set the opacity to 50% */
-            }
-
-            .cards:hover i {
-                transform: rotate(15deg) scale(5);
-                opacity: 0.5; /* Set the opacity to 100% on hover */
-            }
-
-            .card-registration .select-input.form-control[readonly]:not([disabled]) {
-                font-size: 1rem;
-                line-height: 2.15;
-                padding-left: .75em;
-                padding-right: .75em;
-            }
-            .card-registration .select-arrow {
-                top: 13px;
-            }
-            .card{
-                /*width: 90em;*/
-                justify-content: center;
-                margin: auto;
-
-            }
-            .pagetitle h3 {
-                font-size: 28px;
-                margin-bottom: 0;
-                font-weight: 600;
-                color: #31d422;
-            }
-        </style>
     </head>
-    <body>
+    <body class="bg-theme bg-theme1">
 
 
         <div class="main" id="tableSection">
-            <div class="row " style="margin-bottom: 1px;padding: 0rem 0rem;">
-                <div class="col-12 card" >
-                    <h4 style="padding: 0.5rem 2rem;">Ticket Management System</h4>
+            <div id="wrapper">
+
+
+                <div class="clearfix"></div>
+
+                <div class="content-wrapper">
+                    <div class="container-fluid">
+                        <%@include file="jspf/navbar.jspf" %>
+                        <!--Start Dashboard Content-->
+
+                        <div class="card mt-3">
+                            <div class="card-content">
+                                <div class="row row-group m-0">
+                                    <div class="col border-light">
+                                        <div class="card-body">
+                                            <h5 class="text-white mb-0" id="all">0 <span class="float-right"><i class="feather"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-align-center"><line x1="18" y1="10" x2="6" y2="10"></line><line x1="21" y1="6" x2="3" y2="6"></line><line x1="21" y1="14" x2="3" y2="14"></line><line x1="18" y1="18" x2="6" y2="18"></line></svg>
+                                                    </i></span></h5>
+                                            <div class="progress my-3" style="height:3px;">
+                                                <!--<div class="progress-bar" style="width:55%"></div>-->
+                                            </div>
+                                            <p class="mb-0 text-white small-font">All</p>
+                                        </div>
+                                    </div>
+                                    <div class="col border-light">
+                                        <div class="card-body">
+                                            <h5 class="text-white mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather ">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                                    </i></span></h5>
+                                            <div class="progress my-3" style="height:3px;">
+                                                <!--<div class="progress-bar" style="width:55%"></div>-->
+                                            </div>
+                                            <p class="mb-0 text-white small-font">Queue</p>
+                                        </div>
+                                    </div>
+                                    <div class="col border-light">
+                                        <div class="card-body">
+                                            <h5 class="text-white mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather ">
+                                                        <i class="feather ">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-book-open"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg></i>
+                                                    </i>
+                                                </span>
+                                            </h5>
+                                            <div class="progress my-3" style="height:3px;">
+                                                <!--<div class="progress-bar" style="width:55%"></div>-->
+                                            </div>
+                                            <p class="mb-0 text-white small-font">In Progress</p>
+                                        </div>
+                                    </div>
+                                    <div class="col border-light">
+                                        <div class="card-body">
+                                            <h5 class="text-white mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather ">
+                                                        <i class="feather ">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg></i>
+                                                    </i>
+                                                </span>
+                                            </h5>
+                                            <div class="progress my-3" style="height:3px;">
+                                                <!--<div class="progress-bar" style="width:55%"></div>-->
+                                            </div>
+                                            <p class="mb-0 text-white small-font">Development Pending</p>
+                                        </div>
+                                    </div>
+                                    <div class="col border-light">
+                                        <div class="card-body">
+                                            <h5 class="text-white mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather ">
+                                                        <i class="feather ">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-award"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+                                                        </i></i>
+                                                </span>
+                                            </h5>
+                                            <div class="progress my-3" style="height:3px;">
+                                                <!--<div class="progress-bar" style="width:55%"></div>-->
+                                            </div>
+                                            <p class="mb-0 text-white small-font">Testing Pending</p>
+                                        </div>
+                                    </div>
+                                    <div class="col border-light">
+                                        <div class="card-body">
+                                            <h5 class="text-white mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather ">
+                                                        <i class="feather ">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-square"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                                                        </i></i>
+                                                </span>
+                                            </h5>
+                                            <div class="progress my-3" style="height:3px;">
+                                                <!--<div class="progress-bar" style="width:55%"></div>-->
+                                            </div>
+                                            <p class="mb-0 text-white small-font">QA Pending</p>
+                                        </div>
+                                    </div>
+                                    <div class="col border-light">
+                                        <div class="card-body">
+                                            <h5 class="text-white mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather ">
+                                                        <i class="feather ">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                                        </i></i>
+                                                </span>
+                                            </h5>
+                                            <div class="progress my-3" style="height:3px;">
+                                                <!--<div class="progress-bar" style="width:55%"></div>-->
+                                            </div>
+                                            <p class="mb-0 text-white small-font">Completed</p>
+                                        </div>
+                                    </div>
+                                    <div class="col border-light">
+                                        <div class="card-body" style="padding: 0.5rem;">
+                                            <h5 class="text-white mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather ">
+                                                        <i class="feather ">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-octagon"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+                                                        </i></i>
+                                                </span>
+                                            </h5>
+                                            <div class="progress my-3" style="height:3px;">
+                                                <!--<div class="progress-bar" style="width:55%"></div>-->
+                                            </div>
+                                            <p class="mb-0 text-white small-font">Unsuccessful</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>  
+
+
+
+                        <div class="row">
+                            <div class="col-12 col-lg-12">
+
+                                <div class="card" id="tableCard">
+                                    <div class="card-body" >
+                                        <h5 id="main_name_tag">Ticket Management System</h5>
+                                        <hr>
+
+                                        <div id="table_card">
+                                            <table class="table table-bordered table-sm" id="issue_table" style="width: 100%; font-size: small">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="display: none">ID</th>
+                                                        <th>Reference Number</th>
+                                                        <th>Issue Type</th>
+                                                        <th>Description</th>
+                                                        <th>Priority</th>
+                                                        <th>ENT Date</th>
+                                                        <th>Status</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="text-right">
+                                            <button id="addFmrBtn" class="btn btn-sm waves-effect waves-light btn-danger"><i class="icon feather icon-plus"></i>Add Ticket</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div><!--End Row-->
+
+                        <!--End Dashboard Content-->
+
+                        <!--start overlay-->
+                        <div class="overlay toggle-menu"></div>
+                        <!--end overlay-->
+
+                    </div>
+                    <!-- End container-fluid-->
+
+                </div><!--End content-wrapper-->
+                <!--Start Back To Top Button-->
+                <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
+                <!--End Back To Top Button-->
+
+                <!--Start footer-->
+                <footer class="footer">
+                    <div class="container">
+                        <div class="text-center">
+                            Copyright © 2024 Aceelution
+                        </div>
+                    </div>
+                </footer>
+                <!--End footer-->
+
+                <!--start color switcher-->
+                <div class="right-sidebar">
+                    <div class="switcher-icon">
+                        <i class="zmdi zmdi-settings zmdi-hc-spin"></i>
+                    </div>
+                    <div class="right-sidebar-content">
+
+                        <p class="mb-0">Gaussion Texture</p>
+                        <hr>
+
+                        <ul class="switcher">
+                            <li id="theme1"></li>
+                            <li id="theme2"></li>
+                            <li id="theme3"></li>
+                            <li id="theme4"></li>
+                            <li id="theme5"></li>
+                            <li id="theme6"></li>
+                        </ul>
+
+                        <p class="mb-0">Gradient Background</p>
+                        <hr>
+
+                        <ul class="switcher">
+                            <li id="theme7"></li>
+                            <li id="theme8"></li>
+                            <li id="theme9"></li>
+                            <li id="theme10"></li>
+                            <li id="theme11"></li>
+                            <li id="theme12"></li>
+                            <li id="theme13"></li>
+                            <li id="theme14"></li>
+                            <li id="theme15"></li>
+                        </ul>
+
+                    </div>
                 </div>
+                <!--end color switcher-->
+
             </div>
-            <%@include file="jspf/navbar.jspf" %>
-            <section class="navi-card" style="padding: 0rem 2rem;">
-
-                <div class="row" style="margin-top: 1rem;">
-                    <div class="col">
-                        <div class="cards bg-c-info  text-white widget-visitor-card cardActive" id="allcrd" style="height: 110px;background: linear-gradient(to right, #007bff, #5ba9fd);">
-                            <div class="card-block-small text-center">
-                                <h4 id="all">0</h4>
-                                <h6>All Ticket</h6>
-                                <i class="feather ">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-align-center"><line x1="18" y1="10" x2="6" y2="10"></line><line x1="21" y1="6" x2="3" y2="6"></line><line x1="21" y1="14" x2="3" y2="14"></line><line x1="18" y1="18" x2="6" y2="18"></line></svg>
-                                </i>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col" >
-                        <div class="cards bg-c-yellow text-white widget-visitor-card" id="quecrd" style="height: 110px; background: linear-gradient(to right,#f2c71b, #f5d862);">
-                            <div class="card-block-small text-center" >
-                                <h4 id="acknowledgment">0</h4>
-                                <h6>Queue</h6>
-                                <i class="feather ">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                                </i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col" >
-                        <div class="cards bg-c-yellow text-white widget-visitor-card" id="quecrd" style="height: 110px; background: linear-gradient(to right,#24D5DB, #81D8DB);">
-                            <div class="card-block-small text-center" >
-                                <h4 id="acknowledgment">0</h4>
-                                <h6>In progress</h6>
-                                <i class="feather ">
-
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-book-open"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col" >
-                        <div class="cards bg-c-pink  text-white widget-visitor-card" id="devcrd" style="height: 110px;background: linear-gradient(to right, #4eb9ed, #a7d8f0);">
-                            <div class="card-block-small text-center">
-                                <h4 id="filepending">0</h4>
-                                <h6>Development Pending</h6>
-                                <i class="feather ">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                                </i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col" >
-                        <div class="cards  bg-c-green text-white widget-visitor-card" id="testcrd" style="height: 110px;    background: linear-gradient(to right, #fe9365, #feb798);">
-                            <div class="card-block-small text-center">
-                                <h4 id="undertaking">0</h4>
-                                <h6>Testing Pending</h6>
-                                <i class="feather ">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-award"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
-                                </i>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="col" >
-                        <div class="cards   bg-c-lite-green text-white widget-visitor-card" id="approvecrd" style="height: 110px;background: linear-gradient(to right, #01a9ac, #01dbdf);">
-                            <div class="card-block-small text-center">
-                                <h4 id="pay">0</h4>
-
-
-
-                                <h6>QA Pending</h6>
-                                <i class="feather ">
-
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-square"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
-                                </i>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="col">
-                        <div class="cards bg-c-yellow text-white widget-visitor-card" id="cmplcrd" style="height: 110px; background: linear-gradient(to right, #0ac282, #0df3a3);">
-                            <div class="card-block-small text-center" >
-                                <h4 id="complt">0</h4>
-                                <h6>Completed</h6>
-                                <i class="feather ">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                                </i>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="cards bg-c-pink  text-white widget-visitor-card" id="rejcrd" style="height: 110px;background: linear-gradient(to right, #fe5d70, #fe909d);">
-                            <div class="card-block-small text-center">
-                                <h4 id="reject">0</h4>
-                                <h6>Unsuccessful</h6>
-                                <i class="feather ">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-octagon"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
-                                </i>
-                            </div>
-                        </div>
-                    </div>
-
-
-                </div>
-
-
-
-                <hr>
-
-            </section>
-
-            <section class="tab-details"style="padding: 0rem 1rem;">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="card" id="tableCard">
-                            <div class="card-body" >
-                                <h5 id="main_name_tag">Ticket Management System</h5>
-                                <hr>
-
-                                <div id="table_card">
-                                    <table class="table table-bordered table-sm" id="issue_table" style="width: 100%; font-size: small">
-                                        <thead>
-                                            <tr>
-                                                <th style="display: none">ID</th>
-                                                <th>Reference Number</th>
-                                                <th>Issue Type</th>
-                                                <th>Description</th>
-                                                <th>Priority</th>
-                                                <th>ENT Date</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody></tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="card-footer">
-                                <div class="text-right">
-                                    <button id="addFmrBtn" class="btn btn-sm waves-effect waves-light btn-danger"><i class="icon feather icon-plus"></i>Add Ticket</button>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </section>
 
 
 
@@ -365,7 +313,7 @@
 
         <!--formSection-acknowledgment-pending-->
         <div class="" id="formSectionInprogress" style="display: none;padding-top: 1rem;">
-            <div class="card" style="width: 80%;padding: 1em;">
+            <div class="card" style="width: 90%;padding: 1em;display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0;">
                 <div class="card-block p-b-0">
                     <div class="row">
                         <div class="col">
@@ -966,6 +914,17 @@
             </div>
         </div>
         <%@include file="jspf/scripts.jspf" %>
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/popper.min.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
+        <script src="assets/plugins/simplebar/js/simplebar.js"></script>
+        <script src="assets/js/sidebar-menu.js"></script>
+        <script src="assets/js/jquery.loading-indicator.js"></script>
+        <script src="assets/js/app-script.js"></script>
+        <script src="assets/plugins/Chart.js/Chart.min.js"></script>
+        <script src="assets/js/index.js"></script>
+
+
         <script type="text/javascript" src="files/js/slimselect.js"></script>
         <script type="text/javascript" src="files/js/datatables.min.js"></script>
         <script type="text/javascript" src="files/js/sweetalert2.js"></script>

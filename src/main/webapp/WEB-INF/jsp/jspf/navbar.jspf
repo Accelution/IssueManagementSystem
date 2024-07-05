@@ -4,86 +4,87 @@
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300&family=Marvel:wght@700&display=swap"
       rel="stylesheet">
 
-<style>
-
-
-    .bg-light {
-        background-color: white!important;
-        font-family: Jost;
-        font-size: 0.9rem;
-        font-weight: bold;
-        color: black;
-    }
-    .bg-light:hover {
-        color: black!important;
-
-    }
-
-    .nav-item a:hover {
-        color: #79c14e;
-    }
-    .dropdown-item {
-        font-size: 0.8rem; /* You can adjust the size as needed */
-    }
-
-</style>
-
-
-
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <!--    <a class="navbar-brand" href="#">
-            <img src="files/images/fintrex-din-white1.png" width="150" height="60" class="d-inline-block align-top" alt="">
-
-        </a>-->
-
-
-    <div class="navbar-container container-fluid d-flex justify-content-center" id="sysss">
-        <div class="nav-item">
-            <a class="nav-link" href="home">Dashbaord</a>
-        </div>
-
-
+<!--Start sidebar-wrapper-->
+<div id="sidebar-wrapper" data-simplebar="" data-simplebar-auto-hide="true">
+    <div class="brand-logo">
+        <a href="index">
+            <img src="assets/images/logo-icon.png" class="logo-icon" alt="logo icon">
+            <h5 class="logo-text">Accelution TMS</h5>
+        </a>
     </div>
-    <div class="navbar-container container-fluid d-flex justify-content-end">
-        <ul class="nav-right">
-            <div class="dropdown-primary dropdown">
-                <div class="dropdown-toggle" data-toggle="dropdown">
-                    <img width="15%" src="files/images/user.png" class="img-radius" alt="My Photo">
-                    <span><%=session.getAttribute("username")%></span>
-                    <i class="feather icon-chevron-down"></i>
-                </div>
-                <ul class="show-notification profile-notification dropdown-menu" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
-                    <li>
-                        <a href="logout">
-                            <i class="feather icon-log-out" id="logout"></i> Logout
-                        </a>
-                    </li>
-                </ul>
-            </div>
+    <ul class="sidebar-menu do-nicescrol" id="dynamic-sidebar-menu">
+        <!-- Dynamic content will be appended here -->
+    </ul>
+</div>
+
+<!--End sidebar-wrapper-->
+
+<!--Start topbar header-->
+<header class="topbar-nav">
+    <nav class="navbar navbar-expand fixed-top">
+        <ul class="navbar-nav mr-auto align-items-center">
+            <li class="nav-item">
+                <a class="nav-link toggle-menu" href="javascript:void();">
+                    <i class="icon-menu menu-icon"></i>
+                </a>
+            </li>
+            <li class="nav-item">
+                <form class="search-bar">
+                    <input type="text" class="form-control" placeholder="Enter keywords">
+                    <a href="javascript:void();"><i class="icon-magnifier"></i></a>
+                </form>
+            </li>
         </ul>
 
-    </div>
-</nav>
+        <ul class="navbar-nav align-items-center right-nav-link">
+
+            <li class="nav-item">
+                <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown" href="#">
+                    <span class="user-profile"><img src="https://via.placeholder.com/110x110" class="img-circle" alt="user avatar"></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li class="dropdown-item user-details">
+                        <a href="javaScript:void();">
+                            <div class="media">
+                                <div class="avatar"><img class="align-self-start mr-3" src="https://via.placeholder.com/110x110" alt="user avatar"></div>
+                                <div class="media-body">
+                                    <h6 class="mt-2 user-title"><span><%=session.getAttribute("username")%></span></h6>
+
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+
+                    <li class="dropdown-divider"></li>
+                    <li class="dropdown-item"><i class="icon-power mr-2"></i><a href="logout">
+                            <i class="feather icon-log-out" id="logout"></i> Logout
+                        </a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</header>
+<!--End topbar header-->
 <script>
     fetch('admin/page-access')
             .then(res => res.json())
             .then(data => {
                 console.log(data);
 
-                // Assuming you have a container with id 'sysss' where you want to append items
-                var navbarContainer = $('#sysss');
+                // Assuming you have a container with id 'dynamic-sidebar-menu' where you want to append items
+                var sidebarMenu = $('#dynamic-sidebar-menu');
 
                 data.forEach(item => {
                     if (item.url !== null && item.url !== undefined) {
-                        var listItem = $('<div class="nav-item"></div>'); // Use div instead of li for your structure
-                        var link = $('<a class="nav-link" href="' + item.url + '">' + item.name + '</a>');
+                        var listItem = $('<li></li>');
+                        var link = $('<a href="' + item.url + '"></a>');
+                        var icon = $('<i class="' + item.icon + '"></i>'); // Assuming your data includes an icon class
+                        var span = $('<span>' + item.name + '</span>');
+
+                        link.append(icon);
+                        link.append(span);
                         listItem.append(link);
-                        navbarContainer.append(listItem);
+                        sidebarMenu.append(listItem);
                     } else {
                         console.error('Item skipped due to missing or null URL:', item);
                     }

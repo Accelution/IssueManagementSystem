@@ -66,6 +66,7 @@ public class LoginController {
 
             session.setAttribute("uid", user.getId());
             session.setAttribute("username", username);
+//            session.setAttribute("name", name);
             session.setAttribute("dashboard", user.getDashboard());
 
             return "ok";

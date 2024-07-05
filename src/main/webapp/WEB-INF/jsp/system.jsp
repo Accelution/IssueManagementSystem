@@ -4,135 +4,38 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <meta name="description" content=""/>
+        <meta name="author" content=""/>
         <title>Accelution</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap" rel="stylesheet">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-        <link href="https://fonts.googleapis.com/css2?family=Merriweather&display=swap" rel="stylesheet">
-        <style>
+        <link href="assets/css/pace.min.css" rel="stylesheet"/>
+        <script src="assets/js/pace.min.js"></script>
+        <!--favicon-->
+        <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+        <!-- Vector CSS -->
+        <link href="assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet"/>
+        <!-- simplebar CSS-->
+        <link href="assets/plugins/simplebar/css/simplebar.css" rel="stylesheet"/>
+        <!-- Bootstrap core CSS-->
+        <link href="assets/css/bootstrap.min.css" rel="stylesheet"/>
+        <!-- animate CSS-->
+        <link href="assets/css/animate.css" rel="stylesheet" type="text/css"/>
+        <!-- Icons CSS-->
+        <link href="assets/css/icons.css" rel="stylesheet" type="text/css"/>
+        <!-- Sidebar CSS-->
+        <link href="assets/css/sidebar-menu.css" rel="stylesheet"/>
+        <!-- Custom Style-->
+        <link href="assets/css/app-style.css" rel="stylesheet"/>
 
-            .para {
-                font-family: 'Poppins', sans-serif;
-                font-size: 1rem;
-                padding-left: 15em;
-                padding-right: 15em;
-                text-align: justify;
-                padding-top: 2em;
-                padding-bottom: 2em;
-            }
-            .container-s {
-                background-color: #E5E5E5;
-                padding-left: 10em;
-                padding-top :0.1em;
-                padding-bottom: 0.1em;
-                font-family: 'Merriweather', serif;
-                color: #1968B1;
-
-            }
-            .title {
-                font-size: 2rem;
-                margin: 0; /* Remove any default margins */
-            }
-            .background-image {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-image: url('assets/img/lotus.png'); /* Replace 'your-photo.jpg' with the path to your image */
-                background-size: cover; /* Ensures the image covers the entire background */
-                background-position: center; /* Centers the image */
-                opacity: 0.2;
-                z-index: -1;/* Adjust the opacity value as needed (0.0 to 1.0) */
-            }
-
-            .card-registration .select-input.form-control[readonly]:not([disabled]) {
-                font-size: 1rem;
-                line-height: 2.15;
-                padding-left: .75em;
-                padding-right: .75em;
-            }
-            .card-registration .select-arrow {
-                top: 13px;
-            }
-            .card{
-                width: 90em;
-                justify-content: center;
-                margin: auto;
-
-            }
-            .pagetitle h3 {
-                font-size: 28px;
-                margin-bottom: 0;
-                font-weight: 600;
-                color: #31d422;
-            }
-            .ss-main .ss-single-selected .placeholder {
-                background-color: white;
-                color: black;
-            }
-
-            .nav-tabs .nav-item .nav-link {
-                color: #000; /* Set the default text color for all tabs */
-            }
-
-            .nav-tabs .nav-item .nav-link:hover {
-                background-color: #f8f9fa; /* Set the background color on hover for all tabs */
-            }
-
-            .nav-tabs .nav-item .nav-link.active {
-                background-color: #4682b4; /* Set a darker background color for the active tab */
-                color: #fff; /* Set the text color for the active tab */
-            }
-            @media only screen and (max-width: 989px) {
-                /* Adjust styles for smaller screens */
-                .para {
-                    padding-left: 1em;
-                    padding-right: 1em;
-                }
-                .container-s {
-                    padding-left: 1em;
-                }
-                .form-group{
-                    width: 25rem;
-                }
-                .ttt{
-                    width: 25rem;
-                }
-
-            }
-            @media only screen and (max-width: 449px) {
-                /* Adjust styles for smaller screens */
-                .para {
-                    padding-left: 1em;
-                    padding-right: 1em;
-                }
-                .container-s {
-                    padding-left: 1em;
-                }
-                .form-group{
-                    width: 20rem;
-                }
-                .ttt{
-                    width: 20em;
-                }
-
-            }
-
-        </style>
     </head>
-    <body>
-        <%@include file="jspf/header.jspf" %>
+    <body class="bg-theme bg-theme1">
 
-
-        <%@include file="jspf/navbar.jspf" %>
-        <div class="tab-pane fade show active profile-overview" id="profile-overview">
-
-            <div class="page-wrapper" id="units">
-                <div class="page-body">
+        <div id="wrapper">
+            <div class="content-wrapper">
+                <div class="container-fluid">
+                    <%@include file="jspf/navbar.jspf" %>
 
                     <div class="row" id="tableSection">
 
@@ -227,6 +130,24 @@
 
 
         <%@include file="jspf/scripts.jspf" %>
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/popper.min.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
+
+        <!-- simplebar js -->
+        <script src="assets/plugins/simplebar/js/simplebar.js"></script>
+        <!-- sidebar-menu js -->
+        <script src="assets/js/sidebar-menu.js"></script>
+        <!-- loader scripts -->
+        <script src="assets/js/jquery.loading-indicator.js"></script>
+        <!-- Custom scripts -->
+        <script src="assets/js/app-script.js"></script>
+        <!-- Chart js -->
+
+        <script src="assets/plugins/Chart.js/Chart.min.js"></script>
+
+        <!-- Index js -->
+        <script src="assets/js/index.js"></script>
         <script type="text/javascript" src="files/js/slimselect.js"></script>
         <script type="text/javascript" src="files/js/datatables.min.js"></script>
         <script type="text/javascript" src="files/js/sweetalert2.js"></script>
@@ -235,7 +156,6 @@
         <script type="text/javascript" src="files/js/dataTables.responsive.min.js"></script>
         <script type="text/javascript" src="files/js/jquery.highlight.js"></script>
         <script type="text/javascript" src="files/js/dataTables.searchHighlight.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
         <script>
             // Function to handle the "Add Attachment" button click
             document.getElementById('addBtn').addEventListener('click', function () {
