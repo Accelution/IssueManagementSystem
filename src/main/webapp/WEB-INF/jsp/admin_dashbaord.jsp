@@ -10,7 +10,7 @@
         <link href="assets/css/pace.min.css" rel="stylesheet"/>
         <script src="assets/js/pace.min.js"></script>
         <!--favicon-->
-        <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+        <!--<link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">-->
         <!-- Vector CSS -->
         <link href="assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet"/>
         <!-- simplebar CSS-->
@@ -270,13 +270,13 @@
                     <div class="row">
                         <div class="col">
                             <div class="form-group" style="padding-bottom: 2rem">
-                                <label for="" class="col-sm-4 col-form-label allFontByCustomerEdit">Issue Type</label>
+                                <label for="typeIssue" class="col-sm-4 col-form-label allFontByCustomerEdit">Issue Type</label>
                                 <select class="form-control-sm pull-right" id="typeIssue">  </select>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group" style="padding-bottom: 2rem">
-                                <label for="" class="col-sm-4 col-form-label allFontByCustomerEdit">Select Priority</label>
+                                <label for="prio" class="col-sm-4 col-form-label allFontByCustomerEdit">Select Priority</label>
 
                                 <select class="form-control-sm pull-right" id="prio">  </select>
 
