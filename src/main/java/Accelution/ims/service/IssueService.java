@@ -330,7 +330,7 @@ public class IssueService {
                 updateissue.setStatus("In Progress");
                 break;
             case "qa":
-                updateissue.setStatus("QA");
+                updateissue.setStatus("QA Pending");
                 break;
             case "devPen":
                 updateissue.setStatus("Development Pending");
