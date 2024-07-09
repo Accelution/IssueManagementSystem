@@ -38,7 +38,7 @@
                     <%@include file="jspf/navbar.jspf" %>
                     <!--Start Dashboard Content-->
                     <div class="main" id="tableSection">
-                        <section class="tab-details"style="padding: 2rem 2rem;">
+                        <section class="tab-details" style="padding: 2rem 2rem;">
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="card" id="tableCard">
@@ -72,8 +72,8 @@
                     </div>
                 </div>
 
-                <!--formSection-acknowledgment-pending-->
-                <div class="" id="formSectionInprogress" style="display: none;padding-top: 1rem;">
+                <!--formSection-queue-->
+                <div class="" id="formSectionQueue" style="display: none; padding-top: 1rem;">
                     <div class="card" style="padding: 1em;">
                         <div class="card-block p-b-0">
                             <div class="row">
@@ -101,7 +101,6 @@
                                         <input id="ent_by" type="text" name="ent_by" class="form-control" required autocomplete="off" disabled="">
                                     </div>
                                 </div>
-
                             </div>
                             <div class="row">
                                 <div class="col-6">
@@ -112,8 +111,8 @@
                                 </div>
                                 <div class="col-3">
                                     <div class="form-group" style="padding-bottom: 2rem">
-                                        <label for="acknow_status" class=" col-form-label allFontByCustomerEdit">Choose Next Stage </label>
-                                        <div class="selec tor">
+                                        <label for="acknow_status" class="col-form-label allFontByCustomerEdit">Choose Next Stage </label>
+                                        <div class="selector">
                                             <select id="statusque">
                                                 <option value="" disabled selected>Select Stage</option>
                                                 <option value="inp">In Progress</option>
@@ -125,32 +124,74 @@
                                     </div> 
                                 </div>
                                 <div class="col-3">
-                                    <div class="form-group" id="assign_section" style="display: none;">
-                                        <label for="assign" class=" col-form-label allFontByCustomerEdit">Assign To</label>
+                                    <div class="form-group" id="assign_section">
+                                        <label for="assign" class="col-form-label allFontByCustomerEdit">Assign To</label>
                                         <select class="form-control-sm pull-right" id="assign">  </select>
-
                                     </div>   
                                 </div>
-
-
                             </div>
                             <div class="row">
-                                <div class="card">
-                                    <div class="card-body" id="com_section">
-                                        <!-- Comments will be dynamically inserted here -->
+                                <div class="col-12">
+                                    <div class="d-flex justify-content-end mb-2 ">
+                                        <button id="toggleAddSection" class="btn btn-sm waves-effect waves-light btn-secondary">
+                                            <i class="feather icon-plus"></i> Add Comment
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="addSection" style="display: none;">
+                                <div class="row justify-content-end">
+                                    <div class="col-12">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover table-bordered m-b-0" id="tbladdAttQ">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Comment</th>
+                                                        <th>Attachment</th>
+                                                        <th style="width: 1px;">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- Your table body content goes here -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-end" style="padding: 2em;">
+                                    <div class="row">
+                                        <div class="text">
+                                            <button id="addBtnQ" class="btn btn-sm waves-effect waves-light btn-danger">
+                                                <i class="icon feather icon-plus"></i>Add Comment/Attachment
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
-
+                            <div class="row">
+                                <div class="col-12">
+                                    <label for="com" class="col-form-label allFontByCustomerEdit">Comment Section</label>
+                                    <div class="card" style="width: 100%;">
+                                        <div class="card-body" id="com_section">
+                                            <!-- Comments will be dynamically inserted here -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="card-footer d-flex justify-content-end">
-                                <button id="saveBtnin" class="btn btn-sm waves-effect waves-light btn-primary" style="margin-right: 10px"><i class="icon feather icon-save"></i>Save</button>
-                                <button id="closeBtnin" class="btn btn-sm btn-danger"><i class="icon feather icon-x-circle"></i>Close</button>
+                                <button id="saveBtnin" class="btn btn-sm waves-effect waves-light btn-primary" style="margin-right: 10px;">
+                                    <i class="feather icon-save"></i>Save
+                                </button>
+                                <button id="closeBtnin" class="btn btn-sm btn-danger">
+                                    <i class="feather icon-x-circle"></i>Close
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
+
 
             </div>
         </div>
@@ -175,7 +216,55 @@
         <script type="text/javascript" src="files/js/jquery.highlight.js"></script>
         <script type="text/javascript" src="files/js/dataTables.searchHighlight.min.js"></script>
         <script>
+            document.getElementById('addBtnQ').addEventListener('click', function () {
+                // Get the table body
+                var tableBody = document.querySelector('#tbladdAttQ tbody');
 
+                // Create a new row
+                var newRow = tableBody.insertRow();
+
+                // Create cells in the new row
+                var commentCell = newRow.insertCell(0);
+                var fileCell = newRow.insertCell(1);
+                var actionCell = newRow.insertCell(2);
+
+                // Create textarea for "Comment" in cell 1
+                var commentInput = document.createElement('textarea');
+                commentInput.name = 'comment';
+                commentInput.classList.add('form-control');
+                commentInput.required = true;
+                commentInput.autocomplete = 'off';
+
+                // Create input for "File Upload" in cell 2
+                var fileInput = document.createElement('input');
+                fileInput.type = 'file';
+                fileInput.name = 'fileLink';
+                fileInput.classList.add('form-control');
+                fileInput.required = true;
+                fileInput.autocomplete = 'off';
+
+                // Append input elements to respective cells
+                commentCell.appendChild(commentInput);
+                fileCell.appendChild(fileInput);
+
+                // Create a delete button in the action cell
+                var deleteButton = document.createElement('button');
+                deleteButton.classList.add('btn', 'btn-sm', 'btn-danger');
+                deleteButton.textContent = 'Remove';
+                deleteButton.name = 'dele';
+
+                // Add a click event listener to the delete button
+                deleteButton.addEventListener('click', function () {
+                    // Remove the row when the delete button is clicked
+                    tableBody.removeChild(newRow);
+                });
+
+                // Append the delete button to the action cell
+                actionCell.appendChild(deleteButton);
+
+                // Call the addAttachmentRow function with the input values
+                addAttachmentRow(commentInput.value, fileInput.value);
+            });
 
 
 
@@ -187,7 +276,7 @@
             const closeBtnin = document.getElementById('closeBtnin');
 
             closeBtnin.addEventListener('click', function () {
-                formSectionInprogress.style.display = 'none';
+                formSectionQueue.style.display = 'none';
                 tableSection.style.display = 'block';
             });
 
@@ -279,14 +368,6 @@
         </script>
 
 
-
-
-
-
-
-
-
-
         <!--Table Details-->
         <script>
             new SlimSelect({
@@ -367,6 +448,13 @@
 
         <!--editrec-->
         <script>
+            $(document).ready(function () {
+                $('#toggleAddSection').click(function () {
+                    $('#addSection').toggle();
+                });
+
+                // Additional JavaScript code for other functionalities can go here
+            });
             $(document).on('click', '.editrec', function () {
                 let row = $(this).closest('tr');
                 let status = row.data('status');
@@ -380,75 +468,227 @@
                                 let d2 = data.d2;
                                 let obj = data.obj;
 
+                                // Set the issue details
                                 $('#ref_numberq').val(obj.ref_number);
                                 $('#Issuequ').val(obj.issue);
-
-                                console.log(obj.issue_type);
                                 $('#ent_by').val(d2.entered);
                                 $('#saveBtnin').data('mode', 'update');
                                 $('#saveBtnin').data('id', id);
                                 $('#saveBtnin').html('<i class="icon feather icon-save"></i>Update');
-                                $('#formSectionInprogress').fadeIn();
+
+                                // Fetch and display comments
+                                displayComments(data.videos);
+
+                                // Show the form section and hide the table section
+                                $('#formSectionQueue').fadeIn();
                                 $('#tableSection').hide();
                                 finishLoadDiv($('#tableSection'));
                             });
                 }
-
             });
-        </script>
+            function displayComments(comments) {
+                const comSection = $('#com_section');
+                comSection.empty(); // Clear existing content
 
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                var ImsStatusSelect = document.getElementById("statusque");
-                var commentSection = document.getElementById("assign_section");
+                if (comments && comments.length > 0) {
+                    // Reverse the comments to show the latest one first
+                    comments.reverse().forEach(comment => {
+                        let commentHTML =
+                                '<div class="row">' +
+                                '<div class="col-4">' +
+                                '<h6>Commented By: ' + comment.ent_by + '</h6>' +
+                                '<h6>Commented On: ' + comment.ent_on + '</h6>' +
+                                '</div>' +
+                                '<div class="col-8">' +
+                                '<p>Comment: ' + comment.comment + '</p>';
 
-                // Add event listener to the select element
-                ImsStatusSelect.addEventListener("change", function () {
+                        if (comment.path) {
+                            commentHTML += '<p><a href="issue/path/attachment/' + comment.path + '" target="_blank">View Attachment</a></p>';
+                        }
 
-                    // Check if the selected value is "reject"
-                    if (this.value === "inp") {
-                        // Show the comment section
-                        commentSection.style.display = "block";
-                    } else {
-                        // Hide the comment section
-                        commentSection.style.display = "none";
-                    }
-                });
+                        commentHTML +=
+                                '</div>' +
+                                '</div>' +
+                                '<hr>';
 
-            });
-
-            $('#saveBtnin').click(function () {
-                // Get the value of the facility status select element
-                var statusque = document.getElementById('statusque').value;
-
-                // Initialize request body
-                var requestBody = {
-                    id: $('#saveBtnin').data('id'),
-                    statusque: statusque,
-                };
-
-                // Check if the facility status is "reject"
-                if (statusque === "uns") {
-                    // Include comment in the request body
-                    requestBody.reason = document.getElementById('reason_textarea').value;
+                        comSection.append(commentHTML);
+                    });
+                } else {
+                    comSection.html('<p>No comments available.</p>');
                 }
+            }
 
-                // Send the request
-                return fetch((($('#saveBtnin').data('mode') === 'save') ? 'issue/save' : 'issue/update-ack'), {
-                    method: 'POST',
-                    body: new URLSearchParams(requestBody)
-                }).then(response => {
-                    if (!response.ok) {
-                        throw new Error(response.statusText);
+
+
+
+
+        </script>
+        <!--        <script>
+                    $('#saveBtnin').click(function () {
+                        // Get the value of the facility status select element
+                        var statusque = document.getElementById('statusque').value;
+                        var assignValue = document.getElementById('assign').value;
+        
+                        // Check if statusque requires assign to have a value
+                        if (statusque !== "com" && assignValue === "") {
+                            Swal.fire('Error!', 'Please select "Assign To"', 'error');
+                            return; // Prevent further execution if assign is not selected
+                        }
+        
+                        // Initialize request body
+                        var requestBody = {
+                            id: $('#saveBtnin').data('id'),
+                            statusque: statusque,
+                            assign: assignValue // Include assign value in request body
+                        };
+        
+        
+                        // Process table rows for comments and attachments
+                        var tableRows = document.querySelectorAll('#tbladdAttQ tbody tr');
+                        var attachmentData = [];
+        
+                        tableRows.forEach(row => {
+                            var comment = row.querySelector('textarea[name="comment"]').value;
+                            var fileInput = row.querySelector('input[name="fileLink"]');
+                            var files = fileInput.files;
+        
+                            var path = "";
+                            if (files.length > 0) {
+                                // Assuming only one file per comment is supported
+                                path = files[0].name; // Take the first file name for simplicity
+                            }
+        
+                            attachmentData.push({
+                                comment: comment,
+                                path: path
+                            });
+                        });
+        
+                        // Add attachment data to request body
+                        if (attachmentData.length > 0) {
+                            requestBody.attachmentData = attachmentData;
+                        } else {
+                            // If tbladdAttQ is empty, only include statusque and assign if they have values
+                            if (statusque === "" && assignValue === "") {
+                                Swal.fire('Error!', 'Please select "Status Queue" or "Assign To"', 'error');
+                                return;
+                            }
+                        }
+        
+                        // Send the request
+                        fetch((($('#saveBtnin').data('mode') === 'save') ? 'issue/save' : 'issue/update-queue'), {
+                            method: 'POST',
+                            body: JSON.stringify(requestBody),
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        }).then(response => {
+                            if (!response.ok) {
+                                throw new Error(response.statusText);
+                            } else {
+                                Swal.fire('Successful!', 'Issue has been successfully saved', 'success');
+                                clearForm();
+                                $('#formSectionQueue').hide();
+                                $('#tableSection').fadeIn();
+                                dtable.ajax.reload();
+                            }
+                            return response.json();
+                        }).catch(error => {
+                            Swal.fire('Error!', 'Failed to save Issue details', 'error');
+                        });
+                    });
+        
+        
+                </script>-->
+        <script>
+            document.getElementById('saveBtnin').addEventListener('click', function () {
+                let saveBtnin = document.getElementById('saveBtnin');
+                saveBtnin.disabled = true;
+
+                let mode = $('#saveBtnin').data('mode');
+                if (mode === 'update') {
+                    let id = $('#saveBtnin').data('id');
+                    let statusque = document.getElementById('statusque').value;
+                    let assign = document.getElementById('assign').value;
+
+                    // Validation checks
+                    if (statusque && !assign) {
+                        Swal.fire('Error!', 'Please select "Assign To"', 'error');
+                        saveBtnin.disabled = false;
+                        return;
+                    }
+
+                    if (!statusque && assign) {
+                        Swal.fire('Error!', 'Please select "Status"', 'error');
+                        saveBtnin.disabled = false;
+                        return;
+                    }
+
+                    if (!statusque && !assign) {
+                        Swal.fire('Error!', 'Please select "Status" and "Assign To"', 'error');
+                        saveBtnin.disabled = false;
+                        return;
+                    }
+
+                    let tableRows = document.querySelectorAll('#tbladdAttQ tbody tr');
+                    let attachmentData = [];
+                    let formData = new FormData();
+
+                    tableRows.forEach((row, index) => {
+                        let comment = row.querySelector('textarea[name="comment"]').value;
+                        if (!comment) {
+                            Swal.fire('Error!', 'Comment must not be empty', 'error');
+                            saveBtnin.disabled = false;
+                            return;
+                        }
+                        let fileInput = row.querySelector('input[name="fileLink"]');
+                        let files = fileInput.files;
+
+                        let path = "";
+                        if (files.length > 0) {
+                            for (let i = 0; i < files.length; i++) {
+                                let fileFieldName = `files[${index}]`;
+                                formData.append(fileFieldName, files[i]);
+                                path = files[i].name;
+                            }
+                        }
+
+                        attachmentData.push({
+                            comment: comment,
+                            path: path
+                        });
+                    });
+
+                    if (attachmentData.length > 0) {
+                        let desclist = JSON.stringify(attachmentData);
+                        formData.append('desclist', desclist);
                     } else {
-                        Swal.fire('Successfull!', 'FMR has been successfully saved');
-                        clearForm();
-                        $('#formSectionInprogress').hide();
+                        formData.append('desclist', "[]");
+                    }
+
+                    formData.append('id', id);
+                    formData.append('statusque', statusque);
+
+                    fetch('issue/update-queue', {
+                        method: 'POST',
+                        body: formData
+                    }).then(response => {
+                        if (!response.ok) {
+                            throw new Error(response.statusText);
+                        }
+                        return response.json();
+                    }).then(data => {
+                        Swal.fire('Successful!', 'Issue has been successfully updated', 'success');
+//            clearForms();
+                        $('#formSectionQueue').hide();
                         $('#tableSection').fadeIn();
                         dtable.ajax.reload();
-                    }
-                    return response.json();
-                });
+                    }).catch(error => {
+                        Swal.fire('Error!', 'Failed to update issue details', 'error');
+                    }).finally(() => {
+                        saveBtnin.disabled = false;
+                    });
+                }
             });
         </script>
 

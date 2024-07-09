@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -34,6 +35,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -75,7 +77,7 @@ public class IssueService {
             } else if (stage.equals("completed")) {
                 sql += " AND `status`='Completed'";
             } else if (stage.equals("unsucces")) {
-                sql += " AND `status`='Unsuccessful'";
+                sql += " AND `status`='Closed'";
             }
         }
         return userDt.getData(IssueDTO.class, param, sql);
@@ -275,57 +277,119 @@ public class IssueService {
         return repo.save(ticket);
     }
 
-//    public Issue saveIssue(String issue, String priority, String comment, String assign, String type, HttpSession session) {
-//        Issue saveissue = new Issue();
-//        saveissue.setIssue(issue);
-//        saveissue.setPriority(priority);
-//        saveissue.setComment(comment);
-//        saveissue.setAssign(assign);
-//        saveissue.setType(type);
-////        String branchFromSession = (String) session.getAttribute("branch");
-////        saveissue.setBranch(branchFromSession);
-//        saveissue.setStatus("Queue");
-//        saveissue = repo.save(saveissue);
-//
-//        return saveissue;
-//    }
-    public Issue updateIssue(Integer id, String statusque, String reason) throws Exception {
-        Issue updateissue = repo.findById(id).get();
+    @Transactional(rollbackFor = Exception.class)
+    public Issue updateIssue(Integer id, MultipartFile file, String desclist, String statusque) throws Exception {
+        Issue updateissue = repo.findById(id).orElseThrow(() -> new IllegalArgumentException("Issue not found with id: " + id));
 
+        JsonNode fileList;
+        try {
+            fileList = mapper.readTree(desclist);
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Invalid JSON format for desclist: " + desclist, e);
+        }
+
+        for (int i = 0; i < fileList.size(); i++) {
+            JsonNode fileItem = fileList.get(i);
+
+            Comment attachment = new Comment();
+            attachment.setIssue(updateissue.getId());
+            attachment.setComment(fileItem.get("comment").asText());
+            attachment.setStatus("active");
+
+            if (file != null) {
+                String directoryPath = "TMS/Comments/";
+                File directory = new File(directoryPath);
+                if (!directory.exists()) {
+                    if (!directory.mkdirs()) {
+                        throw new IOException("Failed to create directory: " + directoryPath);
+                    }
+                }
+
+                String[] split = file.getOriginalFilename().split("\\.");
+                File des = new File(directory, updateissue.getId() + "_" + i + "." + split[split.length - 1]);
+                try {
+                    file.transferTo(Path.of(des.getAbsolutePath()));
+                    attachment.setPath(des.getName());
+                } catch (IOException e) {
+                    throw new IOException("Failed to save file: " + des.getAbsolutePath(), e);
+                }
+            } else {
+                attachment.setPath(fileItem.get("path").asText());
+            }
+
+            attachment = crepo.save(attachment);
+            System.out.println("Attachment ID: " + attachment.getId());
+        }
+
+        // Update issue status based on statusque
         switch (statusque) {
             case "uns":
-                updateissue.setStatus("Unsuccessful");
-                updateissue.setReason(reason);
+                updateissue.setStatus("Closed");
                 break;
-
+            case "inp":
+                updateissue.setStatus("In Progress");
+                break;
+            case "qa":
+                updateissue.setStatus("QA");
+                break;
             case "devPen":
                 updateissue.setStatus("Development Pending");
                 break;
-
-            default:
-
+            case "com":
+                updateissue.setStatus("Completed");
                 break;
+            default:
+                throw new IllegalArgumentException("Invalid statusque value: " + statusque);
         }
 
         updateissue = repo.save(updateissue);
         return updateissue;
     }
+
 //
     @Autowired
     private JdbcTemplate jdbc;
 
     public Map<String, Object> getIssueses(Integer id) throws Exception {
-        Issue sys = repo.findById(id).get();
+        // Fetch the Issue object
+        Issue issue = repo.findById(id).orElseThrow(() -> new Exception("Issue not found"));
 
-        Map<String, Object> name = jdbc.queryForMap("SELECT `name` as entered FROM `users` WHERE `id` = ?", sys.getEnt_by());
-        sys.setEntUser((String) name.get("entered"));
-//        System.out.println(name);
+        // Fetch the user's name
+        Map<String, Object> name = jdbc.queryForMap("SELECT `name` as entered FROM `users` WHERE `id` = ?", issue.getEnt_by());
+        issue.setEntUser((String) name.get("entered"));
+
+        // Fetch the list of active comments
+        List<Comment> comments = crepo.findByIssueAndStatus(id, "active");
+
+        // Combine all the data into a single map
         Map<String, Object> combinedData = new HashMap<>();
         combinedData.put("d2", name);
-        combinedData.put("obj", sys);
+        combinedData.put("obj", issue);
+        combinedData.put("videos", comments);
 
         return combinedData;
     }
+
+//    public Map<String, Object> getIssueses(Integer id) throws Exception {
+//        Issue sys = repo.findById(id).get();
+//
+//        Map<String, Object> name = jdbc.queryForMap("SELECT `name` as entered FROM `users` WHERE `id` = ?", sys.getEnt_by());
+//        sys.setEntUser((String) name.get("entered"));
+//        Map<String, Object> combinedData = new HashMap<>();
+//        combinedData.put("d2", name);
+//        combinedData.put("obj", sys);
+//
+//        return combinedData;
+//    }
+//
+//    public Object getIssue(Integer id) throws Exception {
+//        Issue content = repo.findById(id).get();
+//        List<Comment> videos = crepo.findByIssueAndStatus(id, "active");
+//        Map<String, Object> data = new HashMap<>();
+//        data.put("content", content);
+//        data.put("videos", videos);
+//        return data;
+//    }
 //
 //    @Autowired
 //    private JdbcTemplate jdbc;
@@ -627,7 +691,6 @@ public class IssueService {
 //        updateissue = repo.save(updateissue);
 //        return updateissue;
 //    }
-
     public Long countAllStatus() {
         return repo.countByStatusAll();
     }

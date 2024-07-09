@@ -132,11 +132,15 @@ public class IssueController {
 //        CommonResponse response = new CommonResponse("Success!", 200);
 //        return new ResponseEntity<>(response, HttpStatus.OK);
 //    }
-    @PostMapping("/update-ack")
-    public ResponseEntity<CommonResponse> updateIssue(@RequestParam Integer id, @RequestParam String statusque, @RequestParam(required = false) String reason) throws Exception {
-        service.updateIssue(id, statusque, reason);
-        CommonResponse response = new CommonResponse("Success!", 200);
-        return ResponseEntity.ok(response);
+    @PostMapping("/update-queue")
+    public Issue updateIssue(
+            @RequestParam Integer id,
+            @RequestParam(value = "file", required = false) MultipartFile file,
+            @RequestParam("desclist") String desclist,
+            @RequestParam(required = false) String statusque
+    ) throws Exception {
+        System.out.println("Received request to update issue with ID: " + id);
+        return service.updateIssue(id, file, desclist, statusque);
     }
 
     @GetMapping("/details-all/{id}")
@@ -144,6 +148,35 @@ public class IssueController {
         CommonResponse response = new CommonResponse("Success!", service.getIssueses(id), 200);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @GetMapping("/path/attachment/{name}")
+    @ResponseBody
+    public void view(@PathVariable String name, HttpServletResponse resp) throws IOException {
+
+        File file = new File("TMS\\Comments\\" + name);
+
+        if (!file.exists()) {
+            resp.sendError(404, "file not found");
+            return;
+        }
+
+        OutputStream out = resp.getOutputStream();
+        FileInputStream in = new FileInputStream(file);
+        byte[] buffer = new byte[4096];
+        int length;
+        while ((length = in.read(buffer)) > 0) {
+            out.write(buffer, 0, length);
+        }
+        in.close();
+        out.flush();
+
+    }
+
+//    @GetMapping("/content-details/{id}")
+//    public ResponseEntity<CommonResponse> getDhammaContent(@PathVariable Integer id) throws Exception {
+//        CommonResponse response = new CommonResponse("Success!", service.getDhammaContent(id), 200);
+//        return new ResponseEntity<>(response, HttpStatus.OK);
+//    }
 //
 //    @GetMapping("/details-file/{id}")
 //    public ResponseEntity<CommonResponse> detailsFile(@PathVariable Integer id) throws Exception {
@@ -217,7 +250,6 @@ public class IssueController {
 //        return service.updateVoucher(idd, statusvoucher);
 //
 //    }
-
     @GetMapping("/count-all")
     public Long getcountAllStatus() {
         return service.countAllStatus();

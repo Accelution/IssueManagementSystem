@@ -20,5 +20,5 @@ public interface CommentRepo extends CrudRepository<Comment, Integer> {
 
     Iterable<Comment> findByIssue(Integer id);
 
-//    List<Comment> findByDhammaVideoAndStatus(Integer id, String status);
+    List<Comment> findByIssueAndStatus(Integer id, String status);
 }
