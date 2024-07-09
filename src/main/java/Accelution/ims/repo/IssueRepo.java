@@ -6,6 +6,7 @@ package Accelution.ims.repo;
 
 import Accelution.ims.dto.SlimSelectDTO;
 import Accelution.ims.model.Issue;
+import java.util.List;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -19,6 +20,12 @@ import org.springframework.stereotype.Repository;
 public interface IssueRepo extends CrudRepository<Issue, Integer> {
 
     Iterable<Issue> findByStatus(String status);
+
+    Iterable<Issue> findByIssue(Integer id);
+
+    List<Issue> findByIssueAndStatus(Integer id, String status);
+
+    public Object findById(String deleteId);
 
     @Query("SELECT `id` AS `value`, `name` AS `text` FROM `users`")
     Iterable<SlimSelectDTO> getStatus(@Param("search") String search);

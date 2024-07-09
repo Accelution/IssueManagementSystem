@@ -34,16 +34,17 @@ public class Issue {
     @Id
     private Integer id;
     private String ref_number;
-    private String issue_type;
+    private String issue;
     private String priority;
     private String type;
+    private String system;
+    private String company;
 //    @Transient
 //    private String productTxt;
 //    @Transient
 //    private String approverName;
     @Transient
     private String entUser;
-    private String comment;
     private String assign;
     private String reason;
     private String status;

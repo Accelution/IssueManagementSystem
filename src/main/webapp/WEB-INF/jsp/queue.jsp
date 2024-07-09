@@ -2,261 +2,170 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <meta name="description" content=""/>
+        <meta name="author" content=""/>
         <title>Accelution - IMS</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap-extended.min.css">
-        <link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/fonts/simple-line-icons/style.min.css">
-        <link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/colors.min.css">
-        <link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap.min.css">
-        <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-        <%@include file="jspf/header.jspf" %>
-        <style>
-            .cards {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border-radius: 5px;
-                transition: transform 0.2s;
-            }
-            .widget-visitor-card {
-                padding: 10px;
-                text-align: center;
-            }
-            .card-block-small,
-            .card-block-large {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                height: 100%;
-            }
-            .card-block-small h4,
-            .card-block-large h4 {
-                margin: 0;
-                font-size: 24px;
-            }
-            .card-block-small h6,
-            .card-block-large h6 {
-                margin: 0;
-                font-size: 14px;
-            }
-            .feather {
-                margin-top: 50px;
-                transition: transform 0.2s; /* Smooth transition for hover effect */
-            }
-
-            .card-block-large .feather {
-                width: 74px; /* Larger size for the large card block */
-                height: 74px; /* Larger size for the large card block */
-            }
-            .placeholder {
-                background-color: white;
-                color: black;
-            }
-
-            hr {
-                height: 2px; /* Set the height of the hr to 2 pixels */
-                border: none; /* Remove the default border */
-                background-color: black; /* Optional: Set the background color of the hr */
-            }
-
-            h6{
-                margin-bottom: .5rem;
-                font-family: inherit;
-                font-weight: 500;
-                line-height: 1.1;
-                color: white;
-                font-weight: 400;
-                font-size: 1.2rem;
-            }
-            .cards .card-block-small {
-                padding: 15px 20px;
-            }
-            .cards {
-                position: relative;
-                overflow: hidden;
-                cursor: pointer;
-                border-radius: 10px;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
-                transition: transform 0.3s ease; /* Add a transition for the transform property */
-                /*margin-left: 30px;*/
-
-            }
-
-            .cards:hover {
-                transform: translateY(-5px); /* Move the card up slightly on hover */
-            }
-
-            .cards::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                transition: all 0.3s ease;
-                opacity: 0;
-                transform: translateY(100%);
-                overflow: hidden;
-                padding: 10px 0;
-                background-color: rgba(255, 255, 255, 0.9); /* Add a background color for the "like" popup */
-                border-radius: 10px; /* Match the border-radius of the card */
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5); /* Match the box-shadow of the card */
-            }
-
-            .cards:hover::before {
-                opacity: 1;
-                transform: translateY(-100%); /* Move the "like" popup up */
-            }
-
-
-            .cards i {
-                position: absolute;
-                bottom: 10px;
-                left: -20px;
-                transition: all 0.3s ease;
-                transform-origin: bottom left;
-                transform: scale(3.5) ;
-                opacity: 0.5; /* Set the opacity to 50% */
-            }
-
-            .cards:hover i {
-                transform: rotate(15deg) scale(5);
-                opacity: 0.5; /* Set the opacity to 100% on hover */
-            }
-
-            .card-registration .select-input.form-control[readonly]:not([disabled]) {
-                font-size: 1rem;
-                line-height: 2.15;
-                padding-left: .75em;
-                padding-right: .75em;
-            }
-            .card-registration .select-arrow {
-                top: 13px;
-            }
-            .card{
-                /*width: 90em;*/
-                justify-content: center;
-                margin: auto;
-
-            }
-            .pagetitle h3 {
-                font-size: 28px;
-                margin-bottom: 0;
-                font-weight: 600;
-                color: #31d422;
-            }
-        </style>
+        <link href="assets/css/pace.min.css" rel="stylesheet"/>
+        <script src="assets/js/pace.min.js"></script>
+        <!--favicon-->
+        <!--<link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">-->
+        <!-- Vector CSS -->
+        <!--<link href="assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet"/>-->
+        <!-- simplebar CSS-->
+        <link href="assets/plugins/simplebar/css/simplebar.css" rel="stylesheet"/>
+        <!-- Bootstrap core CSS-->
+        <link href="assets/css/bootstrap.min.css" rel="stylesheet"/>
+        <!-- animate CSS-->
+        <link href="assets/css/animate.css" rel="stylesheet" type="text/css"/>
+        <!-- Icons CSS-->
+        <link href="assets/css/icons.css" rel="stylesheet" type="text/css"/>
+        <!-- Sidebar CSS-->
+        <link href="assets/css/sidebar-menu.css" rel="stylesheet"/>
+        <!-- Custom Style-->
+        <link href="assets/css/app-style.css" rel="stylesheet"/>
+        <link href="assets/css/slimselect.css" rel="stylesheet"/>
     </head>
-    <body>
+    <body class="bg-theme bg-theme1">
+        <div id="wrapper">
 
 
-        <div class="main" id="tableSection">
-            <%@include file="jspf/navbar.jspf" %>
+            <div class="clearfix"></div>
 
+            <div class="content-wrapper">
+                <div class="container-fluid">
+                    <%@include file="jspf/navbar.jspf" %>
+                    <!--Start Dashboard Content-->
+                    <div class="main" id="tableSection">
+                        <section class="tab-details"style="padding: 2rem 2rem;">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="card" id="tableCard">
+                                        <div class="card-body" >
+                                            <h5 id="main_name_tag">Ticket Management System - Queue</h5>
+                                            <hr>
 
-            <section class="tab-details"style="padding: 2rem 2rem;">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="card" id="tableCard">
-                            <div class="card-body" >
-                                <h5 id="main_name_tag">Ticket Management System</h5>
-                                <hr>
+                                            <div id="table_card">
+                                                <table class="table table-bordered table-sm" id="issue_table" style="width: 100%; font-size: small">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="display: none">ID</th>
+                                                            <th>Reference Number</th>
+                                                            <th>Issue</th>
+                                                            <th>System</th>
+                                                            <th>Priority</th>
+                                                            <th>ENT Date</th>
+                                                            <th>Status</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                <div id="table_card">
-                                    <table class="table table-bordered table-sm" id="issue_table" style="width: 100%; font-size: small">
-                                        <thead>
-                                            <tr>
-                                                <th style="display: none">ID</th>
-                                                <th>Reference Number</th>
-                                                <th>Issue Type</th>
-                                                <th>Description</th>
-                                                <th>Priority</th>
-                                                <th>ENT Date</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody></tbody>
-                                    </table>
                                 </div>
                             </div>
-                        </div>
-
+                        </section>
                     </div>
                 </div>
-            </section>
+
+                <!--formSection-acknowledgment-pending-->
+                <div class="" id="formSectionInprogress" style="display: none;padding-top: 1rem;">
+                    <div class="card" style="padding: 1em;">
+                        <div class="card-block p-b-0">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="ref_number">Reference Number<span class="text-danger">*</span></label>
+                                        <input id="ref_numberq" type="text" name="ref_number" class="form-control" required autocomplete="off" disabled="">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="ent_by">Ent By<span class="text-danger">*</span></label>
+                                        <input id="ent_by" type="text" name="ent_by" class="form-control" required autocomplete="off" disabled="">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="ent_by">Company<span class="text-danger">*</span></label>
+                                        <input id="ent_by" type="text" name="ent_by" class="form-control" required autocomplete="off" disabled="">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="ent_by">System<span class="text-danger">*</span></label>
+                                        <input id="ent_by" type="text" name="ent_by" class="form-control" required autocomplete="off" disabled="">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="Issueq">Issue<span class="text-danger">*</span></label>
+                                        <input id="Issuequ" type="text" name="Issueq" class="form-control" required autocomplete="off" disabled="">
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group" style="padding-bottom: 2rem">
+                                        <label for="acknow_status" class=" col-form-label allFontByCustomerEdit">Choose Next Stage </label>
+                                        <div class="selec tor">
+                                            <select id="statusque">
+                                                <option value="" disabled selected>Select Stage</option>
+                                                <option value="inp">In Progress</option>
+                                                <option value="devPen">Development Pending</option>
+                                                <option value="qa">QA Pending</option>
+                                                <option value="com">Completed</option>
+                                            </select>
+                                        </div>
+                                    </div> 
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group" id="assign_section" style="display: none;">
+                                        <label for="assign" class=" col-form-label allFontByCustomerEdit">Assign To</label>
+                                        <select class="form-control-sm pull-right" id="assign">  </select>
+
+                                    </div>   
+                                </div>
+
+
+                            </div>
+                            <div class="row">
+                                <div class="card">
+                                    <div class="card-body" id="com_section">
+                                        <!-- Comments will be dynamically inserted here -->
+                                    </div>
+                                </div>
+                            </div>
 
 
 
-        </div>
-
-
-
-
-        <!--formSection-acknowledgment-pending-->
-        <div class="" id="formSectionInprogress" style="display: none;padding-top: 1rem;">
-            <div class="card" style="width: 80%;padding: 1em;">
-                <div class="card-block p-b-0">
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="ref_number">Reference Number<span class="text-danger">*</span></label>
-                                <input id="ref_numberq" type="text" name="ref_number" class="form-control" required autocomplete="off" disabled="">
+                            <div class="card-footer d-flex justify-content-end">
+                                <button id="saveBtnin" class="btn btn-sm waves-effect waves-light btn-primary" style="margin-right: 10px"><i class="icon feather icon-save"></i>Save</button>
+                                <button id="closeBtnin" class="btn btn-sm btn-danger"><i class="icon feather icon-x-circle"></i>Close</button>
                             </div>
                         </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="ent_by">Ent By<span class="text-danger">*</span></label>
-                                <input id="ent_by" type="text" name="ent_by" class="form-control" required autocomplete="off" disabled="">
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="Issueq">Issue<span class="text-danger">*</span></label>
-                                <input id="Issuequ" type="text" name="Issueq" class="form-control" required autocomplete="off" disabled="">
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="commentq">Comment<span class="text-danger">*</span></label>
-                                <textarea id="commentq" type="text" name="commentq" class="form-control" required autocomplete="off" disabled=""></textarea>
-                            </div>
-                        </div>
-
-
-                    </div>
-                    <div class="form-group" style="padding-bottom: 2rem">
-                        <label for="acknow_status" class="col-sm-4 col-form-label allFontByCustomerEdit">Choose Next Action </label>
-                        <div class="col-sm-6">
-                            <select class="form-control-sm pull-right" id="statusque" style="width: 20rem;margin-right: 15rem;">
-                                <option value="" disabled selected>Select Action</option>
-                                <option value="devPen">Development Pending</option>
-                                <option value="uns">Unsuccessful</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group" id="reason_section" style="display: none;">
-                        <label for="reason">Reject Reason<span class="text-danger">*</span></label>
-                        <textarea id="reason_textarea" name="reason" class="form-control" required></textarea>
-                    </div>
-
-                    <div class="card-footer d-flex justify-content-end" style="background-color: white;">
-                        <button id="saveBtnin" class="btn btn-sm waves-effect waves-light btn-primary" style="margin-right: 10px"><i class="icon feather icon-save"></i>Save</button>
-                        <button id="closeBtnin" class="btn btn-sm btn-danger"><i class="icon feather icon-x-circle"></i>Close</button>
                     </div>
                 </div>
+
             </div>
         </div>
-
-
         <%@include file="jspf/scripts.jspf" %>
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/popper.min.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
+        <script src="assets/plugins/simplebar/js/simplebar.js"></script>
+        <script src="assets/js/sidebar-menu.js"></script>
+        <!--<script src="assets/js/jquery.loading-indicator.js"></script>-->
+        <script src="assets/js/app-script.js"></script>
+        <script src="assets/plugins/Chart.js/Chart.min.js"></script>
+        <script src="assets/js/index.js"></script>
+
+
         <script type="text/javascript" src="files/js/slimselect.js"></script>
         <script type="text/javascript" src="files/js/datatables.min.js"></script>
         <script type="text/javascript" src="files/js/sweetalert2.js"></script>
@@ -265,9 +174,6 @@
         <script type="text/javascript" src="files/js/dataTables.responsive.min.js"></script>
         <script type="text/javascript" src="files/js/jquery.highlight.js"></script>
         <script type="text/javascript" src="files/js/dataTables.searchHighlight.min.js"></script>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
         <script>
 
 
@@ -383,6 +289,10 @@
 
         <!--Table Details-->
         <script>
+            new SlimSelect({
+                select: '#statusque'
+            })
+
 
             let stage = 'queue';
 
@@ -414,8 +324,8 @@
                 "columns": [
                     {"data": "id", className: "text-right", "visible": false},
                     {"data": "ref_number"},
-                    {"data": "type"},
-                    {"data": "issue_type"},
+                    {"data": "issue"},
+                    {"data": "system"},
                     {"data": "priority"},
                     {"data": "ent_on"},
                     {"data": "status"}
@@ -428,7 +338,7 @@
                     let action_td = document.createElement('td');
                     $(action_td).addClass('text-center');
 
-                    $(action_td).append('<a href="javascript:void(0)" id="update" class="editrec"><i class="icon feather icon-edit f-w-600 f-16 m-r-10 text-c-green"></i></a>');
+                    $(action_td).append('<a href="javascript:void(0)" id="update" class="editrec"><i class="zmdi zmdi-edit f-w-600 f-16 m-r-10 text-c-green"></i></a>');
 
                     $(row).append(action_td);
                     $(row).data('id', data['id']);
@@ -471,10 +381,8 @@
                                 let obj = data.obj;
 
                                 $('#ref_numberq').val(obj.ref_number);
-                                $('#Issuequ').val(obj.issue_type);
-                                $('#commentq').val(obj.comment);
-                                //                                $('#productack').val(d1.product_txt);
-                                //                                console.log(d1.issue);
+                                $('#Issuequ').val(obj.issue);
+
                                 console.log(obj.issue_type);
                                 $('#ent_by').val(d2.entered);
                                 $('#saveBtnin').data('mode', 'update');
@@ -492,13 +400,13 @@
         <script>
             document.addEventListener("DOMContentLoaded", function () {
                 var ImsStatusSelect = document.getElementById("statusque");
-                var commentSection = document.getElementById("reason_section");
+                var commentSection = document.getElementById("assign_section");
 
                 // Add event listener to the select element
                 ImsStatusSelect.addEventListener("change", function () {
 
                     // Check if the selected value is "reject"
-                    if (this.value === "uns") {
+                    if (this.value === "inp") {
                         // Show the comment section
                         commentSection.style.display = "block";
                     } else {

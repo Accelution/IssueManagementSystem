@@ -81,6 +81,21 @@ public class PageController {
         return "development";
     }
 
+    @GetMapping("/In Progress")
+    public String progress() {
+        return "inprogress";
+    }
+
+    @GetMapping("/QA")
+    public String qa() {
+        return "qa";
+    }
+
+    @GetMapping("/Completed")
+    public String complet() {
+        return "completed";
+    }
+
     @GetMapping("/Systems")
     public String systems() {
         return "system";

@@ -16,7 +16,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.relational.core.mapping.Table;
 
 /**
@@ -28,26 +27,24 @@ import org.springframework.data.relational.core.mapping.Table;
 @Setter
 @Getter
 @ToString
-@Table("users")
-public class User {
+@Table("comments")
+public class Comment {
 
     @Id
     private Integer id;
-    private String username;
-    public String name;
-    private String dashboard;
-    public String usertype;
-    public String company;
-    private String status;
-    @CreatedBy
-    private Integer ent_by;
+    private Integer issue;
+    private String comment;
+    private String path;
     @CreatedDate
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
     private Date ent_on;
+    @CreatedBy
+    private Integer ent_by;
     @LastModifiedBy
     private Integer mod_by;
     @LastModifiedDate
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
     private Date mod_on;
+    private String status;
 
 }

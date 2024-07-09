@@ -11,6 +11,8 @@ import Accelution.ims.dto.SlimSelectDTO;
 import Accelution.ims.dto.IssueDTO;
 import Accelution.ims.model.FilePendings;
 import Accelution.ims.model.Issue;
+import Accelution.ims.model.Comment;
+import Accelution.ims.repo.CommentRepo;
 import Accelution.ims.repo.FilePendingRepo;
 import Accelution.ims.repo.IssueRepo;
 import Accelution.ims.repo.TypeRepo;
@@ -26,6 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import org.apache.catalina.mapper.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -45,6 +48,8 @@ public class IssueService {
     @Autowired
     private IssueRepo repo;
     @Autowired
+    private CommentRepo crepo;
+    @Autowired
     private TypeRepo repor;
     @Autowired
     private UserRepo repors;
@@ -55,15 +60,17 @@ public class IssueService {
     public DataTablesResponse<IssueDTO> getIssues(DataTableRequest param) throws Exception {
         String stage = param.getData();
 
-        String sql = "SELECT x.`id`,x.`issue_type`,x.`status`,x.`ref_number`,x.`comment`,(SELECT i.name FROM `issue_types` i WHERE i.`id`=x.`type`)AS `type`,(SELECT p.type FROM `priority` p WHERE p.`id`=x.`priority`)AS `priority`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`ent_by`) AS `ent_by`,`ent_on`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`mod_by`) AS `mod_by`,`mod_on` FROM `issues` X WHERE TRUE";
+        String sql = "SELECT x.`id`,x.`issue`,x.`status`,x.`ref_number`,(SELECT i.system FROM `systems` i WHERE i.`id`=x.`system`)AS `system`,(SELECT p.type FROM `priority` p WHERE p.`id`=x.`priority`)AS `priority`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`ent_by`) AS `ent_by`,`ent_on`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`mod_by`) AS `mod_by`,`mod_on` FROM `issues` X WHERE TRUE";
         if (!stage.equals("all")) {
             if (stage.equals("queue")) {
                 sql += " AND `status`='Queue'";
+            } else if (stage.equals("inprogress")) {
+                sql += " AND `status`='In Progress'";
             } else if (stage.equals("develop")) {
                 sql += " AND `status`='Development Pending'";
             } else if (stage.equals("testing")) {
                 sql += " AND `status`='Testing Pending'";
-            } else if (stage.equals("approve")) {
+            } else if (stage.equals("qa")) {
                 sql += " AND `status`='QA Pending'";
             } else if (stage.equals("completed")) {
                 sql += " AND `status`='Completed'";
@@ -220,22 +227,68 @@ public class IssueService {
     public Iterable<SlimSelectDTO> getPrio(String search) {
         return repo.getPrio("%" + search.trim() + "%");
     }
+    private final ObjectMapper mapper = new ObjectMapper();
 
-    public Issue saveIssue(String issue_type, String priority, String comment, String assign, String type, HttpSession session) {
-        Issue saveissue = new Issue();
-        saveissue.setIssue_type(issue_type);
-        saveissue.setPriority(priority);
-        saveissue.setComment(comment);
-        saveissue.setAssign(assign);
-        saveissue.setType(type);
-//        String branchFromSession = (String) session.getAttribute("branch");
-//        saveissue.setBranch(branchFromSession);
-        saveissue.setStatus("Queue");
-        saveissue = repo.save(saveissue);
+    public Issue saveIssue(String issue, String system, String type, String priority, MultipartFile file, String desclist, HttpSession session) throws Exception {
+        Issue ticket = new Issue();
+        ticket.setIssue(issue);
+        ticket.setSystem(system);
+        ticket.setType(type);
+        ticket.setPriority(priority);
+        String companyFromSession = (String) session.getAttribute("company");
+        ticket.setCompany(companyFromSession);
+        ticket.setStatus("Queue");
+        ticket = repo.save(ticket);
 
-        return saveissue;
+        JsonNode fileList = mapper.readTree(desclist);
+        for (int i = 0; i < fileList.size(); i++) {
+            JsonNode fileItem = fileList.get(i);
+
+            Comment attachment = new Comment();
+            attachment.setIssue(ticket.getId());
+            attachment.setComment(fileItem.get("comment").asText());
+            attachment.setStatus("active");
+
+            if (file != null) {
+                String directoryPath = "TMS\\Comments\\";
+                File directory = new File(directoryPath);
+                if (!directory.exists()) {
+                    if (directory.mkdirs()) {
+                        System.out.println("Directory created successfully");
+                    } else {
+                        throw new Exception("Failed to create directory");
+                    }
+                }
+
+                String[] split = file.getOriginalFilename().split("\\.");
+                File des = new File(directory, ticket.getId() + "_" + i + "." + split[split.length - 1]);
+                file.transferTo(Path.of(des.getAbsolutePath()));
+                attachment.setPath(des.getName());
+            } else {
+                attachment.setPath(fileItem.get("path").asText());
+            }
+
+            attachment = crepo.save(attachment);
+            System.out.println("attachment - " + attachment.getId());
+        }
+
+        return repo.save(ticket);
     }
 
+//    public Issue saveIssue(String issue, String priority, String comment, String assign, String type, HttpSession session) {
+//        Issue saveissue = new Issue();
+//        saveissue.setIssue(issue);
+//        saveissue.setPriority(priority);
+//        saveissue.setComment(comment);
+//        saveissue.setAssign(assign);
+//        saveissue.setType(type);
+////        String branchFromSession = (String) session.getAttribute("branch");
+////        saveissue.setBranch(branchFromSession);
+//        saveissue.setStatus("Queue");
+//        saveissue = repo.save(saveissue);
+//
+//        return saveissue;
+//    }
     public Issue updateIssue(Integer id, String statusque, String reason) throws Exception {
         Issue updateissue = repo.findById(id).get();
 

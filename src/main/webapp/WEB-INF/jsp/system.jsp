@@ -262,9 +262,9 @@
                     let action_td = document.createElement('td');
                     $(action_td).addClass('text-center');
                     if (data['status'] === 'deactivate') {
-                        $(action_td).append('<a href="javascript:void(0)" class="rerec"><i class="feather icon-refresh-cw f-w-600 f-16 text-c-blue"></i></a>');
+                        $(action_td).append('<a href="javascript:void(0)" class="rerec"><i class="zmdi zmdi-refresh-alt f-w-600 f-16 text-c-blue"></i></a>');
                     } else {
-                        $(action_td).append('<a href="javascript:void(0)" id="update" class="editrec"><i class="icon feather icon-edit f-w-600 f-16 m-r-10 text-c-green"></i></a><a href="javascript:void(0)" class="delrec"><i class="feather icon-trash-2 f-w-600 f-16 text-danger"></i></a>');
+                        $(action_td).append('<a href="javascript:void(0)" style="padding-right: 15px;" class="editrec"><i class="zmdi zmdi-edit f-w-600 f-16 m-r-10 text-c-green"></i></a><a href="javascript:void(0)" class="delrec"><i class="zmdi zmdi-delete f-w-600 f-16 text-danger"></i></a>');
                     }
 
                     $(row).append(action_td);

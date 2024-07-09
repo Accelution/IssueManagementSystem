@@ -115,13 +115,23 @@ public class IssueController {
 //    public Iterable<SlimSelectDTO> getProduct(@RequestParam String search) throws Exception {
 //        return service.getProduct(search);
 //    }
-    @PostMapping("/save")
-    public ResponseEntity<CommonResponse> saveIssue(@RequestParam String issue_type, @RequestParam String priority, @RequestParam String comment, @RequestParam String assign, @RequestParam String type, HttpSession session) throws Exception {
-        service.saveIssue(issue_type, priority, comment, assign, type, session);
-        CommonResponse response = new CommonResponse("Success!", 200);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    @PostMapping("/save-issue")
+    @ResponseBody
+    public Issue saveIssue(@RequestParam("desclist") String desclist, MultipartHttpServletRequest req, HttpSession session) throws Exception {
+        String issue = req.getParameter("issue");
+        String system = req.getParameter("system");
+        String type = req.getParameter("type");
+        String priority = req.getParameter("priority");
+        MultipartFile file = req.getFile("file");
+        return service.saveIssue(issue, system, type, priority, file, desclist, session);
     }
 
+//    @PostMapping("/save")
+//    public ResponseEntity<CommonResponse> saveIssue(@RequestParam String issue, @RequestParam String priority, @RequestParam String comment, @RequestParam String assign, @RequestParam String type, HttpSession session) throws Exception {
+//        service.saveIssue(issue, priority, comment, assign, type, session);
+//        CommonResponse response = new CommonResponse("Success!", 200);
+//        return new ResponseEntity<>(response, HttpStatus.OK);
+//    }
     @PostMapping("/update-ack")
     public ResponseEntity<CommonResponse> updateIssue(@RequestParam Integer id, @RequestParam String statusque, @RequestParam(required = false) String reason) throws Exception {
         service.updateIssue(id, statusque, reason);

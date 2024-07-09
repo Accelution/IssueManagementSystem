@@ -12,7 +12,7 @@
         <!--favicon-->
         <!--<link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">-->
         <!-- Vector CSS -->
-        <link href="assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet"/>
+        <!--<link href="assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet"/>-->
         <!-- simplebar CSS-->
         <link href="assets/plugins/simplebar/css/simplebar.css" rel="stylesheet"/>
         <!-- Bootstrap core CSS-->
@@ -25,38 +25,40 @@
         <link href="assets/css/sidebar-menu.css" rel="stylesheet"/>
         <!-- Custom Style-->
         <link href="assets/css/app-style.css" rel="stylesheet"/>
+        <link href="assets/css/slimselect.css" rel="stylesheet"/>
 
+        <style>
+            .cards {
+                transition: transform 0.5s ease;
+            }
 
+            .cards:hover {
+                transform: scale(1.15);
+                cursor: pointer;
+            }
+
+        </style>
     </head>
     <body class="bg-theme bg-theme1">
 
 
-        <div class="main" id="tableSection">
-            <div id="wrapper">
+
+        <div id="wrapper">
 
 
-                <div class="clearfix"></div>
+            <div class="clearfix"></div>
 
-                <div class="content-wrapper">
-                    <div class="container-fluid">
-                        <%@include file="jspf/navbar.jspf" %>
-                        <!--Start Dashboard Content-->
-
+            <div class="content-wrapper">
+                <div class="container-fluid">
+                    <%@include file="jspf/navbar.jspf" %>
+                    <!--Start Dashboard Content-->
+                    <div class="main" id="tableSection">
                         <div class="card mt-3">
-                            <div class="card-content">
+                            <div class="card-content" >
                                 <div class="row row-group m-0">
-                                    <div class="col border-light">
-                                        <div class="card-body">
-                                            <h5 class="text-white mb-0" id="all">0 <span class="float-right"><i class="feather"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-align-center"><line x1="18" y1="10" x2="6" y2="10"></line><line x1="21" y1="6" x2="3" y2="6"></line><line x1="21" y1="14" x2="3" y2="14"></line><line x1="18" y1="18" x2="6" y2="18"></line></svg>
-                                                    </i></span></h5>
-                                            <div class="progress my-3" style="height:3px;">
-                                                <!--<div class="progress-bar" style="width:55%"></div>-->
-                                            </div>
-                                            <p class="mb-0 text-white small-font">All</p>
-                                        </div>
-                                    </div>
-                                    <div class="col border-light">
-                                        <div class="card-body">
+
+                                    <div class="col border-light" id="Quecrd">
+                                        <div class="card-body cards">
                                             <h5 class="text-white mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather ">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                                                     </i></span></h5>
@@ -66,8 +68,8 @@
                                             <p class="mb-0 text-white small-font">Queue</p>
                                         </div>
                                     </div>
-                                    <div class="col border-light">
-                                        <div class="card-body">
+                                    <div class="col border-light" id="InProcrd">
+                                        <div class="card-body cards">
                                             <h5 class="text-white mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather ">
                                                         <i class="feather ">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-book-open"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg></i>
@@ -80,8 +82,8 @@
                                             <p class="mb-0 text-white small-font">In Progress</p>
                                         </div>
                                     </div>
-                                    <div class="col border-light">
-                                        <div class="card-body">
+                                    <div class="col border-light" id="Devpcrd">
+                                        <div class="card-body cards">
                                             <h5 class="text-white mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather ">
                                                         <i class="feather ">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg></i>
@@ -93,23 +95,10 @@
                                             </div>
                                             <p class="mb-0 text-white small-font">Development Pending</p>
                                         </div>
-                                    </div>
-                                    <div class="col border-light">
-                                        <div class="card-body">
-                                            <h5 class="text-white mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather ">
-                                                        <i class="feather ">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-award"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
-                                                        </i></i>
-                                                </span>
-                                            </h5>
-                                            <div class="progress my-3" style="height:3px;">
-                                                <!--<div class="progress-bar" style="width:55%"></div>-->
-                                            </div>
-                                            <p class="mb-0 text-white small-font">Testing Pending</p>
-                                        </div>
-                                    </div>
-                                    <div class="col border-light">
-                                        <div class="card-body">
+                                    </div> 
+
+                                    <div class="col border-light " id="Qacrd">
+                                        <div class="card-body cards">
                                             <h5 class="text-white mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather ">
                                                         <i class="feather ">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-square"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
@@ -122,8 +111,8 @@
                                             <p class="mb-0 text-white small-font">QA Pending</p>
                                         </div>
                                     </div>
-                                    <div class="col border-light">
-                                        <div class="card-body">
+                                    <div class="col border-light" id="Complcrd">
+                                        <div class="card-body cards">
                                             <h5 class="text-white mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather ">
                                                         <i class="feather ">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
@@ -136,8 +125,8 @@
                                             <p class="mb-0 text-white small-font">Completed</p>
                                         </div>
                                     </div>
-                                    <div class="col border-light">
-                                        <div class="card-body" style="padding: 0.5rem;">
+                                    <div class="col border-light" id="Unsuccrd">
+                                        <div class="card-body cards" style="padding: 0.5rem;">
                                             <h5 class="text-white mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather ">
                                                         <i class="feather ">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-octagon"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
@@ -171,8 +160,8 @@
                                                     <tr>
                                                         <th style="display: none">ID</th>
                                                         <th>Reference Number</th>
-                                                        <th>Issue Type</th>
-                                                        <th>Description</th>
+                                                        <th>Issue</th>
+                                                        <th>System</th>
                                                         <th>Priority</th>
                                                         <th>ENT Date</th>
                                                         <th>Status</th>
@@ -201,6 +190,91 @@
 
                     </div>
                     <!-- End container-fluid-->
+                    <div class="" id="formSection" style="display: none;padding-top: 1rem;">
+                        <div class="card" style="padding: 1em;">
+                            <div class="card-deading">
+                                <h3 style="text-align: center;">New Ticket</h3>
+                            </div>
+                            <div class="card-block p-b-0" >
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="username">Name<span class="text-danger">*</span></label>
+                                            <input id="username" type="text" name="username" class="form-control" required autocomplete="off" disabled="">
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="company">Company<span class="text-danger">*</span></label>
+                                            <input id="company" type="text" name="company" class="form-control" required autocomplete="off" disabled="">
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group" style="padding-bottom: 2rem">
+                                            <label for="assign" class="col-sm-4 col-form-label allFontByCustomerEdit">System</label>
+                                            <select class="form-control-sm pull-right" id="company-select-systems">  </select>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group" style="padding-bottom: 2rem">
+                                            <label for="typeIssue" class="col-sm-4 col-form-label allFontByCustomerEdit">Issue Type</label>
+                                            <select class="form-control-sm pull-right" id="typeIssue">  </select>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group" style="padding-bottom: 2rem">
+                                            <label for="prio" class="col-sm-4 col-form-label allFontByCustomerEdit"> Priority</label>
+                                            <select class="form-control-sm pull-right ajax-select" id="prio">  </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="issue">Issue<span class="text-danger">*</span></label>
+                                    <input id="issue" type="text" name="issue" class="form-control" required autocomplete="off">
+                                </div>
+
+                                <label for="comment">Upload Your Comment & Attachments Here<span class="text-danger">*</span></label>
+                                <div class="ttt" style="display: flex;flex-direction: row;">
+
+                                    <div class="table-responsive">
+                                        <table class="table table-hover table-bordered m-b-0" id="tbladdAtt" >
+                                            <thead>
+                                                <tr>
+                                                    <th>Comment</th>
+                                                    <th>Attachment</th>
+                                                    <th style="width:1px;">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Your table body content goes here -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                                <div class="row justify-content-end" style="padding: 2em;">
+                                    <div class="row">
+                                        <div class="text">
+                                            <button id="addBtn" class="btn btn-sm waves-effect waves-light btn-danger">
+                                                <i class="icon feather icon-plus"></i>Add Comment/Attachment
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-footer d-flex justify-content-end">
+                                    <button id="saveBtn" class="btn btn-sm waves-effect waves-light btn-primary" style="margin-right: 10px"><i class="icon feather icon-save"></i>Save</button>
+                                    <button id="closeBtn" class="btn btn-sm btn-danger"><i class="icon feather icon-x-circle"></i>Close</button>                          
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                 </div><!--End content-wrapper-->
                 <!--Start Back To Top Button-->
@@ -260,54 +334,7 @@
 
 
         </div>
-        <div class="" id="formSection" style="display: none;padding-top: 1rem;">
-            <div class="card" style="width: 80%;padding: 1em;">
-                <div class="card-deading">
-                    <h3 style="text-align: center;">New Issue</h3>
-                </div>
-                <div class="card-block p-b-0" >
 
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-group" style="padding-bottom: 2rem">
-                                <label for="typeIssue" class="col-sm-4 col-form-label allFontByCustomerEdit">Issue Type</label>
-                                <select class="form-control-sm pull-right" id="typeIssue">  </select>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group" style="padding-bottom: 2rem">
-                                <label for="prio" class="col-sm-4 col-form-label allFontByCustomerEdit">Select Priority</label>
-
-                                <select class="form-control-sm pull-right" id="prio">  </select>
-
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="form-group">
-                        <label for="issue">Issue<span class="text-danger">*</span></label>
-                        <input id="issue" type="text" name="issue" class="form-control" required autocomplete="off">
-                    </div>
-                    <div class="form-group">
-                        <label for="comment">Comment<span class="text-danger">*</span></label>
-                        <textarea id="commentissue" type="text" name="comment" class="form-control" required autocomplete="off"></textarea>
-                    </div>
-                    <div class="form-group" style="padding-bottom: 2rem">
-                        <label for="" class="col-sm-4 col-form-label allFontByCustomerEdit">Assign To</label>
-                        <div class="col-sm-6">
-                            <select class="form-control-sm pull-right" id="assign">  </select>
-                        </div>
-                    </div>
-
-
-                    <div class="card-footer d-flex justify-content-end" style="background-color: white;">
-                        <button id="saveBtn" class="btn btn-sm waves-effect waves-light btn-primary" style="margin-right: 10px"><i class="icon feather icon-save"></i>Save</button>
-                        <button id="closeBtn" class="btn btn-sm btn-danger"><i class="icon feather icon-x-circle"></i>Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
 
 
 
@@ -919,7 +946,7 @@
         <script src="assets/js/bootstrap.min.js"></script>
         <script src="assets/plugins/simplebar/js/simplebar.js"></script>
         <script src="assets/js/sidebar-menu.js"></script>
-        <script src="assets/js/jquery.loading-indicator.js"></script>
+        <!--<script src="assets/js/jquery.loading-indicator.js"></script>-->
         <script src="assets/js/app-script.js"></script>
         <script src="assets/plugins/Chart.js/Chart.min.js"></script>
         <script src="assets/js/index.js"></script>
@@ -937,11 +964,65 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
         <script>
+            document.getElementById('addBtn').addEventListener('click', function () {
+                // Get the table body
+                var tableBody = document.querySelector('#tbladdAtt tbody');
+
+                // Create a new row
+                var newRow = tableBody.insertRow();
+
+                // Create cells in the new row
+                var commentCell = newRow.insertCell(0);
+                var fileCell = newRow.insertCell(1);
+                var actionCell = newRow.insertCell(2);
+
+                // Create textarea for "Comment" in cell 1
+                var commentInput = document.createElement('textarea');
+                commentInput.name = 'comment';
+                commentInput.classList.add('form-control');
+                commentInput.required = true;
+                commentInput.autocomplete = 'off';
+
+                // Create input for "File Upload" in cell 2
+                var fileInput = document.createElement('input');
+                fileInput.type = 'file';
+                fileInput.name = 'fileLink';
+                fileInput.classList.add('form-control');
+                fileInput.required = true;
+                fileInput.autocomplete = 'off';
+
+                // Append input elements to respective cells
+                commentCell.appendChild(commentInput);
+                fileCell.appendChild(fileInput);
+
+                // Create a delete button in the action cell
+                var deleteButton = document.createElement('button');
+                deleteButton.classList.add('btn', 'btn-sm', 'btn-danger');
+                deleteButton.textContent = 'Remove';
+                deleteButton.name = 'dele';
+
+                // Add a click event listener to the delete button
+                deleteButton.addEventListener('click', function () {
+                    // Remove the row when the delete button is clicked
+                    tableBody.removeChild(newRow);
+                });
+
+                // Append the delete button to the action cell
+                actionCell.appendChild(deleteButton);
+
+                // Call the addAttachmentRow function with the input values
+                addAttachmentRow(commentInput.value, fileInput.value);
+            });
 
 
+            function clearForms() {
+                // Clear Unit Name input
+                document.getElementById('issue').value = '';
 
-
-
+                // Clear table rows
+                var tableBody = document.querySelector('#tbladdAtt tbody');
+                tableBody.innerHTML = '';
+            }
 
             const formSection = document.getElementById('formSection');
             const tableSection = document.getElementById('tableSection');
@@ -1023,10 +1104,10 @@
 
         <script>
             var assign = new SlimSelect(
-                    {select: '#assign',
-                        placeholder: "Assign To",
+                    {select: '#company-select-systems',
+                        placeholder: "Systems",
                         ajax: function (search, callback) {
-                            fetch('issue/assignto', {
+                            fetch('company/company-select-systems', {
                                 method: 'POST',
                                 body: new URLSearchParams({search: search || ''})
                             }).then(res => res.json()).then((data) => {
@@ -1070,9 +1151,12 @@
                 $('#saveBtn').data('mode', 'save');
                 $('#saveBtn').html('<i class="icon feather icon-save"></i>Save');
                 clearForm();
+                $('#username').val('<%=session.getAttribute("name")%>');
+                $('#company').val('<%=session.getAttribute("company")%>');
                 $('#tableSection').hide();
                 $('#formSection').fadeIn();
             });
+
             $('.cls-card').click(function () {
                 $('#formSection').hide();
                 $('#tableSection').fadeIn();
@@ -1093,87 +1177,190 @@
 
 
         <script>
-            $('#saveBtn').click(function () {
-                return fetch('issue/save', {
-                    method: 'POST',
-                    body: new URLSearchParams({
-                        id: $('#saveBtn').data('id'),
-                        issue_type: document.getElementById('issue').value,
-                        priority: document.getElementById('prio').value,
-                        comment: document.getElementById('commentissue').value,
-                        assign: document.getElementById('assign').value,
-                        type: document.getElementById('typeIssue').value,
-                    })
-                }).then(response => {
-                    if (!response.ok) {
-                        throw new Error(response.statusText);
-                    } else {
-                        Swal.fire('Successful!', 'Issue has been successfully saved');
-                        clearForm();
+            document.getElementById('saveBtn').addEventListener('click', function () {
+                let saveBtn = document.getElementById('saveBtn');
+                saveBtn.disabled = true;
+
+                let mode = $('#saveBtn').data('mode');
+                if (mode === 'save') {
+                    let issue = document.getElementById('issue').value;
+                    let system = document.getElementById('company-select-systems').value;
+                    let type = document.getElementById('typeIssue').value;
+                    let priority = document.getElementById('prio').value;
+
+                    let tableRows = document.querySelectorAll('#tbladdAtt tbody tr');
+                    let attachmentData = [];
+                    let formData = new FormData();
+
+                    tableRows.forEach((row, index) => {
+                        let comment = row.querySelector('textarea[name="comment"]').value;
+                        let fileInput = row.querySelector('input[name="fileLink"]');
+                        let files = fileInput.files;
+
+                        let path = "";
+                        if (files.length > 0) {
+                            for (let i = 0; i < files.length; i++) {
+                                let fileFieldName = `files[${index}]`;
+                                formData.append(fileFieldName, files[i]);
+                                path = files[i].name;
+                            }
+                        }
+
+                        attachmentData.push({
+                            comment: comment,
+                            path: path
+                        });
+                    });
+
+                    let desclist = JSON.stringify(attachmentData);
+                    formData.append('desclist', desclist);
+                    formData.append('issue', issue);
+                    formData.append('system', system);
+                    formData.append('type', type);
+                    formData.append('priority', priority);
+
+                    fetch('issue/save-issue', {
+                        method: 'POST',
+                        body: formData
+                    }).then(response => {
+                        if (!response.ok) {
+                            throw new Error(response.statusText);
+                        }
+                        return response.json();
+                    }).then(data => {
+                        Swal.fire('Successful!', 'Ticket has been successfully saved', 'success');
+                        clearForms();
                         $('#formSection').hide();
                         $('#tableSection').fadeIn();
+                        $('#navTab').fadeIn();
                         dtable.ajax.reload();
-                    }
-                    return response.json();
-                });
-            });
+                    }).catch(error => {
+                        Swal.fire('Error!', 'Failed to save ticket details', 'error');
+                    }).finally(() => {
+                        saveBtn.disabled = false;
+                    });
+                } else if (mode === 'update') {
+                    let heading = document.getElementById('heading').value;
+                    let id = $('#saveBtn').data('id');
+                    let deleteIds = handleAttachmentDeletion();
+                    let tableRows = document.querySelectorAll('#tbladdAtt tbody tr');
+                    let attachmentData = [];
+                    let formData = {};
+                    tableRows.forEach((row, index) => {
+                        let fileNameInput = row.querySelector('input[name="fileName"]');
+                        let fileLinkInput = row.querySelector('input[name="fileLink"]');
+                        if (fileNameInput && fileLinkInput) {
+                            let fileName = fileNameInput.value;
+                            let fileLink = fileLinkInput.value;
+                            attachmentData.push({
+                                name: fileName,
+                                link: fileLink
+
+                            });
+                        }
+                    });
+                    let desclist = JSON.stringify(attachmentData);
+                    formData.desclist = desclist;
+                    formData.id = id;
+                    formData.heading = heading;
+                    formData.deleteIds = JSON.stringify(deleted);
+                    fetch('dhamma/update-attachment', {
+                        method: 'POST',
+                        body: new URLSearchParams(formData)
+                    }).then(response => {
+                        if (!response.ok) {
+                            throw new Error(response.statusText);
+                        } else {
+                            Swal.fire('Successful!', 'Unit details updated successfully', 'success');
+                            clearForms();
+                            $('#formSection').hide();
+                            $('#tableSection').fadeIn();
+                            $('#navTab').fadeIn();
+                            dtable.ajax.reload();
+                        }
+                        return response.json();
+                    }).catch(error => {
+                        console.error('Error updating unit details:', error);
+                        Swal.fire('Error!', 'Failed to update Unit details', 'error');
+                    });
+                }
+
+
+
+            }
+            );
+
+
+//            $('#saveBtn').click(function () {
+//                return fetch('issue/save', {
+//                    method: 'POST',
+//                    body: new URLSearchParams({
+//                        id: $('#saveBtn').data('id'),
+//                        issue_type: document.getElementById('issue').value,
+//                        priority: document.getElementById('prio').value,
+//                        comment: document.getElementById('commentissue').value,
+//                        assign: document.getElementById('assign').value,
+//                        type: document.getElementById('typeIssue').value,
+//                    })
+//                }).then(response => {
+//                    if (!response.ok) {
+//                        throw new Error(response.statusText);
+//                    } else {
+//                        Swal.fire('Successful!', 'Issue has been successfully saved');
+//                        clearForm();
+//                        $('#formSection').hide();
+//                        $('#tableSection').fadeIn();
+//                        dtable.ajax.reload();
+//                    }
+//                    return response.json();
+//                });
+//            });
 
         </script>
-
-
-
-
-
 
 
         <!--Table Details-->
         <script>
 
-
-
-
-            $('#allcrd').click(function () {
-                document.getElementById('tableCard').style.display = 'block';
-                stage = 'all';
-                dtable.ajax.reload();
-            });
-            $('#quecrd').click(function () {
+            $('#Quecrd').click(function () {
                 document.getElementById('tableCard').style.display = 'block';
                 stage = 'queue';
                 dtable.ajax.reload();
             });
-            $('#devcrd').click(function () {
+            $('#InProcrd').click(function () {
+                document.getElementById('tableCard').style.display = 'block';
+                stage = 'inprogress';
+                dtable.ajax.reload();
+            });
+            $('#Devpcrd').click(function () {
                 document.getElementById('tableCard').style.display = 'block';
                 stage = 'develop';
                 dtable.ajax.reload();
             });
-            $('#testcrd').click(function () {
+//            $('#Testpcrd').click(function () {
+//                document.getElementById('tableCard').style.display = 'block';
+//                stage = 'testing';
+//                dtable.ajax.reload();
+//            });
+            $('#Qacrd').click(function () {
                 document.getElementById('tableCard').style.display = 'block';
-                stage = 'testing';
+                stage = 'qa';
                 dtable.ajax.reload();
             });
-            $('#approvecrd').click(function () {
-                document.getElementById('tableCard').style.display = 'block';
-                stage = 'approve';
-                dtable.ajax.reload();
-            });
-            $('#cmplcrd').click(function () {
+            $('#Complcrd').click(function () {
                 document.getElementById('tableCard').style.display = 'block';
                 stage = 'completed';
                 dtable.ajax.reload();
             });
-            $('#rejcrd').click(function () {
+            $('#Unsuccrd').click(function () {
                 document.getElementById('tableCard').style.display = 'block';
                 stage = 'unsucces';
                 dtable.ajax.reload();
             });
 
-            $('#tab1-tab').click(function () {
-                stage1 = 'payment';
-                dtable2.ajax.reload();
-            });
 
-            let stage = 'all';
+
+            let stage = 'queue';
 
 
             $.fn.dataTable.ext.errMode = 'none';
@@ -1203,8 +1390,8 @@
                 "columns": [
                     {"data": "id", className: "text-right", "visible": false},
                     {"data": "ref_number"},
-                    {"data": "type"},
-                    {"data": "issue_type"},
+                    {"data": "issue"},
+                    {"data": "system"},
                     {"data": "priority"},
                     {"data": "ent_on"},
                     {"data": "status"}
@@ -1322,7 +1509,7 @@
                                     var newRow = tableBody.insertRow();
 
                                     // Create cells in the new row
-                                    var fileNameCell = newRow.insertCell(0);
+                                    var commentCell = newRow.insertCell(0);
                                     var justificationCell = newRow.insertCell(1);
                                     var dateCell = newRow.insertCell(2);
                                     var statusCell = newRow.insertCell(3);
@@ -1331,7 +1518,7 @@
 
 
                                     // Set the text content of the cells with the fetched values
-                                    fileNameCell.textContent = attachment.name;
+                                    commentCell.textContent = attachment.name;
                                     statusCell.textContent = attachment.status; // Assuming status is available in attachment object
                                     modifiedByCell.textContent = attachment.modby; // Assuming modifiedBy is available in attachment object
                                     modifiedOnCell.textContent = attachment.mod_on; // Assuming modifiedOn is available in attachment object
@@ -1382,7 +1569,7 @@
                                     var newRow = tableBody.insertRow();
 
                                     // Create cells in the new row
-                                    var fileNameCell = newRow.insertCell(0);
+                                    var commentCell = newRow.insertCell(0);
                                     var justificationCell = newRow.insertCell(1);
                                     var dateCell = newRow.insertCell(2);
                                     var statusCell = newRow.insertCell(3);
@@ -1391,7 +1578,7 @@
 
 
                                     // Set the text content of the cells with the fetched values
-                                    fileNameCell.textContent = attachment.name;
+                                    commentCell.textContent = attachment.name;
                                     statusCell.textContent = attachment.status; // Assuming status is available in attachment object
                                     modifiedByCell.textContent = attachment.modby; // Assuming modifiedBy is available in attachment object
                                     modifiedOnCell.textContent = attachment.mod_on; // Assuming modifiedOn is available in attachment object
@@ -1442,7 +1629,7 @@
                                     var newRow = tableBody.insertRow();
 
                                     // Create cells in the new row
-                                    var fileNameCell = newRow.insertCell(0);
+                                    var commentCell = newRow.insertCell(0);
                                     var justificationCell = newRow.insertCell(1);
                                     var dateCell = newRow.insertCell(2);
                                     var statusCell = newRow.insertCell(3);
@@ -1451,7 +1638,7 @@
 
 
                                     // Set the text content of the cells with the fetched values
-                                    fileNameCell.textContent = attachment.name;
+                                    commentCell.textContent = attachment.name;
                                     statusCell.textContent = attachment.status; // Assuming status is available in attachment object
                                     modifiedByCell.textContent = attachment.modby; // Assuming modifiedBy is available in attachment object
                                     modifiedOnCell.textContent = attachment.mod_on; // Assuming modifiedOn is available in attachment object
@@ -1525,7 +1712,7 @@
                                     var newRow = tableBody.insertRow();
 
                                     // Create cells in the new row
-                                    var fileNameCell = newRow.insertCell(0);
+                                    var commentCell = newRow.insertCell(0);
                                     var justificationCell = newRow.insertCell(1);
                                     var dateCell = newRow.insertCell(2);
                                     var statusCell = newRow.insertCell(3);
@@ -1534,7 +1721,7 @@
 
 
                                     // Set the text content of the cells with the fetched values
-                                    fileNameCell.textContent = attachment.name;
+                                    commentCell.textContent = attachment.name;
                                     statusCell.textContent = attachment.status; // Assuming status is available in attachment object
                                     modifiedByCell.textContent = attachment.modby; // Assuming modifiedBy is available in attachment object
                                     modifiedOnCell.textContent = attachment.mod_on; // Assuming modifiedOn is available in attachment object

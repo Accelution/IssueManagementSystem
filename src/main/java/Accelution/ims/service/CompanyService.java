@@ -86,7 +86,8 @@ public class CompanyService {
         return reporr.findByStatus("active");
     }
 
-    public Iterable<SlimSelectDTO> getSelect(String search) {
-        return reporr.getSelect("%" + search.trim() + "%");
+    public Iterable<SlimSelectDTO> getSelect(String search, String company) {
+        return reporr.getSelect("%" + search.trim() + "%", company);
     }
+
 }

@@ -95,9 +95,10 @@ public class CompanyController {
         return service.updates(id, name, email, contact, con_name, con_email, checkedSystemsJson);
     }
 
-    @PostMapping("/company-select")
-    public Iterable<SlimSelectDTO> getSelect(@RequestParam String search) throws Exception {
-        return service.getSelect(search);
+    @PostMapping("/company-select-systems")
+    public Iterable<SlimSelectDTO> getSelect(@RequestParam String search, HttpSession session) throws Exception {
+        String company = (String) session.getAttribute("company");
+        return service.getSelect(search, company);
     }
 
 }

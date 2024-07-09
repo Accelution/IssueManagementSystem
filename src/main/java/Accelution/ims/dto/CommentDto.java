@@ -4,26 +4,28 @@
  */
 package Accelution.ims.dto;
 
+import Accelution.ims.model.Comment;
+import java.util.Date;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import lombok.AllArgsConstructor;
-
-import lombok.NoArgsConstructor;
-
+/**
+ *
+ * @author cpm.999cc
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class IssueDTO {
+public class CommentDto {
 
-    private Integer id;
-    private String ref_number;
-    private String issue;
-    private String priority;
-    private String system;
-    private String comment;
-    private String status;
+    public Integer id;
+    public String issue;
+    public String comment;
+    public String path;
+    public String status;
     public String ent_by;
     public String ent_on;
     public String mod_by;
