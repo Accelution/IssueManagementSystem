@@ -278,6 +278,7 @@
             closeBtnin.addEventListener('click', function () {
                 formSectionQueue.style.display = 'none';
                 tableSection.style.display = 'block';
+                clearForms();
             });
 
             $(document).ready(function () {
@@ -345,7 +346,7 @@
             $('#addFmrBtn').click(function () {
                 $('#saveBtn').data('mode', 'save');
                 $('#saveBtn').html('<i class="icon feather icon-save"></i>Save');
-                clearForm();
+                clearForms();
                 $('#tableSection').hide();
                 $('#formSection').fadeIn();
             });
@@ -353,18 +354,21 @@
                 $('#formSection').hide();
                 $('#tableSection').fadeIn();
             });
-            function clearForm() {
-                $('#formSection').find('input[type!=search]').val('');
-                $('#formSection').find('input[type!=search]').val('');
-                $('#formSection').find('select').each(function () {
-                    if ($(this).data('select')) {
-                        if ($(this).data('select').ajax) {
-                            $(this).data('select').data.data = [];
-                        }
-                        $(this).data('select').set('');
-                    }
-                });
+
+
+            function clearForms() {
+
+                document.getElementById('statusque').selectedIndex = 0;
+                document.getElementById('assign').selectedIndex = 0;
+
+                // Clear table body for attachments
+                let tableBody = document.querySelector('#tbladdAttQ tbody');
+                tableBody.innerHTML = '';
+
+                // Hide add comment section if it's visible
+                document.getElementById('addSection').style.display = 'none';
             }
+
         </script>
 
 
@@ -523,83 +527,7 @@
 
 
         </script>
-        <!--        <script>
-                    $('#saveBtnin').click(function () {
-                        // Get the value of the facility status select element
-                        var statusque = document.getElementById('statusque').value;
-                        var assignValue = document.getElementById('assign').value;
-        
-                        // Check if statusque requires assign to have a value
-                        if (statusque !== "com" && assignValue === "") {
-                            Swal.fire('Error!', 'Please select "Assign To"', 'error');
-                            return; // Prevent further execution if assign is not selected
-                        }
-        
-                        // Initialize request body
-                        var requestBody = {
-                            id: $('#saveBtnin').data('id'),
-                            statusque: statusque,
-                            assign: assignValue // Include assign value in request body
-                        };
-        
-        
-                        // Process table rows for comments and attachments
-                        var tableRows = document.querySelectorAll('#tbladdAttQ tbody tr');
-                        var attachmentData = [];
-        
-                        tableRows.forEach(row => {
-                            var comment = row.querySelector('textarea[name="comment"]').value;
-                            var fileInput = row.querySelector('input[name="fileLink"]');
-                            var files = fileInput.files;
-        
-                            var path = "";
-                            if (files.length > 0) {
-                                // Assuming only one file per comment is supported
-                                path = files[0].name; // Take the first file name for simplicity
-                            }
-        
-                            attachmentData.push({
-                                comment: comment,
-                                path: path
-                            });
-                        });
-        
-                        // Add attachment data to request body
-                        if (attachmentData.length > 0) {
-                            requestBody.attachmentData = attachmentData;
-                        } else {
-                            // If tbladdAttQ is empty, only include statusque and assign if they have values
-                            if (statusque === "" && assignValue === "") {
-                                Swal.fire('Error!', 'Please select "Status Queue" or "Assign To"', 'error');
-                                return;
-                            }
-                        }
-        
-                        // Send the request
-                        fetch((($('#saveBtnin').data('mode') === 'save') ? 'issue/save' : 'issue/update-queue'), {
-                            method: 'POST',
-                            body: JSON.stringify(requestBody),
-                            headers: {
-                                'Content-Type': 'application/json'
-                            }
-                        }).then(response => {
-                            if (!response.ok) {
-                                throw new Error(response.statusText);
-                            } else {
-                                Swal.fire('Successful!', 'Issue has been successfully saved', 'success');
-                                clearForm();
-                                $('#formSectionQueue').hide();
-                                $('#tableSection').fadeIn();
-                                dtable.ajax.reload();
-                            }
-                            return response.json();
-                        }).catch(error => {
-                            Swal.fire('Error!', 'Failed to save Issue details', 'error');
-                        });
-                    });
-        
-        
-                </script>-->
+
         <script>
             document.getElementById('saveBtnin').addEventListener('click', function () {
                 let saveBtnin = document.getElementById('saveBtnin');
@@ -608,29 +536,30 @@
                 let mode = $('#saveBtnin').data('mode');
                 if (mode === 'update') {
                     let id = $('#saveBtnin').data('id');
-                    let statusque = document.getElementById('statusque').value;
-                    let assign = document.getElementById('assign').value;
-
-                    // Validation checks
-                    if (statusque && !assign) {
-                        Swal.fire('Error!', 'Please select "Assign To"', 'error');
-                        saveBtnin.disabled = false;
-                        return;
-                    }
-
-                    if (!statusque && assign) {
-                        Swal.fire('Error!', 'Please select "Status"', 'error');
-                        saveBtnin.disabled = false;
-                        return;
-                    }
-
-                    if (!statusque && !assign) {
-                        Swal.fire('Error!', 'Please select "Status" and "Assign To"', 'error');
-                        saveBtnin.disabled = false;
-                        return;
-                    }
+                    let statusque = document.getElementById('statusque').value || null;
+                    let assign = document.getElementById('assign').value || null;
 
                     let tableRows = document.querySelectorAll('#tbladdAttQ tbody tr');
+
+                    // If the table is empty, perform the checks for statusque and assign
+                    if (tableRows.length === 0) {
+                        if (!statusque && !assign) {
+                            Swal.fire('Error!', 'Please select "Status" and "Assign To"', 'error');
+                            saveBtnin.disabled = false;
+                            return;
+                        }
+                        if (!statusque) {
+                            Swal.fire('Error!', 'Please select "Status"', 'error');
+                            saveBtnin.disabled = false;
+                            return;
+                        }
+                        if (!assign) {
+                            Swal.fire('Error!', 'Please select "Assign To"', 'error');
+                            saveBtnin.disabled = false;
+                            return;
+                        }
+                    }
+
                     let attachmentData = [];
                     let formData = new FormData();
 
@@ -667,7 +596,9 @@
                     }
 
                     formData.append('id', id);
-                    formData.append('statusque', statusque);
+                    if (statusque !== null) {
+                        formData.append('statusque', statusque);
+                    }
 
                     fetch('issue/update-queue', {
                         method: 'POST',
@@ -679,9 +610,9 @@
                         return response.json();
                     }).then(data => {
                         Swal.fire('Successful!', 'Issue has been successfully updated', 'success');
-//            clearForms();
                         $('#formSectionQueue').hide();
                         $('#tableSection').fadeIn();
+                        clearForms()
                         dtable.ajax.reload();
                     }).catch(error => {
                         Swal.fire('Error!', 'Failed to update issue details', 'error');
@@ -690,6 +621,7 @@
                     });
                 }
             });
+
         </script>
 
     </body>

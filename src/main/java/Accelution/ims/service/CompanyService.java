@@ -90,4 +90,8 @@ public class CompanyService {
         return reporr.getSelect("%" + search.trim() + "%", company);
     }
 
+    public Iterable<SlimSelectDTO> getCompanyselect(String search) {
+        return reporr.getCompanyselect("%" + search.trim() + "%");
+    }
+
 }

@@ -14,11 +14,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
         <meta name="description" content=""/>
         <meta name="author" content=""/>
-        <title>Accelution</title>
+        <title>Accelution - TMS</title>
         <link href="assets/css/pace.min.css" rel="stylesheet"/>
         <script src="assets/js/pace.min.js"></script>
         <!--favicon-->
-        <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="assets/img/logo/accelution.jpg" type="image/x-icon">
         <!-- Vector CSS -->
         <link href="assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet"/>
         <!-- simplebar CSS-->
@@ -33,7 +33,7 @@
         <link href="assets/css/sidebar-menu.css" rel="stylesheet"/>
         <!-- Custom Style-->
         <link href="assets/css/app-style.css" rel="stylesheet"/>
-
+        <link href="assets/css/slimselect.css" rel="stylesheet"/>
     </head>
     <body class="bg-theme bg-theme1">
 
@@ -137,7 +137,8 @@
                                 </div>
 
                                 <div class="card-footer d-flex justify-content-end">
-                                    <button id="saveBtn" class="btn btn-sm waves-effect waves-light btn-primary"><i class="icon feather icon-save"></i>Save</button>
+                                    <button id="saveBtn" class="btn btn-sm waves-effect waves-light btn-primary" style="margin-right: 10px"><i class="icon feather icon-save"></i>Save</button>
+                                    <button id="closeBtn" class="btn btn-sm btn-danger"><i class="icon feather icon-x-circle"></i>Close</button>                          
                                 </div>
                             </div>
                         </div>
@@ -179,6 +180,13 @@
         <script type="text/javascript" src="files/js/jquery.highlight.js"></script>
         <script type="text/javascript" src="files/js/dataTables.searchHighlight.min.js"></script>
         <script>
+            const closeBtn = document.getElementById('closeBtn');
+            closeBtn.addEventListener('click', function () {
+                formSection.style.display = 'none';
+                tableSection.style.display = 'block';
+                clearForm()
+            });
+
             var typeIssue = new SlimSelect(
                     {select: '#dashboard',
                         placeholder: "Select Dashboard",
@@ -284,18 +292,15 @@
                 $('#formSection').hide();
                 $('#tableSection').fadeIn();
             });
-            function clearForm() {
-                $('#formSection').find('input[type!=search]').val('');
-                $('#formSection').find('select').each(function () {
-                    if ($(this).data('select')) {
-                        if ($(this).data('select').ajax) {
-                            $(this).data('select').data.data = [];
-                        }
-                        $(this).data('select').set('');
-                    }
-                });
-            }
 
+            function clearForm() {
+                document.getElementById('name').value = '';
+                document.getElementById('username').value = '';
+                document.getElementById('user_type').selectedIndex = 0;
+                document.getElementById('company').selectedIndex = 0;
+                document.getElementById('dashboard').selectedIndex = 0;
+
+            }
 
             var user_type = new SlimSelect({
                 select: '#user_type',
@@ -403,6 +408,7 @@
                             Swal.fire('Error!', result.value.msg, 'error');
                         } else {
                             Swal.fire('Successfull!', 'User has been updated.', 'success');
+                            clearForm()
                             dtable.ajax.reload();
                             $('#formSection').hide();
                             $('#tableSection').fadeIn();

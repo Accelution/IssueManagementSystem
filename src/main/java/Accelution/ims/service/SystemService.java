@@ -119,52 +119,54 @@ public class SystemService {
         return systemRepo.save(systems);
     }
 
-    public System updateSystems(Integer id, String system, String desclist, String deleteIds) {
+    public System updateSystems(Integer id, String system, String desclist, String deleteIds) throws Exception {
         try {
-            System systems = systemRepo.findById(id).orElseThrow(() -> new Exception("Modules not found"));
+            // Find the existing system by ID
+            System systems = systemRepo.findById(id).orElseThrow(() -> new Exception("System with ID " + id + " not found"));
+
+            // Update the system's name
             systems.setSystem(system);
 
-            if (deleteIds != null) {
-
-                JsonNode toBeDeleted = mapper.readTree(deleteIds);
-                for (JsonNode jsonNode : toBeDeleted) {
-                    Optional<Modules> optionalSystems = (Optional<Modules>) moduleRepo.findById(Integer.parseInt(jsonNode.asText()));
-                    if (optionalSystems.isPresent()) {
-                        Modules moduleToDelete = optionalSystems.get();
-                        moduleToDelete.setStatus("deactivate");
-                        moduleRepo.save(moduleToDelete);
-                    } else {
-                        // Handle case where module with given ID is not found
-                        throw new Exception("Systems with ID " + jsonNode.asText() + " not found");
-                    }
-                }
+            // Deactivate modules based on deleteIds
+            if (deleteIds != null && !deleteIds.isEmpty()) {
+                deactivateModules(deleteIds);
             }
 
+            // Update or add modules based on desclist
             if (desclist != null && !desclist.isEmpty()) {
-                // Parse the description list string to JSON
-                JsonNode fileList = mapper.readTree(desclist);
-
-                // Iterate over each item in the description list
-                for (int i = 0; i < fileList.size(); i++) {
-                    JsonNode fileItem = fileList.get(i);
-
-                    // Extract file information from JSON
-                    String fileName = fileItem.get("name").asText();
-
-                    Modules module = new Modules();
-                    module.setSystem(systems.getId());
-                    module.setName(fileName);
-
-                    // Save the new or updated module
-                    module.setStatus("active");
-                    moduleRepo.save(module);
-                }
+                updateModules(systems, desclist);
             }
 
+            // Save and return the updated system
             return systemRepo.save(systems);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("Failed to update unit with modules", e);
+            throw new RuntimeException("Failed to update system with modules", e);
+        }
+    }
+
+    private void deactivateModules(String deleteIds) throws Exception {
+        JsonNode toBeDeleted = mapper.readTree(deleteIds);
+        for (JsonNode jsonNode : toBeDeleted) {
+            int moduleId = Integer.parseInt(jsonNode.asText());
+            Modules moduleToDelete = moduleRepo.findById(moduleId).orElseThrow(() -> new Exception("Module with ID " + moduleId + " not found"));
+            moduleToDelete.setStatus("deactivate");
+            moduleRepo.save(moduleToDelete);
+        }
+    }
+
+    private void updateModules(System systems, String desclist) throws Exception {
+        JsonNode fileList = mapper.readTree(desclist);
+        for (int i = 0; i < fileList.size(); i++) {
+            JsonNode fileItem = fileList.get(i);
+            String fileName = fileItem.get("name").asText();
+
+            Modules module = new Modules();
+            module.setSystem(systems.getId());
+            module.setName(fileName);
+            module.setStatus("active");
+
+            moduleRepo.save(module);
         }
     }
 

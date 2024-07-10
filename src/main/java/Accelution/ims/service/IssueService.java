@@ -322,24 +322,32 @@ public class IssueService {
         }
 
         // Update issue status based on statusque
-        switch (statusque) {
-            case "uns":
-                updateissue.setStatus("Closed");
-                break;
-            case "inp":
-                updateissue.setStatus("In Progress");
-                break;
-            case "qa":
-                updateissue.setStatus("QA Pending");
-                break;
-            case "devPen":
-                updateissue.setStatus("Development Pending");
-                break;
-            case "com":
-                updateissue.setStatus("Completed");
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid statusque value: " + statusque);
+        if (statusque != null && !statusque.trim().isEmpty()) {
+            switch (statusque) {
+                case "uns":
+                    updateissue.setStatus("Closed");
+                    break;
+                case "inp":
+                    updateissue.setStatus("In Progress");
+                    break;
+                case "qa":
+                    updateissue.setStatus("QA Pending");
+                    break;
+                case "devPen":
+                    updateissue.setStatus("Development Pending");
+                    break;
+                case "com":
+                    updateissue.setStatus("Completed");
+                    break;
+                case "open":
+                    updateissue.setStatus("Queue");
+                    break;
+                case "close":
+                    updateissue.setStatus("Closed");
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid statusque value: " + statusque);
+            }
         }
 
         updateissue = repo.save(updateissue);

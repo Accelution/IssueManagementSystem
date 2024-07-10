@@ -43,7 +43,7 @@ div.dataTabledataTables_wrapper div.dataTabledataTables_filter{
 div.dataTabledataTables_wrapper div.dataTabledataTables_filter label{
     font-weight:normal;
     white-space:nowrap;
-    text-align:left
+    text-align:right
 }
 div.dataTabledataTables_wrapper div.dataTabledataTables_filter input{
     margin-left:0.5em;
@@ -124,6 +124,12 @@ div.dataTabledataTables_scrollFoot>.dataTabledataTables_scrollFootInner>table{
     margin-top:0 !important;
     border-top:none
 }
+#issue_table_filter {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center; /* Optional: If you want to vertically center the content within the container */
+}
+
 @media screen and (max-width: 767px){
     div.dataTabledataTables_wrapper div.dataTabledataTables_length,div.dataTabledataTables_wrapper div.dataTabledataTables_filter,div.dataTabledataTables_wrapper div.dataTabledataTables_info,div.dataTabledataTables_wrapper div.dataTabledataTables_paginate{
         text-align:center

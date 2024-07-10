@@ -8,18 +8,17 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
         <meta name="description" content=""/>
         <meta name="author" content=""/>
-        <title>Accelution</title>
+        <title>Accelution - IMS</title>
         <link href="assets/css/pace.min.css" rel="stylesheet"/>
         <script src="assets/js/pace.min.js"></script>
         <!--favicon-->
-        <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+        <!--<link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">-->
         <!-- Vector CSS -->
-        <link href="assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet"/>
+        <!--<link href="assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet"/>-->
         <!-- simplebar CSS-->
         <link href="assets/plugins/simplebar/css/simplebar.css" rel="stylesheet"/>
         <!-- Bootstrap core CSS-->
@@ -32,6 +31,7 @@
         <link href="assets/css/sidebar-menu.css" rel="stylesheet"/>
         <!-- Custom Style-->
         <link href="assets/css/app-style.css" rel="stylesheet"/>
+        <link href="assets/css/slimselect.css" rel="stylesheet"/>
 
     </head>
     <body class="bg-theme bg-theme1">
@@ -93,23 +93,23 @@
 
                                             <div class="form-group" style="padding-left: 10px;">
                                                 <label for="inputTime" >Company Name</label>
-                                                <input link="text" class="form-control" id="name">
+                                                <input class="form-control" id="name">
                                             </div>
                                             <div class="form-group" style="padding-left: 10px;">
                                                 <label for="inputTime" >Company Email</label>
-                                                <input link="text" class="form-control" id="email">
+                                                <input  class="form-control" id="email">
                                             </div>
                                             <div class="form-group" style="padding-left: 10px;">
                                                 <label for="inputTime" >Contact Number</label>
-                                                <input link="text" class="form-control" id="contact">
+                                                <input  class="form-control" id="contact">
                                             </div>
                                             <div class="form-group" style="padding-left: 10px;">
                                                 <label for="inputTime" >Contact Name</label>
-                                                <input link="text" class="form-control" id="con_name">
+                                                <input  class="form-control" id="con_name">
                                             </div>
                                             <div class="form-group" style="padding-left: 10px;">
                                                 <label for="inputTime" >Contact Email</label>
-                                                <input link="text" class="form-control" id="con_email">
+                                                <input  class="form-control" id="con_email">
                                             </div>
 
                                         </div>
@@ -126,7 +126,8 @@
 
 
                                     <div class="card-footer d-flex justify-content-end">
-                                        <button id="saveBtn" class="btn btn-sm waves-effect waves-light btn-primary"><i class="icon feather icon-save"></i>Save</button>
+                                        <button id="saveBtn" class="btn btn-sm waves-effect waves-light btn-primary" style="margin-right: 10px"><i class="icon feather icon-save"></i>Save</button>
+                                        <button id="closeBtn" class="btn btn-sm btn-danger"><i class="icon feather icon-x-circle"></i>Close</button>                          
                                     </div>
 
 
@@ -145,31 +146,32 @@
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/popper.min.js"></script>
         <script src="assets/js/bootstrap.min.js"></script>
-
-        <!-- simplebar js -->
         <script src="assets/plugins/simplebar/js/simplebar.js"></script>
-        <!-- sidebar-menu js -->
         <script src="assets/js/sidebar-menu.js"></script>
-        <!-- loader scripts -->
-        <script src="assets/js/jquery.loading-indicator.js"></script>
-        <!-- Custom scripts -->
         <script src="assets/js/app-script.js"></script>
-        <!-- Chart js -->
-
         <script src="assets/plugins/Chart.js/Chart.min.js"></script>
-
-        <!-- Index js -->
         <script src="assets/js/index.js"></script>
-        <script type="text/javascript" src="files/js/slimselect.js"></script>
-        <script type="text/javascript" src="files/js/datatables.min.js"></script>
-        <script type="text/javascript" src="files/js/sweetalert2.js"></script>
-        <script type="text/javascript" src="files/js/func.js"></script>
-        <script type="text/javascript" src="files/js/autoNumeric.js"></script>
-        <script type="text/javascript" src="files/js/dataTables.responsive.min.js"></script>
-        <script type="text/javascript" src="files/js/jquery.highlight.js"></script>
-        <script type="text/javascript" src="files/js/dataTables.searchHighlight.min.js"></script>
+        <script  src="files/js/slimselect.js"></script>
+        <script  src="files/js/datatables.min.js"></script>
+        <script  src="files/js/sweetalert2.js"></script>
+        <script  src="files/js/func.js"></script>
+        <script  src="files/js/autoNumeric.js"></script>
+        <script  src="files/js/dataTables.responsive.min.js"></script>
+        <script  src="files/js/jquery.highlight.js"></script>
+        <script  src="files/js/dataTables.searchHighlight.min.js"></script>
+
 
         <script>
+            const closeBtn = document.getElementById('closeBtn');
+            closeBtn.addEventListener('click', function () {
+                formSection.style.display = 'none';
+                tableSection.style.display = 'block';
+                clearForms();
+            });
+
+
+
+
             $.fn.dataTable.ext.errMode = 'none';
 
             var dtable = $('#tblemp').DataTable({
@@ -287,6 +289,15 @@
                                     });
                         });
             });
+            function clearForms() {
+                document.getElementById('name').value = '';
+                document.getElementById('email').value = '';
+                document.getElementById('contact').value = '';
+                document.getElementById('con_name').value = '';
+                document.getElementById('con_email').value = '';
+                $('input[name="systems"]').prop('checked', false);
+            }
+
 
             document.getElementById('saveBtn').addEventListener('click', function () {
                 let saveBtn = document.getElementById('saveBtn');
@@ -294,15 +305,39 @@
                     Swal.fire("Empty Name!", "Please Enter a Valid Name!", "warning");
                     return;
                 }
+                if ($('#email').val().trim() === '') {
+                    Swal.fire("Empty Email!", "Please Enter a Valid Email!", "warning");
+                    return;
+                }
+                if ($('#contact').val().trim() === '') {
+                    Swal.fire("Empty Contact Number!", "Please Enter a Valid Contact Number!", "warning");
+                    return;
+                }
+                if ($('#con_name').val().trim() === '') {
+                    Swal.fire("Empty Contact Name!", "Please Enter a Valid Contact Name!", "warning");
+                    return;
+                }
+                if ($('#con_email').val().trim() === '') {
+                    Swal.fire("Empty Contact Email!", "Please Enter a Valid Contact Email!", "warning");
+                    return;
+                }
+                let checkedSystems = [];
+                $('input[name="systems"]:checked').each(function () {
+                    checkedSystems.push($(this).val());
+                });
+                if (checkedSystems.length === 0) {
+                    Swal.fire("No Systems Selected!", "Please Select at Least One System!", "warning");
+                    return;
+                }
+
 
                 // Disable the button to prevent multiple clicks
                 saveBtn.disabled = true;
                 let mode = $('#saveBtn').data('mode'); // Get the mode (save or update) from the button's data
 
-                let checkedSystems = [];
-                $('input[name="systems"]:checked').each(function () {
-                    checkedSystems.push($(this).val());
-                });
+                // Check if at least one system is selected
+
+
                 let fd = new FormData();
                 let name = document.getElementById('name').value;
                 fd.append('name', name);
@@ -328,7 +363,7 @@
                         return response.json();
                     }).then(data => {
                         Swal.fire('Successful!', 'Company has been successfully saved', 'success');
-                        clearForm();
+                        clearForms();
                         $('#formSection').hide();
                         $('#tableSection').fadeIn();
                         dtable.ajax.reload();
@@ -371,7 +406,7 @@
                                 dtable.ajax.reload();
                             } else {
                                 Swal.fire('Successful!', 'Company details updated successfully', 'success');
-                                clearForm();
+                                clearForms();
                                 $('#formSection').hide();
                                 $('#tableSection').fadeIn();
                                 dtable.ajax.reload();

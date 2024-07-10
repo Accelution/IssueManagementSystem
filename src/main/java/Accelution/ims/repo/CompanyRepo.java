@@ -26,4 +26,7 @@ public interface CompanyRepo extends CrudRepository<Company, Integer> {
     @Query(
             "select s.id as value,s.system as text from `company` c cross join json_table(c.systems,'$[*]' COLUMNS (`system` int PATH '$[0]'))j  join `systems` s on j.system=s.id WHERE c.id = :company")
     Iterable<SlimSelectDTO> getSelect(@Param("search") String search, @Param("company") String company);
+
+    @Query("SELECT `id` AS `value`, `name` AS `text` FROM `company`")
+    Iterable<SlimSelectDTO> getCompanyselect(@Param("search") String search);
 }

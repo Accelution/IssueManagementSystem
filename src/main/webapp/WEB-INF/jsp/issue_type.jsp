@@ -17,7 +17,7 @@
         <link href="assets/css/pace.min.css" rel="stylesheet"/>
         <script src="assets/js/pace.min.js"></script>
         <!--favicon-->
-        <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="assets/img/logo/accelution.jpg" type="image/x-icon">
         <!-- Vector CSS -->
         <link href="assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet"/>
         <!-- simplebar CSS-->
@@ -92,12 +92,13 @@
 
                                     <div class="form-group">
                                         <label for="inputTime" >Type Name</label>
-                                        <input link="text" class="form-control" id="name">
+                                        <input  class="form-control" id="name">
                                     </div>
 
 
                                     <div class="card-footer d-flex justify-content-end">
-                                        <button id="saveBtn" class="btn btn-sm waves-effect waves-light btn-primary"><i class="icon feather icon-save"></i>Save</button>
+                                        <button id="saveBtn" class="btn btn-sm waves-effect waves-light btn-primary" style="margin-right: 10px"><i class="icon feather icon-save"></i>Save</button>
+                                        <button id="closeBtn" class="btn btn-sm btn-danger"><i class="icon feather icon-x-circle"></i>Close</button>                          
                                     </div>
 
 
@@ -150,6 +151,15 @@
 
 
         <script>
+            const closeBtn = document.getElementById('closeBtn');
+            closeBtn.addEventListener('click', function () {
+                formSection.style.display = 'none';
+                tableSection.style.display = 'block';
+                clearForm()
+            });
+
+
+
             $.fn.dataTable.ext.errMode = 'none';
 
             var dtable = $('#tblemp').DataTable({
@@ -411,16 +421,9 @@
                 $('#tableSection').fadeIn();
             });
             function clearForm() {
-                $('#formSection').find('input[link!=search]').val('');
-                $('#formSection').find('input[link!=search]').val('');
-                $('#formSection').find('select').each(function () {
-                    if ($(this).data('select')) {
-                        if ($(this).data('select').ajax) {
-                            $(this).data('select').data.data = [];
-                        }
-                        $(this).data('select').set('');
-                    }
-                });
+                document.getElementById('name').value = '';
+
+
             }
 
 

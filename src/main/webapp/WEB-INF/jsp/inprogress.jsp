@@ -525,6 +525,19 @@
         </script>
 
         <script>
+
+            function clearForms() {
+
+                document.getElementById('statusque').selectedIndex = 0;
+                document.getElementById('assign').selectedIndex = 0;
+
+                // Clear table body for attachments
+                let tableBody = document.querySelector('#tbladdAttQ tbody');
+                tableBody.innerHTML = '';
+
+                // Hide add comment section if it's visible
+                document.getElementById('addSection').style.display = 'none';
+            }
             document.getElementById('saveBtnin').addEventListener('click', function () {
                 let saveBtnin = document.getElementById('saveBtnin');
                 saveBtnin.disabled = true;
@@ -532,29 +545,30 @@
                 let mode = $('#saveBtnin').data('mode');
                 if (mode === 'update') {
                     let id = $('#saveBtnin').data('id');
-                    let statusque = document.getElementById('statusque').value;
-                    let assign = document.getElementById('assign').value;
-
-                    // Validation checks
-                    if (statusque && !assign) {
-                        Swal.fire('Error!', 'Please select "Assign To"', 'error');
-                        saveBtnin.disabled = false;
-                        return;
-                    }
-
-                    if (!statusque && assign) {
-                        Swal.fire('Error!', 'Please select "Status"', 'error');
-                        saveBtnin.disabled = false;
-                        return;
-                    }
-
-                    if (!statusque && !assign) {
-                        Swal.fire('Error!', 'Please select "Status" and "Assign To"', 'error');
-                        saveBtnin.disabled = false;
-                        return;
-                    }
+                    let statusque = document.getElementById('statusque').value || null;
+                    let assign = document.getElementById('assign').value || null;
 
                     let tableRows = document.querySelectorAll('#tbladdAttQ tbody tr');
+
+                    // If the table is empty, perform the checks for statusque and assign
+                    if (tableRows.length === 0) {
+                        if (!statusque && !assign) {
+                            Swal.fire('Error!', 'Please select "Status" and "Assign To"', 'error');
+                            saveBtnin.disabled = false;
+                            return;
+                        }
+                        if (!statusque) {
+                            Swal.fire('Error!', 'Please select "Status"', 'error');
+                            saveBtnin.disabled = false;
+                            return;
+                        }
+                        if (!assign) {
+                            Swal.fire('Error!', 'Please select "Assign To"', 'error');
+                            saveBtnin.disabled = false;
+                            return;
+                        }
+                    }
+
                     let attachmentData = [];
                     let formData = new FormData();
 
@@ -591,7 +605,9 @@
                     }
 
                     formData.append('id', id);
-                    formData.append('statusque', statusque);
+                    if (statusque !== null) {
+                        formData.append('statusque', statusque);
+                    }
 
                     fetch('issue/update-queue', {
                         method: 'POST',
@@ -603,9 +619,9 @@
                         return response.json();
                     }).then(data => {
                         Swal.fire('Successful!', 'Issue has been successfully updated', 'success');
-//            clearForms();
                         $('#formSectionInp').hide();
                         $('#tableSection').fadeIn();
+                        clearForms()
                         dtable.ajax.reload();
                     }).catch(error => {
                         Swal.fire('Error!', 'Failed to update issue details', 'error');

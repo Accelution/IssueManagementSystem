@@ -126,12 +126,6 @@ public class IssueController {
         return service.saveIssue(issue, system, type, priority, file, desclist, session);
     }
 
-//    @PostMapping("/save")
-//    public ResponseEntity<CommonResponse> saveIssue(@RequestParam String issue, @RequestParam String priority, @RequestParam String comment, @RequestParam String assign, @RequestParam String type, HttpSession session) throws Exception {
-//        service.saveIssue(issue, priority, comment, assign, type, session);
-//        CommonResponse response = new CommonResponse("Success!", 200);
-//        return new ResponseEntity<>(response, HttpStatus.OK);
-//    }
     @PostMapping("/update-queue")
     public Issue updateIssue(
             @RequestParam Integer id,

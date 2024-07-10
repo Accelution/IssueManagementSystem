@@ -4,18 +4,17 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
         <meta name="description" content=""/>
         <meta name="author" content=""/>
-        <title>Accelution</title>
+        <title>Accelution - TMS</title>
         <link href="assets/css/pace.min.css" rel="stylesheet"/>
         <script src="assets/js/pace.min.js"></script>
         <!--favicon-->
-        <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="assets/img/logo/accelution.jpg" type="image/x-icon">
         <!-- Vector CSS -->
-        <link href="assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet"/>
+        <!--<link href="assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet"/>-->
         <!-- simplebar CSS-->
         <link href="assets/plugins/simplebar/css/simplebar.css" rel="stylesheet"/>
         <!-- Bootstrap core CSS-->
@@ -28,6 +27,7 @@
         <link href="assets/css/sidebar-menu.css" rel="stylesheet"/>
         <!-- Custom Style-->
         <link href="assets/css/app-style.css" rel="stylesheet"/>
+        <link href="assets/css/slimselect.css" rel="stylesheet"/>
 
     </head>
     <body class="bg-theme bg-theme1">
@@ -114,11 +114,9 @@
 
                                 </div>
 
-                                <div class="col-lg-6 col-md-12">
-                                    <div class="form-group" >
-                                        <button id="saveBtn" class="btn btn-sm waves-effect waves-light btn-primary"><i class="icon feather icon-save"></i>Save</button>
-
-                                    </div>
+                                <div class="card-footer d-flex justify-content-end">
+                                    <button id="saveBtn" class="btn btn-sm waves-effect waves-light btn-primary" style="margin-right: 10px"><i class="icon feather icon-save"></i>Save</button>
+                                    <button id="closeBtn" class="btn btn-sm btn-danger"><i class="icon feather icon-x-circle"></i>Close</button>                          
                                 </div>
                             </div>
                         </div>
@@ -157,6 +155,14 @@
         <script type="text/javascript" src="files/js/jquery.highlight.js"></script>
         <script type="text/javascript" src="files/js/dataTables.searchHighlight.min.js"></script>
         <script>
+            const closeBtn = document.getElementById('closeBtn');
+            closeBtn.addEventListener('click', function () {
+                formSection.style.display = 'none';
+                tableSection.style.display = 'block';
+                clearForms()
+            });
+
+
             // Function to handle the "Add Attachment" button click
             document.getElementById('addBtn').addEventListener('click', function () {
                 // Get the table body
@@ -473,20 +479,38 @@
             }
 
             document.getElementById('saveBtn').addEventListener('click', function () {
+
+                if ($('#system').val().trim() === '') {
+                    Swal.fire("Empty System!", "Please Enter a Valid System!", "warning");
+                    return;
+                }
+
                 let mode = $('#saveBtn').data('mode');
                 if (mode === 'save') {
+
+
+
                     let system = document.getElementById('system').value;
 
                     let tableRows = document.querySelectorAll('#tbladdAtt tbody tr');
+                    if (tableRows.length === 0) {
+                        Swal.fire('Error!', 'System must have at least one Module', 'error');
+                        return;
+                    }
                     let attachmentData = [];
                     let formData = {};
 
                     let i = 1;
                     tableRows.forEach((row, index) => {
-                        let systemName = row.querySelector('input[name="systemName"]').value;
-
+                        let systemNameInput = row.querySelector('input[name="systemName"]');
+                        if (!systemNameInput || systemNameInput.value.trim() === '') {
+                            Swal.fire('Error!', 'Module must not be empty', 'error');
+                            // Handle the error condition if needed
+                            return;
+                        }
+                        let systemNameValue = systemNameInput.value; // Get the value from the input field
                         attachmentData.push({
-                            name: systemName
+                            name: systemNameValue // Push the value to your attachmentData array
                         });
                     });
                     let desclist = JSON.stringify(attachmentData);
@@ -525,16 +549,15 @@
 
                     tableRows.forEach((row, index) => {
                         let systemNameInput = row.querySelector('input[name="systemName"]');
-                        let fileLinkInput = row.querySelector('input[name="fileLink"]');
-
-                        if (systemNameInput) {
-                            let systemName = systemNameInput.value;
-
-                            attachmentData.push({
-                                name: systemName
-
-                            });
+                        if (!systemNameInput || systemNameInput.value.trim() === '') {
+                            Swal.fire('Error!', 'Module must not be empty', 'error');
+                            // Handle the error condition if needed
+                            return;
                         }
+                        let systemNameValue = systemNameInput.value; // Get the value from the input field
+                        attachmentData.push({
+                            name: systemNameValue // Push the value to your attachmentData array
+                        });
                     });
 
                     let desclist = JSON.stringify(attachmentData);

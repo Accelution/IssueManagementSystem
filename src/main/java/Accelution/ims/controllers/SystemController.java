@@ -93,12 +93,11 @@ public class SystemController {
 
     @PostMapping("/update-attachment")
     @ResponseBody
-    public System updateSystems(String id, String system, String desclist, @RequestParam(value = "deleteIds", required = false) String deleteIds) throws Exception {
-        Integer idd = Integer.parseInt(id);
-        // Pass deleteIds to the service method
-//        System.out.println(deleteIds);
-        return service.updateSystems(idd, system, desclist, deleteIds);
-
+    public System updateSystems(@RequestParam("id") Integer id,
+            @RequestParam("system") String system,
+            @RequestParam("desclist") String desclist,
+            @RequestParam(value = "deleteIds", required = false) String deleteIds) throws Exception {
+        return service.updateSystems(id, system, desclist, deleteIds);
     }
 
 }

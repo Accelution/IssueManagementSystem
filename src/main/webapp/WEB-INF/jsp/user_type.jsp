@@ -14,11 +14,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
         <meta name="description" content=""/>
         <meta name="author" content=""/>
-        <title>Accelution</title>
+        <title>Accelution - TMS</title>
         <link href="assets/css/pace.min.css" rel="stylesheet"/>
         <script src="assets/js/pace.min.js"></script>
         <!--favicon-->
-        <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="assets/img/logo/accelution.jpg" type="image/x-icon">
         <!-- Vector CSS -->
         <link href="assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet"/>
         <!-- simplebar CSS-->
@@ -43,7 +43,7 @@
                     <%@include file="jspf/navbar.jspf" %>
 
 
-                    <div class="row" id="table_sec">
+                    <div class="row" id="tableSection">
 
 
                         <div class="card">
@@ -85,7 +85,7 @@
                         </div>
                     </div>
 
-                    <div class="row" id="detail_sec" style="display: none">
+                    <div class="row" id="formSection" style="display: none">
 
                         <div class="card" style="width: 90%">
                             <div class="card-header">
@@ -117,7 +117,8 @@
 
                             </div>
                             <div class="card-footer d-flex justify-content-end">
-                                <button id="saveBtn" class="btn btn-sm waves-effect waves-light btn-primary"><i class="icon feather icon-save"></i>Save</button>
+                                <button id="saveBtn" class="btn btn-sm waves-effect waves-light btn-primary" style="margin-right: 10px"><i class="icon feather icon-save"></i>Save</button>
+                                <button id="closeBtn" class="btn btn-sm btn-danger"><i class="icon feather icon-x-circle"></i>Close</button>                          
                             </div>
                         </div>
 
@@ -161,7 +162,12 @@
 
 
         <script>
-
+            const closeBtn = document.getElementById('closeBtn');
+            closeBtn.addEventListener('click', function () {
+                formSection.style.display = 'none';
+                tableSection.style.display = 'block';
+                clearForm()
+            });
 
             //        $.fn.dataTable.ext.errMode = 'none';
             var dtable = $('#userTypeTbl').DataTable({
@@ -227,12 +233,12 @@
                 $('#saveBtn').data('mode', 'save');
                 $('#saveBtn').html('<i class="icon feather icon-save"></i>Save');
                 clearForm();
-                $('#table_sec').hide();
-                $('#detail_sec').fadeIn();
+                $('#tableSection').hide();
+                $('#formSection').fadeIn();
             });
             $('.cls-card').click(function () {
-                $('#detail_sec').hide();
-                $('#table_sec').fadeIn();
+                $('#formSection').hide();
+                $('#tableSection').fadeIn();
             });
 
 
@@ -346,7 +352,7 @@
 
 
                 if ($('#saveBtn').data('mode') === 'save') {
-                    loadDiv($('#detail_sec').find('.card'));
+                    loadDiv($('#formSection').find('.card'));
 
 
                     Swal.fire({
@@ -370,34 +376,34 @@
                             }).then(response => {
                                 if (!response.ok) {
                                     throw new Error(response.statusText);
-                                    finishLoadDiv($('#detail_sec').find('.card'));
+                                    finishLoadDiv($('#formSection').find('.card'));
                                 }
                                 return response.json();
                             }).catch(error => {
                                 Swal.showValidationMessage('Request failed:' + error);
-                                finishLoadDiv($('#detail_sec').find('.card'));
+                                finishLoadDiv($('#formSection').find('.card'));
                             });
                         },
                         allowOutsideClick: () => !Swal.isLoading()
-                        //                                        finishLoadDiv($('#detail_sec').find('.card'));
+                        //                                        finishLoadDiv($('#formSection').find('.card'));
                     }).then((result) => {
                         if (result.value) {
                             if (result.value.status !== 200) {
                                 Swal.fire('Error!', result.value.msg, 'error');
-                                finishLoadDiv($('#detail_sec').find('.card'));
+                                finishLoadDiv($('#formSection').find('.card'));
                             } else {
                                 Swal.fire('Successfull!', 'User Type has been Saved !', 'success');
                                 dtable.ajax.reload();
                                 clearForm();
-                                $('#table_sec').fadeIn();
-                                $('#detail_sec').hide();
-                                finishLoadDiv($('#detail_sec').find('.card'));
+                                $('#tableSection').fadeIn();
+                                $('#formSection').hide();
+                                finishLoadDiv($('#formSection').find('.card'));
                             }
                         }
-                        finishLoadDiv($('#detail_sec').find('.card'));
+                        finishLoadDiv($('#formSection').find('.card'));
                     });
                 } else if ($('#saveBtn').data('mode') === 'update') {
-                    loadDiv($('#detail_sec').find('.card'));
+                    loadDiv($('#formSection').find('.card'));
                     $('#saveBtn').data('id');
                     //                        formData.append('data', JSON.stringify(data));
 
@@ -426,7 +432,7 @@
                                 return response.json();
                             }).catch(error => {
                                 Swal.showValidationMessage('Request failed:' + error);
-                                finishLoadDiv($('#detail_sec').find('.card'));
+                                finishLoadDiv($('#formSection').find('.card'));
                             });
                         },
                         allowOutsideClick: () => !Swal.isLoading()
@@ -434,14 +440,14 @@
                         if (result.value) {
                             if (result.value.status !== 200) {
                                 Swal.fire('Error!', result.value.msg, 'error');
-                                finishLoadDiv($('#detail_sec').find('.card'));
+                                finishLoadDiv($('#formSection').find('.card'));
                             } else {
                                 Swal.fire('Successfull!', 'User Type has been updated !', 'success');
                                 dtable.ajax.reload();
                                 clearForm();
-                                $('#table_sec').fadeIn();
-                                $('#detail_sec').hide();
-                                finishLoadDiv($('#detail_sec').find('.card'));
+                                $('#tableSection').fadeIn();
+                                $('#formSection').hide();
+                                finishLoadDiv($('#formSection').find('.card'));
                             }
                         }
                     });
@@ -532,8 +538,8 @@
                 });
 
 
-                $('#table_sec').hide();
-                $('#detail_sec').fadeIn();
+                $('#tableSection').hide();
+                $('#formSection').fadeIn();
                 $('#saveBtn').data('mode', 'update');
                 $('#saveBtn').html('Update User Type');
             });
@@ -576,8 +582,8 @@
                         } else {
                             Swal.fire('Successfull!', 'User Type has been Deactivated !', 'success');
                             dtable.ajax.reload();
-                            $('#detail_sec').hide();
-                            $('#table_sec').fadeIn();
+                            $('#formSection').hide();
+                            $('#tableSection').fadeIn();
                         }
                     }
                 });
@@ -618,8 +624,8 @@
                         } else {
                             Swal.fire('Successfull!', 'User Type has been Activated !', 'success');
                             dtable.ajax.reload();
-                            $('#detail_sec').hide();
-                            $('#table_sec').fadeIn();
+                            $('#formSection').hide();
+                            $('#tableSection').fadeIn();
                         }
                     }
                 });

@@ -101,4 +101,9 @@ public class CompanyController {
         return service.getSelect(search, company);
     }
 
+    @PostMapping("/company-select")
+    public Iterable<SlimSelectDTO> getCompanyselect(@RequestParam String search) throws Exception {
+        return service.getCompanyselect(search);
+    }
+
 }
