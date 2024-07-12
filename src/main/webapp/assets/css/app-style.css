@@ -62,8 +62,9 @@ body {
     font-family: 'Roboto', sans-serif;
     font-size: 15px;
     color: rgba(255,255,255,.85);
-    letter-spacing: 0.5px;
+
 }
+
 [tabindex="-1"]:focus {
     outline: 0!important
 }
@@ -406,7 +407,7 @@ hr {
 }
 
 #theme1 {
-    background-image: url(../images/bg-themes/1.png);
+    background-image: url(../images/bg-themes/2.png);
     background-size: 100% 100%;
     background-position: center;
     transition: background .3s;
@@ -499,7 +500,7 @@ hr {
 }
 
 body.bg-theme1 {
-    background-image: url(../images/bg-themes/1.png);
+    background-image: url(../images/bg-themes/2.png);
 }
 body.bg-theme2 {
     background-image: url(../images/bg-themes/2.png);
@@ -553,6 +554,7 @@ body.bg-theme15 {
     -webkit-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
+
 
 .toggle-menu i {
     margin-left: 250px;
@@ -3376,11 +3378,11 @@ table.grid td {
 
 
 .footer {
-    bottom: 0px;
+    bottom: 0;
     color: rgba(255, 255, 255, 0.73);
     text-align: center;
     padding: 12px 30px;
-    position: absolute;
+    position: fixed;
     right: 0;
     left: 250px;
     background-color: transparent;
@@ -3390,6 +3392,7 @@ table.grid td {
     -o-transition: all 0.3s ease;
     transition: all 0.3s ease;
 }
+
 #wrapper.toggled .footer{
     position: absolute;
     left: 0px;

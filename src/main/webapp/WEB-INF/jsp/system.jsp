@@ -121,6 +121,13 @@
                             </div>
                         </div>
                     </div>
+                    <footer class="footer">
+                        <div class="container">
+                            <div class="text-center">
+                                Copyright © 2024 Aceelution
+                            </div>
+                        </div>
+                    </footer>
                 </div>
 
             </div>
@@ -137,7 +144,7 @@
         <!-- sidebar-menu js -->
         <script src="assets/js/sidebar-menu.js"></script>
         <!-- loader scripts -->
-        <script src="assets/js/jquery.loading-indicator.js"></script>
+        <!--<script src="assets/js/jquery.loading-indicator.js"></script>-->
         <!-- Custom scripts -->
         <script src="assets/js/app-script.js"></script>
         <!-- Chart js -->

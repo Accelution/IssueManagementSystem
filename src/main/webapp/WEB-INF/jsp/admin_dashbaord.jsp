@@ -53,107 +53,86 @@
                     <%@include file="jspf/navbar.jspf" %>
                     <!--Start Dashboard Content-->
                     <div class="main" id="tableSection">
-                        <div class="card mt-3">
-                            <div class="card-content" >
-                                <div class="row row-group m-0">
-
-                                    <div class="col border-light" id="Quecrd">
-                                        <div class="card-body cards">
-                                            <h5 class="text-white mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather ">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                                                    </i></span></h5>
-                                            <div class="progress my-3" style="height:3px;">
-                                                <!--<div class="progress-bar" style="width:55%"></div>-->
-                                            </div>
-                                            <p class="mb-0 text-white small-font">Queue</p>
-                                        </div>
+                        <div class="row row-group m-0">
+                            <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+                                <div class="card cards" id="Quecrd">
+                                    <div class="card-body ">
+                                        <h5 class="text-white mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather ">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                                </i></span></h5>
+                                        <div class="progress my-3" style="height:3px;"></div>
+                                        <p class="mb-0 text-white small-font">Queue</p>
                                     </div>
-                                    <div class="col border-light" id="InProcrd">
-                                        <div class="card-body cards">
-                                            <h5 class="text-white mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather ">
-                                                        <i class="feather ">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-book-open"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg></i>
-                                                    </i>
-                                                </span>
-                                            </h5>
-                                            <div class="progress my-3" style="height:3px;">
-                                                <!--<div class="progress-bar" style="width:55%"></div>-->
-                                            </div>
-                                            <p class="mb-0 text-white small-font">In Progress</p>
-                                        </div>
-                                    </div>
-                                    <div class="col border-light" id="Devpcrd">
-                                        <div class="card-body cards">
-                                            <h5 class="text-white mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather ">
-                                                        <i class="feather ">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg></i>
-                                                    </i>
-                                                </span>
-                                            </h5>
-                                            <div class="progress my-3" style="height:3px;">
-                                                <!--<div class="progress-bar" style="width:55%"></div>-->
-                                            </div>
-                                            <p class="mb-0 text-white small-font">Development Pending</p>
-                                        </div>
-                                    </div> 
-
-                                    <div class="col border-light " id="Qacrd">
-                                        <div class="card-body cards">
-                                            <h5 class="text-white mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather ">
-                                                        <i class="feather ">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-square"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
-                                                        </i></i>
-                                                </span>
-                                            </h5>
-                                            <div class="progress my-3" style="height:3px;">
-                                                <!--<div class="progress-bar" style="width:55%"></div>-->
-                                            </div>
-                                            <p class="mb-0 text-white small-font">QA Pending</p>
-                                        </div>
-                                    </div>
-                                    <div class="col border-light" id="Complcrd">
-                                        <div class="card-body cards">
-                                            <h5 class="text-white mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather ">
-                                                        <i class="feather ">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                                                        </i></i>
-                                                </span>
-                                            </h5>
-                                            <div class="progress my-3" style="height:3px;">
-                                                <!--<div class="progress-bar" style="width:55%"></div>-->
-                                            </div>
-                                            <p class="mb-0 text-white small-font">Completed</p>
-                                        </div>
-                                    </div>
-                                    <div class="col border-light" id="Unsuccrd">
-                                        <div class="card-body cards" style="padding: 0.5rem;">
-                                            <h5 class="text-white mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather ">
-                                                        <i class="feather ">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-octagon"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
-                                                        </i></i>
-                                                </span>
-                                            </h5>
-                                            <div class="progress my-3" style="height:3px;">
-                                                <!--<div class="progress-bar" style="width:55%"></div>-->
-                                            </div>
-                                            <p class="mb-0 text-white small-font">Closed</p>
-                                        </div>
-                                    </div>
-
                                 </div>
                             </div>
-                        </div>  
 
+                            <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+                                <div class="card cards" id="InProcrd">
+                                    <div class="card-body ">
+                                        <h5 class="text-white mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather ">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-book-open"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+                                                </i></span></h5>
+                                        <div class="progress my-3" style="height:3px;"></div>
+                                        <p class="mb-0 text-white small-font">In Progress</p>
+                                    </div>
+                                </div>
+                            </div>
 
+                            <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+                                <div class="card cards" id="Devpcrd">
+                                    <div class="card-body ">
+                                        <h5 class="text-white mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather ">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                                </i></span></h5>
+                                        <div class="progress my-3" style="height:3px;"></div>
+                                        <p class="mb-0 text-white small-font">Development Pending</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+                                <div class="card cards" id="Qacrd">
+                                    <div class="card-body ">
+                                        <h5 class="text-white mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather ">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-square"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                                                </i></span></h5>
+                                        <div class="progress my-3" style="height:3px;"></div>
+                                        <p class="mb-0 text-white small-font">QA Pending</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+                                <div class="card cards" id="Complcrd">
+                                    <div class="card-body ">
+                                        <h5 class="text-white mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather ">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                                </i></span></h5>
+                                        <div class="progress my-3" style="height:3px;"></div>
+                                        <p class="mb-0 text-white small-font">Completed</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+                                <div class="card cards" id="Unsuccrd">
+                                    <div class="card-body " style="padding: 0.5rem;">
+                                        <h5 class="text-white mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather ">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-octagon"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+                                                </i></span></h5>
+                                        <div class="progress my-3" style="height:3px;"></div>
+                                        <p class="mb-0 text-white small-font">Closed</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="row">
                             <div class="col-12 col-lg-12">
-
                                 <div class="card" id="tableCard">
-                                    <div class="card-body" >
+                                    <div class="card-body">
                                         <h5 id="main_name_tag">Ticket Management System</h5>
                                         <hr>
-
                                         <div id="table_card">
                                             <table class="table table-bordered table-sm" id="issue_table" style="width: 100%; font-size: small">
                                                 <thead>
@@ -178,17 +157,10 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
-                        </div><!--End Row-->
-
-                        <!--End Dashboard Content-->
-
-                        <!--start overlay-->
-                        <div class="overlay toggle-menu"></div>
-                        <!--end overlay-->
-
+                        </div>
                     </div>
+
                     <!-- End container-fluid-->
                     <div class="" id="formSection" style="display: none;padding-top: 1rem;">
                         <div class="card" style="padding: 1em;">
@@ -236,10 +208,10 @@
 
                                 <div class="form-group">
                                     <label for="issue">Issue<span class="text-danger">*</span></label>
-                                    <input id="issue" type="text" name="issue" class="form-control" required autocomplete="off">
+                                    <textarea id="issue"  name="issue" class="form-control" required autocomplete="off"></textarea>
                                 </div>
 
-                                <label for="comment">Upload Your Comment & Attachments Here<span class="text-danger">*</span></label>
+                                <label for="comment">Upload Your Attachments Here<span class="text-danger">*</span></label>
                                 <div class="ttt" style="display: flex;flex-direction: row;">
 
                                     <div class="table-responsive">
@@ -292,41 +264,41 @@
                 <!--End footer-->
 
                 <!--start color switcher-->
-                <div class="right-sidebar">
-                    <div class="switcher-icon">
-                        <i class="zmdi zmdi-settings zmdi-hc-spin"></i>
-                    </div>
-                    <div class="right-sidebar-content">
-
-                        <p class="mb-0">Gaussion Texture</p>
-                        <hr>
-
-                        <ul class="switcher">
-                            <li id="theme1"></li>
-                            <li id="theme2"></li>
-                            <li id="theme3"></li>
-                            <li id="theme4"></li>
-                            <li id="theme5"></li>
-                            <li id="theme6"></li>
-                        </ul>
-
-                        <p class="mb-0">Gradient Background</p>
-                        <hr>
-
-                        <ul class="switcher">
-                            <li id="theme7"></li>
-                            <li id="theme8"></li>
-                            <li id="theme9"></li>
-                            <li id="theme10"></li>
-                            <li id="theme11"></li>
-                            <li id="theme12"></li>
-                            <li id="theme13"></li>
-                            <li id="theme14"></li>
-                            <li id="theme15"></li>
-                        </ul>
-
-                    </div>
-                </div>
+                <!--                <div class="right-sidebar">
+                                    <div class="switcher-icon">
+                                        <i class="zmdi zmdi-settings zmdi-hc-spin"></i>
+                                    </div>
+                                    <div class="right-sidebar-content">
+                
+                                        <p class="mb-0">Gaussion Texture</p>
+                                        <hr>
+                
+                                        <ul class="switcher">
+                                            <li id="theme1"></li>
+                                            <li id="theme2"></li>
+                                            <li id="theme3"></li>
+                                            <li id="theme4"></li>
+                                            <li id="theme5"></li>
+                                            <li id="theme6"></li>
+                                        </ul>
+                
+                                        <p class="mb-0">Gradient Background</p>
+                                        <hr>
+                
+                                        <ul class="switcher">
+                                            <li id="theme7"></li>
+                                            <li id="theme8"></li>
+                                            <li id="theme9"></li>
+                                            <li id="theme10"></li>
+                                            <li id="theme11"></li>
+                                            <li id="theme12"></li>
+                                            <li id="theme13"></li>
+                                            <li id="theme14"></li>
+                                            <li id="theme15"></li>
+                                        </ul>
+                
+                                    </div>
+                                </div>-->
                 <!--end color switcher-->
 
             </div>
@@ -1038,6 +1010,7 @@
             closeBtn.addEventListener('click', function () {
                 formSection.style.display = 'none';
                 tableSection.style.display = 'block';
+                clearForms();
             });
 //            closeBtnin.addEventListener('click', function () {
 //                formSectionInprogress.style.display = 'none';

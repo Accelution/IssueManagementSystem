@@ -184,7 +184,13 @@
                         </div>
                     </div>
                 </div>
-
+                <footer class="footer">
+                    <div class="container">
+                        <div class="text-center">
+                            Copyright © 2024 Aceelution
+                        </div>
+                    </div>
+                </footer>
 
             </div>
         </div>
@@ -293,34 +299,6 @@
 
         <script>
 
-            var prio = new SlimSelect(
-                    {select: '#prio',
-                        placeholder: "Priority",
-                        ajax: function (search, callback) {
-                            fetch('issue/priority', {
-                                method: 'POST',
-                                body: new URLSearchParams({search: search || ''})
-                            }).then(res => res.json()).then((data) => {
-                                callback(data);
-                            });
-                        },
-                        allowDeselect: true,
-                        deselectLabel: '<span class="red">✖</span>'
-                    });
-            var typeIssue = new SlimSelect(
-                    {select: '#typeIssue',
-                        placeholder: "Issue Type",
-                        ajax: function (search, callback) {
-                            fetch('type/type-select', {
-                                method: 'POST',
-                                body: new URLSearchParams({search: search || ''})
-                            }).then(res => res.json()).then((data) => {
-                                callback(data);
-                            });
-                        },
-                        allowDeselect: true,
-                        deselectLabel: '<span class="red">✖</span>'
-                    });
 
 
             $('#addFmrBtn').click(function () {

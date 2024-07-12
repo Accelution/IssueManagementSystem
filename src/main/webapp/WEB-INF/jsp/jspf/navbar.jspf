@@ -1,15 +1,12 @@
 <%@ page pageEncoding="UTF-8" %>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300&family=Marvel:wght@700&display=swap"
-      rel="stylesheet">
+
 
 <!--Start sidebar-wrapper-->
 <div id="sidebar-wrapper" data-simplebar="" data-simplebar-auto-hide="true">
     <div class="brand-logo">
         <a href="index">
             <img src="assets/img/logo/accelution.jpg" class="logo-icon" alt="logo icon">
-            <h5 class="logo-text">Accelution TMS</h5>
+            <h5 class="logo-text">Acce TMS</h5>
         </a>
     </div>
     <ul class="sidebar-menu do-nicescrol" id="dynamic-sidebar-menu">

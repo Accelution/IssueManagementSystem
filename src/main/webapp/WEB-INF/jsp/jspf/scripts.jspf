@@ -6,7 +6,7 @@
 <script src="files/js/pcoded.min.js" type="text/javascript"></script>
 <script src="files/js/horizontal-layout.min.js" type="text/javascript"></script>
 <script src="files/js/jquery.mCustomScrollbar.concat.min.js" type="text/javascript"></script>
-<script type="text/javascript" src="files/js/script.js"></script>
+<!--<script type="text/javascript" src="files/js/script.js"></script>-->
 
 <script>
 

@@ -19,7 +19,7 @@
         <!--favicon-->
         <link rel="icon" href="assets/img/logo/accelution.jpg" type="image/x-icon">
         <!-- Vector CSS -->
-        <link href="assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet"/>
+        <!--<link href="assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet"/>-->
         <!-- simplebar CSS-->
         <link href="assets/plugins/simplebar/css/simplebar.css" rel="stylesheet"/>
         <!-- Bootstrap core CSS-->
@@ -106,7 +106,13 @@
                             </div>
                         </div>
                     </div></div>
-
+                <footer class="footer">
+                    <div class="container">
+                        <div class="text-center">
+                            Copyright © 2024 Aceelution
+                        </div>
+                    </div>
+                </footer>
             </div>
         </div>
 
@@ -130,7 +136,7 @@
         <!-- sidebar-menu js -->
         <script src="assets/js/sidebar-menu.js"></script>
         <!-- loader scripts -->
-        <script src="assets/js/jquery.loading-indicator.js"></script>
+        <!--<script src="assets/js/jquery.loading-indicator.js"></script>-->
         <!-- Custom scripts -->
         <script src="assets/js/app-script.js"></script>
         <!-- Chart js -->
