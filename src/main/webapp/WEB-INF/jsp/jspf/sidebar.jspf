@@ -1,0 +1,54 @@
+
+
+<nav class="navbar navbar-light navbar-vertical navbar-expand-xl navbar-card">
+    <div class="d-flex align-items-center">
+        <div class="toggle-icon-wrapper">
+            <button class="btn navbar-toggler-humburger-icon navbar-vertical-toggle" data-bs-toggle="tooltip"
+                    data-bs-placement="left" title="Toggle Navigation"><span class="navbar-toggle-icon"><span
+                        class="toggle-line"></span></span></button>
+        </div>
+        <a class="navbar-brand" href="index">
+            <div class="d-flex align-items-center py-3">
+                <span class="font-sans-serif">TMS</span>
+            </div>
+        </a>
+    </div>
+    <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
+        <div class="navbar-vertical-content scrollbar">
+            <ul class="navbar-nav flex-column mb-3" id="navbarVerticalNav">
+                <div id="dynamic-sidebar-menu"></div>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!--<script>
+    fetch('admin/page-access')
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+
+                // Assuming you have a container with id 'dynamic-sidebar-menu' where you want to append items
+                var sidebarMenu = $('#dynamic-sidebar-menu');
+
+                data.forEach(item => {
+                    if (item.url !== null && item.url !== undefined) {
+                        var listItem = $('<li></li>');
+                        var link = $('<a href="' + item.url + '"></a>');
+                        var icon = $('<i class="' + item.icon + '"></i>'); // Assuming your data includes an icon class
+                        var span = $('<span>' + item.name + '</span>');
+
+                        link.append(icon);
+                        link.append(span);
+                        listItem.append(link);
+                        sidebarMenu.append(listItem);
+                    } else {
+                        console.error('Item skipped due to missing or null URL:', item);
+                    }
+                });
+            })
+            .catch(err => {
+                console.error('Error fetching data:', err);
+            });
+</script>-->
+

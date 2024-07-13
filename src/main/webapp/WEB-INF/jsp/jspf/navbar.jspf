@@ -1,92 +1,62 @@
-<%@ page pageEncoding="UTF-8" %>
+<nav class="navbar navbar-light navbar-glass navbar-top navbar-expand">
 
 
-<!--Start sidebar-wrapper-->
-<div id="sidebar-wrapper" data-simplebar="" data-simplebar-auto-hide="true">
-    <div class="brand-logo">
-        <a href="index">
-            <img src="assets/img/logo/accelution.jpg" class="logo-icon" alt="logo icon">
-            <h5 class="logo-text">Acce TMS</h5>
-        </a>
-    </div>
-    <ul class="sidebar-menu do-nicescrol" id="dynamic-sidebar-menu">
+    <ul class="navbar-nav navbar-nav-icons ms-auto flex-row align-items-center">
         <li class="nav-item">
-            <a href="index">
-                Dashboard
+            <div class="theme-control-toggle fa-icon-wait px-2"><input
+                    class="form-check-input ms-0 theme-control-toggle-input" id="themeControlToggle" type="checkbox"
+                    data-theme-control="theme" value="dark" /><label
+                    class="mb-0 theme-control-toggle-label theme-control-toggle-light" for="themeControlToggle"
+                    data-bs-toggle="tooltip" data-bs-placement="left" title="Switch to light theme"><span
+                        class="fas fa-sun fs-0"></span></label><label
+                    class="mb-0 theme-control-toggle-label theme-control-toggle-dark" for="themeControlToggle"
+                    data-bs-toggle="tooltip" data-bs-placement="left" title="Switch to dark theme"><span
+                        class="fas fa-moon fs-0"></span></label></div>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link pe-0 ps-2" id="navbarDropdownUser" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <div class="d-flex align-items-center position-relative">
+                    <div class="avatar avatar-xl">
+                        <img class="rounded-circle" src="assets/img/team/avatar.png" alt="" />
+                    </div>
+                    <div class="flex-1 ms-1">
+                        <h6 class="mb-0 fw-semi-bold"><%=session.getAttribute("username")%></h6>
+                        <p class="text-500 fs--2 mb-0"></p>
+                    </div>
+                </div>
             </a>
+            <div class="dropdown-menu dropdown-caret dropdown-caret dropdown-menu-end py-0"
+                 aria-labelledby="navbarDropdownUser">
+                <div class="bg-white dark__bg-1000 rounded-2 py-2">
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/logout">Logout</a>
+                </div>
+            </div>
         </li>
     </ul>
-</div>
-
-<!--End sidebar-wrapper-->
-
-<!--Start topbar header-->
-<header class="topbar-nav">
-    <nav class="navbar navbar-expand fixed-top">
-        <ul class="navbar-nav mr-auto align-items-center">
-            <li class="nav-item">
-                <a class="nav-link toggle-menu" href="javascript:void();">
-                    <i class="icon-menu menu-icon"></i>
-                </a>
-            </li>
-
-        </ul>
-
-        <ul class="navbar-nav align-items-center right-nav-link">
-
-            <li class="nav-item">
-                <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown" href="#">
-                    <span class="user-profile"><img src="https://via.placeholder.com/110x110" class="img-circle" alt="user avatar"></span>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-right">
-                    <li class="dropdown-item user-details">
-                        <a href="javaScript:void();">
-                            <div class="media">
-                                <div class="avatar"><img class="align-self-start mr-3" src="https://via.placeholder.com/110x110" alt="user avatar"></div>
-                                <div class="media-body">
-                                    <h6 class="mt-2 user-title"><span><%=session.getAttribute("username")%></span></h6>
-
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-
-                    <li class="dropdown-divider"></li>
-                    <li class="dropdown-item"><i class="icon-power mr-2"></i><a href="logout">
-                            <i class="feather icon-log-out" id="logout"></i> Logout
-                        </a></li>
-                </ul>
-            </li>
-        </ul>
-    </nav>
-</header>
-<!--End topbar header-->
+</nav>
 <script>
-    fetch('admin/page-access')
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-
-                // Assuming you have a container with id 'dynamic-sidebar-menu' where you want to append items
-                var sidebarMenu = $('#dynamic-sidebar-menu');
-
-                data.forEach(item => {
-                    if (item.url !== null && item.url !== undefined) {
-                        var listItem = $('<li></li>');
-                        var link = $('<a href="' + item.url + '"></a>');
-                        var icon = $('<i class="' + item.icon + '"></i>'); // Assuming your data includes an icon class
-                        var span = $('<span>' + item.name + '</span>');
-
-                        link.append(icon);
-                        link.append(span);
-                        listItem.append(link);
-                        sidebarMenu.append(listItem);
-                    } else {
-                        console.error('Item skipped due to missing or null URL:', item);
-                    }
-                });
-            })
-            .catch(err => {
-                console.error('Error fetching data:', err);
-            });
+    var isRTL = JSON.parse(localStorage.getItem('isRTL'));
+    if (isRTL) {
+        var linkDefault = document.getElementById('style-default');
+        var userLinkDefault = document.getElementById('user-style-default');
+        linkDefault.setAttribute('disabled', true);
+        userLinkDefault.setAttribute('disabled', true);
+        document.querySelector('html').setAttribute('dir', 'rtl');
+    } else {
+        var linkRTL = document.getElementById('style-rtl');
+        var userLinkRTL = document.getElementById('user-style-rtl');
+        linkRTL.setAttribute('disabled', true);
+        userLinkRTL.setAttribute('disabled', true);
+    }
 </script>
+<script>
+    var isFluid = JSON.parse(localStorage.getItem('isFluid'));
+    if (isFluid) {
+        var container = document.querySelector('[data-layout]');
+        container.classList.remove('container');
+        container.classList.add('container-fluid');
+    }
+</script>
+

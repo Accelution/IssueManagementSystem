@@ -1,171 +1,128 @@
 <%--
     Document   : systems
-    Created on : Aug 21, 2023, 3:24:58 PM
+    Created on : Aug 21, 2023, 3:24:58?PM
     Author     : cpm.999cc
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="en-US" dir="ltr">
     <head>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-        <meta name="description" content=""/>
-        <meta name="author" content=""/>
-        <title>Accelution - IMS</title>
-        <link href="assets/css/pace.min.css" rel="stylesheet"/>
-        <script src="assets/js/pace.min.js"></script>
-        <!--favicon-->
-        <!--<link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">-->
-        <!-- Vector CSS -->
-        <!--<link href="assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet"/>-->
-        <!-- simplebar CSS-->
-        <link href="assets/plugins/simplebar/css/simplebar.css" rel="stylesheet"/>
-        <!-- Bootstrap core CSS-->
-        <link href="assets/css/bootstrap.min.css" rel="stylesheet"/>
-        <!-- animate CSS-->
-        <link href="assets/css/animate.css" rel="stylesheet" type="text/css"/>
-        <!-- Icons CSS-->
-        <link href="assets/css/icons.css" rel="stylesheet" type="text/css"/>
-        <!-- Sidebar CSS-->
-        <link href="assets/css/sidebar-menu.css" rel="stylesheet"/>
-        <!-- Custom Style-->
-        <link href="assets/css/app-style.css" rel="stylesheet"/>
-        <link href="assets/css/slimselect.css" rel="stylesheet"/>
+        <%@include file="jspf/header.jspf" %>
 
     </head>
-    <body class="bg-theme bg-theme1">
+    <body>
 
-        <div id="wrapper">
-            <div class="content-wrapper">
-                <div class="container-fluid">
+        <main class="main" id="top">
+            <div class="container-fluid" data-layout="container">
+                <%@include file="jspf/sidebar.jspf" %>
+
+                <div class="content">
                     <%@include file="jspf/navbar.jspf" %>
 
-                    <div class="row" id="tableSection">
+                    <div class="container-fluid">
+                        <div class="row" id="tableSection">
 
-                        <div class="card" >
-                            <div class="card-header">
-                                <h4>Companies</h4>
-
-                            </div>
-                            <div class="card-block p-b-0">
-                                <div class="table-responsive">
-                                    <table class="table table-hover table-bordered m-b-0" id="tblemp">
-                                        <thead>
-                                            <tr>
-                                                <th>Id</th>
-                                                <th>Company Name</th>
-                                                <th>Ent On</th>
-                                                <th>Ent By</th>
-                                                <th>Mod On</th>
-                                                <th>Mod By</th>
-                                                <th style="width:1px;">Status</th>
-                                                <th style="width:1px;">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="card-footer">
-                                <div class="text-right">
-                                    <button id="addCompanyBtn" class="btn btn-sm waves-effect waves-light btn-danger"><i class="icon feather icon-plus"></i>Add Company</button>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="" id="formSection" style="display: none">
-                        <div class="card" style="width: 80%;">
-                            <div class="card-block p-b-0">
+                            <div class="card" >
                                 <div class="card-header">
-                                    <div class="card-header-right">
-                                        <ul class="list-unstyled card-option">
-                                            <li><i class="feather icon-x cls-card"></i></li>
-                                        </ul>
+                                    <h4>Companies</h4>
+
+                                </div>
+                                <div class="card-block p-b-0">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover table-bordered m-b-0" id="tblemp">
+                                            <thead>
+                                                <tr>
+                                                    <th>Id</th>
+                                                    <th>Company Name</th>
+                                                    <th>Ent On</th>
+                                                    <th>Ent By</th>
+                                                    <th>Mod On</th>
+                                                    <th>Mod By</th>
+                                                    <th style="width:1px;">Status</th>
+                                                    <th style="width:1px;">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
-                                <div class="card-body" style=" padding-bottom: 0px;" >
-                                    <div class="row">
-                                        <div class="col">
+                                <div class="card-footer">
+                                    <div class="text-right">
+                                        <button id="addCompanyBtn" class="btn btn-sm waves-effect waves-light btn-danger"><i class="icon feather icon-plus"></i>Add Company</button>
+                                    </div>
+                                </div>
+                            </div>
 
-                                            <div class="form-group" style="padding-left: 10px;">
-                                                <label for="inputTime" >Company Name</label>
-                                                <input class="form-control" id="name">
-                                            </div>
-                                            <div class="form-group" style="padding-left: 10px;">
-                                                <label for="inputTime" >Company Email</label>
-                                                <input  class="form-control" id="email">
-                                            </div>
-                                            <div class="form-group" style="padding-left: 10px;">
-                                                <label for="inputTime" >Contact Number</label>
-                                                <input  class="form-control" id="contact">
-                                            </div>
-                                            <div class="form-group" style="padding-left: 10px;">
-                                                <label for="inputTime" >Contact Name</label>
-                                                <input  class="form-control" id="con_name">
-                                            </div>
-                                            <div class="form-group" style="padding-left: 10px;">
-                                                <label for="inputTime" >Contact Email</label>
-                                                <input  class="form-control" id="con_email">
-                                            </div>
-
+                        </div>
+                        <div class="" id="formSection" style="display: none">
+                            <div class="card" style="width: 80%;">
+                                <div class="card-block p-b-0">
+                                    <div class="card-header">
+                                        <div class="card-header-right">
+                                            <ul class="list-unstyled card-option">
+                                                <li><i class="feather icon-x cls-card"></i></li>
+                                            </ul>
                                         </div>
-                                        <div class="col" >
-                                            <div class="pages"  id="pg">
-                                                <label for="name">Access Systems<span class="text-danger">*</span></label>
-                                                <div id="systems" >
+                                    </div>
+                                    <div class="card-body" style=" padding-bottom: 0px;" >
+                                        <div class="row">
+                                            <div class="col">
+
+                                                <div class="form-group" style="padding-left: 10px;">
+                                                    <label for="inputTime" >Company Name</label>
+                                                    <input class="form-control" id="name">
                                                 </div>
+                                                <div class="form-group" style="padding-left: 10px;">
+                                                    <label for="inputTime" >Company Email</label>
+                                                    <input  class="form-control" id="email">
+                                                </div>
+                                                <div class="form-group" style="padding-left: 10px;">
+                                                    <label for="inputTime" >Contact Number</label>
+                                                    <input  class="form-control" id="contact">
+                                                </div>
+                                                <div class="form-group" style="padding-left: 10px;">
+                                                    <label for="inputTime" >Contact Name</label>
+                                                    <input  class="form-control" id="con_name">
+                                                </div>
+                                                <div class="form-group" style="padding-left: 10px;">
+                                                    <label for="inputTime" >Contact Email</label>
+                                                    <input  class="form-control" id="con_email">
+                                                </div>
+
+                                            </div>
+                                            <div class="col" >
+                                                <div class="pages"  id="pg">
+                                                    <label for="name">Access Systems<span class="text-danger">*</span></label>
+                                                    <div id="systems" >
+                                                    </div>
+                                                </div>
+
                                             </div>
 
                                         </div>
 
+
+                                        <div class="card-footer d-flex justify-content-end">
+                                            <button id="saveBtn" class="btn btn-sm waves-effect waves-light btn-primary" style="margin-right: 10px"><i class="icon feather icon-save"></i>Save</button>
+                                            <button id="closeBtn" class="btn btn-sm btn-danger"><i class="icon feather icon-x-circle"></i>Close</button>                          
+                                        </div>
+
+
                                     </div>
-
-
-                                    <div class="card-footer d-flex justify-content-end">
-                                        <button id="saveBtn" class="btn btn-sm waves-effect waves-light btn-primary" style="margin-right: 10px"><i class="icon feather icon-save"></i>Save</button>
-                                        <button id="closeBtn" class="btn btn-sm btn-danger"><i class="icon feather icon-x-circle"></i>Close</button>                          
-                                    </div>
-
-
                                 </div>
                             </div>
                         </div>
+
                     </div>
-                    <footer class="footer">
-                        <div class="container">
-                            <div class="text-center">
-                                Copyright © 2024 Aceelution
-                            </div>
-                        </div>
-                    </footer>
+
                 </div>
-
             </div>
-        </div>
-
-
+        </main>
+        <%@include file="jspf/footer.jspf" %>
 
         <%@include file="jspf/scripts.jspf" %>
-        <script src="assets/js/jquery.min.js"></script>
-        <script src="assets/js/popper.min.js"></script>
-        <script src="assets/js/bootstrap.min.js"></script>
-        <script src="assets/plugins/simplebar/js/simplebar.js"></script>
-        <script src="assets/js/sidebar-menu.js"></script>
-        <script src="assets/js/app-script.js"></script>
-        <script src="assets/plugins/Chart.js/Chart.min.js"></script>
-        <script src="assets/js/index.js"></script>
-        <script  src="files/js/slimselect.js"></script>
-        <script  src="files/js/datatables.min.js"></script>
-        <script  src="files/js/sweetalert2.js"></script>
-        <script  src="files/js/func.js"></script>
-        <script  src="files/js/autoNumeric.js"></script>
-        <script  src="files/js/dataTables.responsive.min.js"></script>
-        <script  src="files/js/jquery.highlight.js"></script>
-        <script  src="files/js/dataTables.searchHighlight.min.js"></script>
 
 
         <script>
@@ -220,9 +177,9 @@
                     let action_td = document.createElement('td');
                     $(action_td).addClass('text-center');
                     if (data['status'] === 'deactivate') {
-                        $(action_td).append('<a href="javascript:void(0)" class="rerec"><i class="zmdi zmdi-refresh-alt f-w-600 f-16 text-c-blue"></i></a>');
+                        $(action_td).append('<a href="javascript:void(0)" class="rerec"><i class="fas fa-check  text-success"></i></a>');
                     } else {
-                        $(action_td).append('<a href="javascript:void(0)" style="padding-right: 15px;" class="editrec"><i class="zmdi zmdi-edit f-w-600 f-16 m-r-10 text-c-green"></i></a><a href="javascript:void(0)" class="delrec"><i class="zmdi zmdi-delete f-w-600 f-16 text-danger"></i></a>');
+                        $(action_td).append('<a href="javascript:void(0)" style="padding-right: 15px;" class="editrec"><i class="far fa-edit text-c-green"></i></a><a href="javascript:void(0)" class="delrec"><i class="far fa-trash-alt f-w-600 f-16 text-danger"></i></a>');
                     }
                     $(row).append(action_td);
                     // Assuming setTableStatus is defined elsewhere

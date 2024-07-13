@@ -1,934 +1,261 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="en-US" dir="ltr">
     <head>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-        <meta name="description" content=""/>
-        <meta name="author" content=""/>
-        <title>Accelution - IMS</title>
-        <link href="assets/css/pace.min.css" rel="stylesheet"/>
-        <script src="assets/js/pace.min.js"></script>
-        <!--favicon-->
-        <link rel="icon" href="assets/img/logo/accelution.jpg" type="image/x-icon">
-        <!-- Vector CSS -->
-        <!--<link href="assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet"/>-->
-        <!-- simplebar CSS-->
-        <link href="assets/plugins/simplebar/css/simplebar.css" rel="stylesheet"/>
-        <!-- Bootstrap core CSS-->
-        <link href="assets/css/bootstrap.min.css" rel="stylesheet"/>
-        <!-- animate CSS-->
-        <link href="assets/css/animate.css" rel="stylesheet" type="text/css"/>
-        <!-- Icons CSS-->
-        <link href="assets/css/icons.css" rel="stylesheet" type="text/css"/>
-        <!-- Sidebar CSS-->
-        <link href="assets/css/sidebar-menu.css" rel="stylesheet"/>
-        <!-- Custom Style-->
-        <link href="assets/css/app-style.css" rel="stylesheet"/>
-        <link href="assets/css/slimselect.css" rel="stylesheet"/>
-
+        <%@include file="jspf/header.jspf" %>
         <style>
-            .cards {
-                transition: transform 0.5s ease;
+            .card {
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgba(0,0,0,0.1);
             }
 
-            .cards:hover {
-                transform: scale(1.15);
-                cursor: pointer;
+            .card-container .col {
+                padding: 0;
             }
 
+            .card-body {
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .text {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+
+            .small-font {
+                font-size: 12px; /* Adjust font size as needed */
+                font-weight: bolder;
+            }
         </style>
     </head>
-    <body class="bg-theme bg-theme1">
 
+    <body>
 
+        <main class="main" id="top">
+            <div class="container-fluid" data-layout="container">
+                <%@include file="jspf/sidebar.jspf" %>
 
-        <div id="wrapper">
-
-
-            <div class="clearfix"></div>
-
-            <div class="content-wrapper">
-                <div class="container-fluid">
+                <div class="content">
                     <%@include file="jspf/navbar.jspf" %>
-                    <!--Start Dashboard Content-->
-                    <div class="main" id="tableSection">
-                        <div class="row row-group m-0">
-                            <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
-                                <div class="card cards" id="Quecrd">
-                                    <div class="card-body ">
-                                        <h5 class="text-white mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather ">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                                                </i></span></h5>
-                                        <div class="progress my-3" style="height:3px;"></div>
-                                        <p class="mb-0 text-white small-font">Queue</p>
+
+                    <div class="container-fluid">
+
+                        <div class="main" id="tableSection">
+
+                            <div class="row row-group m-0 card-container justify-content-between">
+                                <div class="col-lg-2 col-md-4 mb-4">
+                                    <div class="card" id="Quecrd">
+                                        <div class="card-body">
+                                            <h6 class="text mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                                    </i></span></h6>
+                                            <div class="progress my-2" style="height:1px;"></div>
+                                            <p class="mb-0 text small-font">Queue</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-md-4 mb-4">
+                                    <div class="card" id="InProcrd">
+                                        <div class="card-body">
+                                            <h6 class="text mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-book-open"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+                                                    </i></span></h6>
+                                            <div class="progress my-2" style="height:1px;"></div>
+                                            <p class="mb-0 text small-font">In Progress</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-md-4 mb-4">
+                                    <div class="card" id="Devpcrd">
+                                        <div class="card-body">
+                                            <h6 class="text mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                                    </i></span></h6>
+                                            <div class="progress my-2" style="height:1px;"></div>
+                                            <p class="mb-0 text small-font">Development Pending</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-md-4 mb-4">
+                                    <div class="card" id="Qacrd">
+                                        <div class="card-body">
+                                            <h6 class="text mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-square"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                                                    </i></span></h6>
+                                            <div class="progress my-2" style="height:1px;"></div>
+                                            <p class="mb-0 text small-font">QA Pending</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-md-4 mb-4">
+                                    <div class="card" id="Complcrd">
+                                        <div class="card-body">
+                                            <h6 class="text mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                                    </i></span></h6>
+                                            <div class="progress my-2" style="height:1px;"></div>
+                                            <p class="mb-0 text small-font">Completed</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-md-4 mb-4">
+                                    <div class="card" id="Unsuccrd">
+                                        <div class="card-body">
+                                            <h6 class="text mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-octagon"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+                                                    </i></span></h6>
+                                            <div class="progress my-2" style="height:1px;"></div>
+                                            <p class="mb-0 text small-font">Closed</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
-                                <div class="card cards" id="InProcrd">
-                                    <div class="card-body ">
-                                        <h5 class="text-white mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather ">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-book-open"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
-                                                </i></span></h5>
-                                        <div class="progress my-3" style="height:3px;"></div>
-                                        <p class="mb-0 text-white small-font">In Progress</p>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
-                                <div class="card cards" id="Devpcrd">
-                                    <div class="card-body ">
-                                        <h5 class="text-white mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather ">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                                                </i></span></h5>
-                                        <div class="progress my-3" style="height:3px;"></div>
-                                        <p class="mb-0 text-white small-font">Development Pending</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
-                                <div class="card cards" id="Qacrd">
-                                    <div class="card-body ">
-                                        <h5 class="text-white mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather ">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-square"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
-                                                </i></span></h5>
-                                        <div class="progress my-3" style="height:3px;"></div>
-                                        <p class="mb-0 text-white small-font">QA Pending</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
-                                <div class="card cards" id="Complcrd">
-                                    <div class="card-body ">
-                                        <h5 class="text-white mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather ">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                                                </i></span></h5>
-                                        <div class="progress my-3" style="height:3px;"></div>
-                                        <p class="mb-0 text-white small-font">Completed</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
-                                <div class="card cards" id="Unsuccrd">
-                                    <div class="card-body " style="padding: 0.5rem;">
-                                        <h5 class="text-white mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather ">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-octagon"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
-                                                </i></span></h5>
-                                        <div class="progress my-3" style="height:3px;"></div>
-                                        <p class="mb-0 text-white small-font">Closed</p>
+                            <div class="row">
+                                <div class="col-12 col-lg-12">
+                                    <div class="card" id="tableCard">
+                                        <div class="card-body">
+                                            <h5 id="main_name_tag">Ticket Management System</h5>
+                                            <hr>
+                                            <div id="table_card">
+                                                <table class="table table-bordered table-sm" id="issue_table" style="width: 100%; font-size: small">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="display: none">ID</th>
+                                                            <th>Reference Number</th>
+                                                            <th>Issue</th>
+                                                            <th>System</th>
+                                                            <th>Priority</th>
+                                                            <th>ENT Date</th>
+                                                            <th>Status</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer">
+                                            <div class="text-right">
+                                                <button id="addFmrBtn" class="btn btn-sm waves-effect waves-light btn-danger"><i class="icon feather icon-plus"></i>Add Ticket</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-12 col-lg-12">
-                                <div class="card" id="tableCard">
-                                    <div class="card-body">
-                                        <h5 id="main_name_tag">Ticket Management System</h5>
-                                        <hr>
-                                        <div id="table_card">
-                                            <table class="table table-bordered table-sm" id="issue_table" style="width: 100%; font-size: small">
+                        <div class="" id="formSection" style="display: none;padding-top: 1rem;">
+                            <div class="card" style="padding: 1em;">
+                                <div class="card-deading">
+                                    <h3 style="text-align: center;">New Ticket</h3>
+                                </div>
+                                <div class="card-block p-b-0" >
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="username">Name<span class="text-danger">*</span></label>
+                                                <input id="username" type="text" name="username" class="form-control" required autocomplete="off" disabled="">
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="company">Company<span class="text-danger">*</span></label>
+                                                <input id="company" type="text" name="company" class="form-control" required autocomplete="off" disabled="">
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group" style="padding-bottom: 2rem">
+                                                <label for="assign" class="col-sm-4 col-form-label allFontByCustomerEdit">System</label>
+                                                <select class="form-control-sm pull-right" id="company-select-systems">  </select>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group" style="padding-bottom: 2rem">
+                                                <label for="typeIssue" class="col-sm-4 col-form-label allFontByCustomerEdit">Issue Type</label>
+                                                <select class="form-control-sm pull-right" id="typeIssue">  </select>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group" style="padding-bottom: 2rem">
+                                                <label for="prio" class="col-sm-4 col-form-label allFontByCustomerEdit"> Priority</label>
+                                                <select class="form-control-sm pull-right ajax-select" id="prio">  </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="issue">Issue<span class="text-danger">*</span></label>
+                                        <textarea id="issue"  name="issue" class="form-control" required autocomplete="off"></textarea>
+                                    </div>
+
+                                    <label for="comment">Upload Your Attachments Here<span class="text-danger">*</span></label>
+                                    <div class="ttt" style="display: flex;flex-direction: row;">
+
+                                        <div class="table-responsive">
+                                            <table class="table table-hover table-bordered m-b-0" id="tbladdAtt" >
                                                 <thead>
                                                     <tr>
-                                                        <th style="display: none">ID</th>
-                                                        <th>Reference Number</th>
-                                                        <th>Issue</th>
-                                                        <th>System</th>
-                                                        <th>Priority</th>
-                                                        <th>ENT Date</th>
-                                                        <th>Status</th>
-                                                        <th>Action</th>
+                                                        <th>Comment</th>
+                                                        <th>Attachment</th>
+                                                        <th style="width:1px;">Action</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody></tbody>
+                                                <tbody>
+                                                    <!-- Your table body content goes here -->
+                                                </tbody>
                                             </table>
                                         </div>
+
                                     </div>
-                                    <div class="card-footer">
-                                        <div class="text-right">
-                                            <button id="addFmrBtn" class="btn btn-sm waves-effect waves-light btn-danger"><i class="icon feather icon-plus"></i>Add Ticket</button>
+                                    <div class="row justify-content-end" style="padding: 2em;">
+                                        <div class="row">
+                                            <div class="text">
+                                                <button id="addBtn" class="btn btn-sm waves-effect waves-light btn-danger">
+                                                    <i class="icon feather icon-plus"></i>Add Comment/Attachment
+                                                </button>
+                                            </div>
                                         </div>
+                                    </div>
+
+                                    <div class="card-footer d-flex justify-content-end">
+                                        <button id="saveBtn" class="btn btn-sm waves-effect waves-light btn-primary" style="margin-right: 10px"><i class="icon feather icon-save"></i>Save</button>
+                                        <button id="closeBtn" class="btn btn-sm btn-danger"><i class="icon feather icon-x-circle"></i>Close</button>                          
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
 
-                    <!-- End container-fluid-->
-                    <div class="" id="formSection" style="display: none;padding-top: 1rem;">
-                        <div class="card" style="padding: 1em;">
-                            <div class="card-deading">
-                                <h3 style="text-align: center;">New Ticket</h3>
-                            </div>
-                            <div class="card-block p-b-0" >
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <label for="username">Name<span class="text-danger">*</span></label>
-                                            <input id="username" type="text" name="username" class="form-control" required autocomplete="off" disabled="">
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <label for="company">Company<span class="text-danger">*</span></label>
-                                            <input id="company" type="text" name="company" class="form-control" required autocomplete="off" disabled="">
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                    </div>
-                                </div>
+                </div>
 
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="form-group" style="padding-bottom: 2rem">
-                                            <label for="assign" class="col-sm-4 col-form-label allFontByCustomerEdit">System</label>
-                                            <select class="form-control-sm pull-right" id="company-select-systems">  </select>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="form-group" style="padding-bottom: 2rem">
-                                            <label for="typeIssue" class="col-sm-4 col-form-label allFontByCustomerEdit">Issue Type</label>
-                                            <select class="form-control-sm pull-right" id="typeIssue">  </select>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="form-group" style="padding-bottom: 2rem">
-                                            <label for="prio" class="col-sm-4 col-form-label allFontByCustomerEdit"> Priority</label>
-                                            <select class="form-control-sm pull-right ajax-select" id="prio">  </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="issue">Issue<span class="text-danger">*</span></label>
-                                    <textarea id="issue"  name="issue" class="form-control" required autocomplete="off"></textarea>
-                                </div>
-
-                                <label for="comment">Upload Your Attachments Here<span class="text-danger">*</span></label>
-                                <div class="ttt" style="display: flex;flex-direction: row;">
-
-                                    <div class="table-responsive">
-                                        <table class="table table-hover table-bordered m-b-0" id="tbladdAtt" >
-                                            <thead>
-                                                <tr>
-                                                    <th>Comment</th>
-                                                    <th>Attachment</th>
-                                                    <th style="width:1px;">Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <!-- Your table body content goes here -->
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                </div>
-                                <div class="row justify-content-end" style="padding: 2em;">
-                                    <div class="row">
-                                        <div class="text">
-                                            <button id="addBtn" class="btn btn-sm waves-effect waves-light btn-danger">
-                                                <i class="icon feather icon-plus"></i>Add Comment/Attachment
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="card-footer d-flex justify-content-end">
-                                    <button id="saveBtn" class="btn btn-sm waves-effect waves-light btn-primary" style="margin-right: 10px"><i class="icon feather icon-save"></i>Save</button>
-                                    <button id="closeBtn" class="btn btn-sm btn-danger"><i class="icon feather icon-x-circle"></i>Close</button>                          
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div><!--End content-wrapper-->
-                <!--Start Back To Top Button-->
-                <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
-                <!--End Back To Top Button-->
-
-                <!--Start footer-->
-                <footer class="footer">
-                    <div class="container">
-                        <div class="text-center">
-                            Copyright © 2024 Aceelution
-                        </div>
-                    </div>
-                </footer>
-                <!--End footer-->
-
-                <!--start color switcher-->
-                <!--                <div class="right-sidebar">
-                                    <div class="switcher-icon">
-                                        <i class="zmdi zmdi-settings zmdi-hc-spin"></i>
-                                    </div>
-                                    <div class="right-sidebar-content">
-                
-                                        <p class="mb-0">Gaussion Texture</p>
-                                        <hr>
-                
-                                        <ul class="switcher">
-                                            <li id="theme1"></li>
-                                            <li id="theme2"></li>
-                                            <li id="theme3"></li>
-                                            <li id="theme4"></li>
-                                            <li id="theme5"></li>
-                                            <li id="theme6"></li>
-                                        </ul>
-                
-                                        <p class="mb-0">Gradient Background</p>
-                                        <hr>
-                
-                                        <ul class="switcher">
-                                            <li id="theme7"></li>
-                                            <li id="theme8"></li>
-                                            <li id="theme9"></li>
-                                            <li id="theme10"></li>
-                                            <li id="theme11"></li>
-                                            <li id="theme12"></li>
-                                            <li id="theme13"></li>
-                                            <li id="theme14"></li>
-                                            <li id="theme15"></li>
-                                        </ul>
-                
-                                    </div>
-                                </div>-->
-                <!--end color switcher-->
 
             </div>
 
 
+        </main>
+        <%@include file="jspf/footer.jspf" %>
 
-        </div>
-
-
-
-
-        <!--        formSection-acknowledgment-pending
-                <div class="" id="formSectionInprogress" style="display: none;padding-top: 1rem;">
-                    <div class="card" style="width: 90%;padding: 1em;display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0;">
-                        <div class="card-block p-b-0">
-                            <div class="row">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="ref_number">Reference Number<span class="text-danger">*</span></label>
-                                        <input id="ref_numberq" type="text" name="ref_number" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="ent_by">Ent By<span class="text-danger">*</span></label>
-                                        <input id="ent_by" type="text" name="ent_by" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-        
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="Issueq">Issue<span class="text-danger">*</span></label>
-                                        <input id="Issuequ" type="text" name="Issueq" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="commentq">Comment<span class="text-danger">*</span></label>
-                                        <textarea id="commentq" type="text" name="commentq" class="form-control" required autocomplete="off" disabled=""></textarea>
-                                    </div>
-                                </div>
-        
-        
-                            </div>
-                                                <div class="form-group" style="padding-bottom: 2rem">
-                                                    <label for="acknow_status" class="col-sm-4 col-form-label allFontByCustomerEdit">Choose Next Action </label>
-                                                    <div class="col-sm-6">
-                                                        <select class="form-control-sm pull-right" id="statusque" style="width: 20rem;margin-right: 15rem;">
-                                                            <option value="" disabled selected>Select Action</option>
-                                                            <option value="devPen">Development Pending</option>
-                                                            <option value="uns">Unsuccessful</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group" id="reason_section" style="display: none;">
-                                                    <label for="reason">Reject Reason<span class="text-danger">*</span></label>
-                                                    <textarea id="reason_textarea" name="reason" class="form-control" required></textarea>
-                                                </div>
-        
-                            <div class="card-footer d-flex justify-content-end" style="background-color: white;">
-                                <button id="saveBtnin" class="btn btn-sm waves-effect waves-light btn-primary" style="margin-right: 10px"><i class="icon feather icon-save"></i>Save</button>
-                                <button id="closeBtnin" class="btn btn-sm btn-danger"><i class="icon feather icon-x-circle"></i>Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        
-        
-        
-                Acknowledged
-                <div class="" id="formSectionFilePending" style="display: none;padding-top: 1rem;">
-                    <div class="card" style="width: 80%;padding: 1em;">
-                        <div class="card-block p-b-0">
-                            <div class="card-header">
-                                <ul class="list-unstyled card-option">
-                                    <li><i class="feather icon-x cls-card"></i></li>
-                                </ul>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="ref_number">Agreement Number / Vehicle Number<span class="text-danger">*</span></label>
-                                        <input id="ref_numberp" type="text" name="ref_number" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="customer_name">Customer's Name<span class="text-danger">*</span></label>
-                                        <input id="customer_namep" type="text" name="customer_name" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="customer_name">Product<span class="text-danger">*</span></label>
-                                        <input id="productp" type="text" name="customer_name" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="amount">Amount<span class="text-danger">*</span></label>
-                                        <input id="amountp" type="number" name="amount" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-                            </div>
-        
-        
-        
-                            <div class="card-footer d-flex justify-content-end" style="background-color: white;">
-                                <button id="closeBtnfile" class="btn btn-sm btn-danger"><i class="icon feather icon-x-circle"></i>Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        
-        
-                Exceptions
-                <div class="" id="formSectionFileClearance" style="display: none;padding-top: 1rem;">
-                    <div class="card" style="width: 80%;padding: 1em;">
-                        <div class="card-block p-b-0">
-                            <div class="card-header">
-                                <ul class="list-unstyled card-option">
-                                    <li><i class="feather icon-x cls-card"></i></li>
-                                </ul>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="ref_number">Agreement Number / Vehicle Number<span class="text-danger">*</span></label>
-                                        <input id="ref_numberc" type="text" name="ref_number" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="customer_name">Customer's Name<span class="text-danger">*</span></label>
-                                        <input id="customer_namec" type="text" name="customer_name" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="customer_name">Product<span class="text-danger">*</span></label>
-                                        <input id="productc" type="text" name="customer_name" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="amount">Amount<span class="text-danger">*</span></label>
-                                        <input id="amountc" type="number" name="amount" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-                            </div>
-        
-                            <div class="row">
-        
-                                <div class="ttt" style="display: flex;flex-direction: row;">
-                                    <div class="table-responsive">
-                                        <table class="table table-hover table-bordered m-b-0" id="tbladdAtts" >
-                                            <thead>
-                                                <tr>
-                                                    <th>Pending Files</th>
-                                                    <th>Justification</th>
-                                                    <th>Completion Date</th>
-                                                    <th>Status</th>
-                                                    <th>Modified By</th>
-                                                    <th>Modified On</th>
-        
-                                                </tr>
-                                            </thead>
-        
-                                            <tbody>
-                                                 Your table body content goes here 
-                                            </tbody>
-                                        </table>
-                                    </div>
-        
-                                </div>
-        
-                            </div>
-        
-        
-        
-                            <div class="card-footer d-flex justify-content-end" style="background-color: white;">
-        
-                                <button id="closeBtnclr" class="btn btn-sm btn-danger"><i class="icon feather icon-x-circle"></i>Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        
-                Undertaking Recommendation
-                <div class="" id="formSectionRecommendation" style="display: none;padding-top: 1rem;">
-                    <div class="card" style="width: 80%;padding: 1em;">
-                        <div class="card-block p-b-0">
-                            <div class="card-header">
-                                <ul class="list-unstyled card-option">
-                                    <li><i class="feather icon-x cls-card"></i></li>
-                                </ul>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="ref_number">Agreement Number / Vehicle Number<span class="text-danger">*</span></label>
-                                        <input id="ref_numberrec" type="text" name="ref_number" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="customer_name">Customer's Name<span class="text-danger">*</span></label>
-                                        <input id="customer_namerec" type="text" name="customer_name" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="customer_name">Product<span class="text-danger">*</span></label>
-                                        <input id="productrec" type="text" name="customer_name" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="amount">Amount<span class="text-danger">*</span></label>
-                                        <input id="amountrec" type="number" name="amount" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-                            </div>
-        
-                            <div class="row">
-        
-                                <div class="ttt" style="display: flex;flex-direction: row;">
-                                    <div class="table-responsive">
-                                        <table class="table table-hover table-bordered m-b-0" id="tbladdAttsrec" >
-                                            <thead>
-                                                <tr>
-                                                    <th>Pending Files</th>
-                                                    <th>Justification</th>
-                                                    <th>Completion Date</th>
-                                                    <th>Status</th>
-                                                    <th>Modified By</th>
-                                                    <th>Modified On</th>
-        
-                                                </tr>
-                                            </thead>
-        
-                                            <tbody>
-                                                 Your table body content goes here 
-                                            </tbody>
-                                        </table>
-                                    </div>
-        
-                                </div>
-        
-                            </div>
-        
-        
-        
-                            <div class="card-footer d-flex justify-content-end" style="background-color: white;">
-                                <button id="closeBtnrec" class="btn btn-sm btn-danger"><i class="icon feather icon-x-circle"></i>Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        
-                Undertaking Approval Pending
-                <div class="" id="formSectionApprovalPending" style="display: none;padding-top: 1rem;">
-                    <div class="card" style="width: 80%;padding: 1em;">
-                        <div class="card-block p-b-0">
-                            <div class="card-header">
-                                <ul class="list-unstyled card-option">
-                                    <li><i class="feather icon-x cls-card"></i></li>
-                                </ul>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="ref_number">Agreement Number / Vehicle Number<span class="text-danger">*</span></label>
-                                        <input id="ref_numberu" type="text" name="ref_number" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="customer_name">Customer's Name<span class="text-danger">*</span></label>
-                                        <input id="customer_nameu" type="text" name="customer_name" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="customer_name">Product<span class="text-danger">*</span></label>
-                                        <input id="productu" type="text" name="customer_name" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="amount">Amount<span class="text-danger">*</span></label>
-                                        <input id="amountu" type="number" name="amount" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="customer_name">Assigned To Approve<span class="text-danger">*</span></label>
-                                        <input id="appund" type="text" name="customer_name" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-                                <div class="col">
-        
-                                </div>
-                            </div>
-        
-                            <div class="row">
-        
-                                <div class="ttt" style="display: flex;flex-direction: row;">
-                                    <div class="table-responsive">
-                                        <table class="table table-hover table-bordered m-b-0" id="tbladdAttu" >
-                                            <thead>
-                                                <tr>
-                                                    <th>Pending Files</th>
-                                                    <th>Justification</th>
-                                                    <th>Completion Date</th>
-                                                    <th>Status</th>
-                                                    <th>Modified By</th>
-                                                    <th>Modified On</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                 Your table body content goes here 
-                                            </tbody>
-                                        </table>
-                                    </div>
-        
-                                </div>
-        
-                            </div>
-        
-        
-                            <div class="card-footer d-flex justify-content-end" style="background-color: white;">
-                                <button id="closeBtnund" class="btn btn-sm btn-danger"><i class="icon feather icon-x-circle"></i>Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        
-        
-                Payment Voucher Hand Over To Finance
-                <div class="" id="formSectionPaymentVoucher" style="display: none;padding-top: 1rem;">
-                    <div class="card" style="width: 80%;padding: 1em;">
-                        <div class="card-block p-b-0">
-                            <div class="row">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="ref_number">Agreement Number / Vehicle Number<span class="text-danger">*</span></label>
-                                        <input id="ref_numberpay" type="text" name="ref_number" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="customer_name">Customer's Name<span class="text-danger">*</span></label>
-                                        <input id="customer_namepay" type="text" name="customer_name" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="customer_name">Product<span class="text-danger">*</span></label>
-                                        <input id="productpay" type="text" name="customer_name" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="amount">Amount<span class="text-danger">*</span></label>
-                                        <input id="amountpay" type="number" name="amount" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-                            </div>
-        
-        
-        
-                            <div class="card-footer d-flex justify-content-end" style="background-color: white;">
-                                <button id="closeBtnpay" class="btn btn-sm btn-danger"><i class="icon feather icon-x-circle"></i>Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                Payment Voucher Hand Over To Finance(Undertaking Approval)
-                <div class="" id="formSectionPaymentVoucherUnder" style="display: none;padding-top: 1rem;">
-                    <div class="card" style="width: 80%;padding: 1em;">
-                        <div class="card-block p-b-0">
-                            <div class="row">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="ref_number">Agreement Number / Vehicle Number<span class="text-danger">*</span></label>
-                                        <input id="ref_numberppun" type="text" name="ref_number" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="customer_name">Customer's Name<span class="text-danger">*</span></label>
-                                        <input id="customer_nameppun" type="text" name="customer_name" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="customer_name">Product<span class="text-danger">*</span></label>
-                                        <input id="productppun" type="text" name="customer_name" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="amount">Amount<span class="text-danger">*</span></label>
-                                        <input id="amountppun" type="number" name="amount" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row" id="approverRow" >
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="approver">Approved By<span class="text-danger">*</span></label>
-                                        <input id="approvername" type="text" name="customer_name" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-                                <div class="col">
-        
-                                </div>
-                            </div>
-                            <div class="row">
-        
-                                <div class="ttt" style="display: flex;flex-direction: row;">
-                                    <div class="table-responsive">
-                                        <table class="table table-hover table-bordered m-b-0" id="tbladdAttpay" >
-                                            <thead>
-                                                <tr>
-                                                    <th>Pending Files</th>
-                                                    <th>Justification</th>
-                                                    <th>Completion Date</th>
-                                                    <th>Status</th>
-                                                    <th>Modified By</th>
-                                                    <th>Modified On</th>
-                                                </tr>
-                                            </thead>
-        
-                                            <tbody>
-                                                 Your table body content goes here 
-                                            </tbody>
-                                        </table>
-                                    </div>
-        
-                                </div>
-        
-                            </div>
-        
-        
-                            <div class="card-footer d-flex justify-content-end" style="background-color: white;">
-                                <button id="closeBtnppun" class="btn btn-sm btn-danger"><i class="icon feather icon-x-circle"></i>Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        
-                Completed
-                <div class="" id="formSectionCompleted" style="display: none;padding-top: 1rem;">
-                    <div class="card" style="width: 80%;padding: 1em;">
-                        <div class="card-block p-b-0">
-                            <div class="row">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="ref_number">Agreement Number / Vehicle Number<span class="text-danger">*</span></label>
-                                        <input id="ref_numbercom" type="text" name="ref_number" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="customer_name">Customer's Name<span class="text-danger">*</span></label>
-                                        <input id="customer_namecom" type="text" name="customer_name" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="customer_name">Product<span class="text-danger">*</span></label>
-                                        <input id="productcom" type="text" name="customer_name" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="amount">Amount<span class="text-danger">*</span></label>
-                                        <input id="amountcom" type="number" name="amount" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-                            </div>
-        
-        
-                            <div class="card-footer d-flex justify-content-end" style="background-color: white;">
-                                <button id="saveBtncom" class="btn btn-sm waves-effect waves-light btn-primary" style="margin-right: 10px"><i class="icon feather icon-save"></i>Save</button>
-                                <button id="closeBtncom" class="btn btn-sm btn-danger"><i class="icon feather icon-x-circle"></i>Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                Completed Undertaking
-                <div class="" id="formSectionCompletedUndertaking" style="display: none;padding-top: 1rem;">
-                    <div class="card" style="width: 80%;padding: 1em;">
-                        <div class="card-block p-b-0">
-                            <div class="row">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="ref_number">Agreement Number / Vehicle Number<span class="text-danger">*</span></label>
-                                        <input id="ref_numbercomund" type="text" name="ref_number" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="customer_name">Customer's Name<span class="text-danger">*</span></label>
-                                        <input id="customer_namecomund" type="text" name="customer_name" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="customer_name">Product<span class="text-danger">*</span></label>
-                                        <input id="productcomund" type="text" name="customer_name" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="amount">Amount<span class="text-danger">*</span></label>
-                                        <input id="amountcomund" type="number" name="amount" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="customer_name">Approved By<span class="text-danger">*</span></label>
-                                        <input id="approvercomund" type="text" name="approver_name" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-                                <div class="col">
-        
-                                </div>
-                            </div>
-        
-        
-                            <div class="card-footer d-flex justify-content-end" style="background-color: white;">
-                                <button id="saveBtncom" class="btn btn-sm waves-effect waves-light btn-primary" style="margin-right: 10px"><i class="icon feather icon-save"></i>Save</button>
-                                <button id="closeBtncomun" class="btn btn-sm btn-danger"><i class="icon feather icon-x-circle"></i>Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                Rejected
-                <div class="" id="formSectionRejected" style="display: none;padding-top: 1rem;">
-                    <div class="card" style="width: 80%;padding: 1em;">
-                        <div class="card-block p-b-0">
-                            <div class="row">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="ref_number">Reference Number<span class="text-danger">*</span></label>
-                                        <input id="ref_numberrej" type="text" name="ref_number" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="ent_by">Ent By<span class="text-danger">*</span></label>
-                                        <input id="ent_byrej" type="text" name="ent_by" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-        
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="issue">Issue<span class="text-danger">*</span></label>
-                                        <input id="issue_typerej" type="text" name="customer_name" class="form-control" required autocomplete="off" disabled="">
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="customer_name">Comment<span class="text-danger">*</span></label>
-                                        <textarea id="commentrej" type="text" name="customer_name" class="form-control" required autocomplete="off" disabled=""></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="customer_name">Rejected Reason<span class="text-danger">*</span></label>
-                                        <textarea id="resonrej" type="text" name="customer_name" class="form-control" required autocomplete="off" disabled=""></textarea>
-                                    </div>
-                                </div>
-        
-                            </div>
-        
-        
-                            <div class="card-footer d-flex justify-content-end" style="background-color: white;">
-                                <button id="saveBtncom" class="btn btn-sm waves-effect waves-light btn-primary" style="margin-right: 10px"><i class="icon feather icon-save"></i>Save</button>
-                                <button id="closeBtnrej" class="btn btn-sm btn-danger"><i class="icon feather icon-x-circle"></i>Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>-->
         <%@include file="jspf/scripts.jspf" %>
-        <script src="assets/js/jquery.min.js"></script>
-        <script src="assets/js/popper.min.js"></script>
-        <script src="assets/js/bootstrap.min.js"></script>
-        <script src="assets/plugins/simplebar/js/simplebar.js"></script>
-        <script src="assets/js/sidebar-menu.js"></script>
-        <script src="assets/js/app-script.js"></script>
-        <script src="assets/plugins/Chart.js/Chart.min.js"></script>
-        <script src="assets/js/index.js"></script>
-        <script  src="files/js/slimselect.js"></script>
-        <script  src="files/js/datatables.min.js"></script>
-        <script  src="files/js/sweetalert2.js"></script>
-        <script  src="files/js/func.js"></script>
-        <script  src="files/js/autoNumeric.js"></script>
-        <script  src="files/js/dataTables.responsive.min.js"></script>
-        <script  src="files/js/jquery.highlight.js"></script>
-        <script  src="files/js/dataTables.searchHighlight.min.js"></script>
+
+
+
 
         <script>
             document.getElementById('addBtn').addEventListener('click', function () {
@@ -1085,7 +412,7 @@
                             });
                         },
                         allowDeselect: true,
-                        deselectLabel: '<span class="red">✖</span>'
+                        deselectLabel: '<span class="red">?</span>'
                     });
             var prio = new SlimSelect(
                     {select: '#prio',
@@ -1099,7 +426,7 @@
                             });
                         },
                         allowDeselect: true,
-                        deselectLabel: '<span class="red">✖</span>'
+                        deselectLabel: '<span class="red">?</span>'
                     });
             var typeIssue = new SlimSelect(
                     {select: '#typeIssue',
@@ -1113,7 +440,7 @@
                             });
                         },
                         allowDeselect: true,
-                        deselectLabel: '<span class="red">✖</span>'
+                        deselectLabel: '<span class="red">?</span>'
                     });
 
 
@@ -1414,7 +741,7 @@
                     let action_td = document.createElement('td');
                     $(action_td).addClass('text-center');
 
-                    $(action_td).append('<a href="javascript:void(0)" id="update" class="editrec"><i class="icon feather icon-edit f-w-600 f-16 m-r-10 text-c-green"></i></a>');
+                    $(action_td).append('<a href="javascript:void(0)" id="update" class="editrec"><i class="fa fa-eye text-info"></i></a>');
 
                     $(row).append(action_td);
                     $(row).data('id', data['id']);
@@ -1843,61 +1170,8 @@
 
             });
         </script>
-
-        <!--        <script>
-                    document.addEventListener("DOMContentLoaded", function () {
-                        var ImsStatusSelect = document.getElementById("statusque");
-                        var commentSection = document.getElementById("reason_section");
-
-                        // Add event listener to the select element
-                        ImsStatusSelect.addEventListener("change", function () {
-
-                            // Check if the selected value is "reject"
-                            if (this.value === "uns") {
-                                // Show the comment section
-                                commentSection.style.display = "block";
-                            } else {
-                                // Hide the comment section
-                                commentSection.style.display = "none";
-                            }
-                        });
-
-                    });
-
-                    $('#saveBtnin').click(function () {
-                        // Get the value of the facility status select element
-                        var statusque = document.getElementById('statusque').value;
-
-                        // Initialize request body
-                        var requestBody = {
-                            id: $('#saveBtnin').data('id'),
-                            statusque: statusque,
-                        };
-
-                        // Check if the facility status is "reject"
-                        if (statusque === "uns") {
-                            // Include comment in the request body
-                            requestBody.reason = document.getElementById('reason_textarea').value;
-                        }
-
-                        // Send the request
-                        return fetch((($('#saveBtnin').data('mode') === 'save') ? 'issue/save' : 'issue/update-ack'), {
-                            method: 'POST',
-                            body: new URLSearchParams(requestBody)
-                        }).then(response => {
-                            if (!response.ok) {
-                                throw new Error(response.statusText);
-                            } else {
-                                Swal.fire('Successfull!', 'FMR has been successfully saved');
-                                clearForm();
-                                $('#formSectionInprogress').hide();
-                                $('#tableSection').fadeIn();
-                                dtable.ajax.reload();
-                            }
-                            return response.json();
-                        });
-                    });
-                </script>-->
-
     </body>
+
+
+
 </html>
