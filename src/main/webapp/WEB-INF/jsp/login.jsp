@@ -1,70 +1,73 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<html>
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
     <head>
-        <title>Accelution</title>
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="files/bootstrap/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="files/icon/feather/css/feather.css">
-        <link rel="stylesheet" type="text/css" href="files/css/style_.css">
-        <link rel="stylesheet" type="text/css" href="files/css/pages_.css">
-        <link rel="stylesheet" type="text/css" href="files/css/waves.min.css">
-        <meta name="keywords" content="fintrex,fintrexfinance,finance,cms">
-        <meta name="author" content="fintrexIT">
-        <!--<link rel="icon" href="files/images/logo1.ico" type="images/x-icon">-->
+        <%@include file="jspf/header.jspf" %>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+        <link rel="stylesheet" href="/vendors/bootstrap/bootstrap.min.css">
+        <link rel="stylesheet" href="/vendors/fontawesome/all.min.css">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <style>
+            .div-load {
+                position: relative;
+            }
+            .div-loader {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 2rem;
+            }
+        </style>
     </head>
-    <body class="" style="background-color: #42a5f5;">
-        <%--<%@include file="jspf/loader.jspf" %>--%>
-        <section class="login-block">
-
+    <body>
+        <main class="main" id="top">
             <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <form class="md-float-material form-material">
-                            <div class="text-center">
-                                <!--<img src="files/images/logo.png" width="300" alt="logo.png">-->
-                            </div>
-                            <div class="auth-box card">
-                                <div class="card-block">
-
-
-                                    <p class="text-muted text-center p-b-5">Sign in with your Computer Login</p>
-                                    <div id="altarea"></div>
-                                    <div class="form-group form-primary">
-                                        <input type="text" id="username" name="user-name" class="form-control" required="">
-                                        <span class="form-bar"></span>
-                                        <label class="float-label">Username</label>
-                                    </div>
-                                    <div class="form-group form-primary">
-                                        <input type="password" id="password" name="password" class="form-control" required="">
-                                        <span class="form-bar"></span>
-                                        <label class="float-label">Password</label>
-                                    </div>
-
-                                    <div class="row m-t-30">
-                                        <div class="col-md-12">
-                                            <button type="button" id="loginbtn" class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20">LOGIN</button>
-                                        </div>
+                <div class="row flex-center min-vh-100 py-6">
+                    <div class="col-sm-8 col-md-6 col-lg-5 col-xl-4 col-xxl-3">
+                        <div class="text-center">
+                            <img src="img/logos/logo.png" alt="" width="250">
+                        </div>
+                        <div class="card">
+                            <div class="card-body p-4 p-sm-5">
+                                <div class="row flex-between-center mb-2">
+                                    <div class="col-auto">
+                                        <h5>Log in</h5>
                                     </div>
                                 </div>
+                                <form id="login-form">
+                                    <div id="altarea"></div>
+                                    <div class="mb-3">
+                                        <input class="form-control" type="text" placeholder="Username" name="username" id="username">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input class="form-control" type="password" placeholder="Password" name="password" id="password">
+                                    </div>
+                                    <div class="row flex-between-center">
+                                        <div class="col-auto">
+                                            <div class="form-check mb-0">
+                                                <input class="form-check-input" type="checkbox" id="basic-checkbox" checked="checked">
+                                                <label class="form-check-label mb-0" for="basic-checkbox">Remember me</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <a class="fs--1" href="forgot-password.html">Forgot Password?</a>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <button class="btn btn-primary d-block w-100 mt-3" type="button" id="loginbtn">Log in</button>
+                                    </div>
+                                </form>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
-
-        </section>
-        <script type="text/javascript" src="files/jquery/js/jquery.min.js"></script>
-        <script type="text/javascript" src="files/js/popper.min.js"></script>
-        <script type="text/javascript" src="files/bootstrap/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="files/js/jquery.slimscroll.js"></script>
-        <script src="files/js/waves.min.js" defer=""></script>
-        <script src="files/js/common-pages.js" defer=""></script>
+        </main>
         <script>
-
             function loadDiv(card) {
                 var $this = $(card);
                 $this.addClass("div-load");
-                $this.append('<div class="div-loader"><i class="loader2"></div>');
+                $this.append('<div class="div-loader"><i class="fas fa-spinner fa-spin"></i></div>');
             }
 
             function finishLoadDiv(card) {
@@ -74,41 +77,44 @@
             }
 
             $('#loginbtn').click(function () {
-
-                if ($(this).text() !== 'LOGIN') {
+                if ($(this).text() !== 'Log in') {
                     return;
                 }
 
-
                 $('#altarea').html('');
-                loadDiv($('#card-block').parents('.card-block'));
-                $(this).html('<i class="feather icon-radio rotate-refresh"></i>');
-                $.post('login', {username: $('#username').val()}, function (data) {
-//                $.post('login', {username: $('#username').val(), password: $('#password').val()}, function (data) {
+                loadDiv($('.card-body'));
 
-                    // var data = JSON.parse(res);
+                $(this).html('<i class="fas fa-spinner fa-spin"></i>');
+
+                $.post('login', {
+                    username: $('#username').val(),
+                    password: $('#password').val()
+                }, function (data) {
                     if (data === "ok") {
                         window.location.href = 'index';
                     } else if (data === "locked") {
                         var alttemp = '<div class="alert alert-danger alert-dismissible">' +
-                                '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' +
-                                '<strong></strong> Your Account is Locked !, Please Contact IT Department' +
+                                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                                '<strong></strong> Your Account is Locked! Please Contact IT Department' +
                                 '</div>';
                         $('#altarea').append(alttemp);
                     } else {
                         var alttemp = '<div class="alert alert-danger alert-dismissible">' +
-                                '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' +
+                                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
                                 '<strong>Error!</strong> Invalid Username or Password' +
                                 '</div>';
                         $('#altarea').append(alttemp);
                     }
-                    $('#loginbtn').html('LOGIN');
+                    $('#loginbtn').html('Log in');
+                    finishLoadDiv($('.card-body'));
                 }).fail(function () {
                     var alttemp = '<div class="alert alert-danger alert-dismissible">' +
-                            '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' +
-                            '<strong>Error!</strong> Someting Went Wrong !' +
+                            '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                            '<strong>Error!</strong> Something Went Wrong!' +
                             '</div>';
                     $('#altarea').append(alttemp);
+                    $('#loginbtn').html('Log in');
+                    finishLoadDiv($('.card-body'));
                 });
             });
 
@@ -118,5 +124,7 @@
                 }
             });
         </script>
+        <script src="/vendors/bootstrap/bootstrap.bundle.min.js"></script>
+        <script src="/vendors/fontawesome/all.min.js"></script>
     </body>
 </html>

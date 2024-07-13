@@ -30,7 +30,7 @@
                  aria-labelledby="navbarDropdownUser">
                 <div class="bg-white dark__bg-1000 rounded-2 py-2">
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/logout">Logout</a>
+                    <a class="dropdown-item" href="logout">Logout</a>
                 </div>
             </div>
         </li>

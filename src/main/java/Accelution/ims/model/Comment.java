@@ -34,6 +34,7 @@ public class Comment {
     private Integer id;
     private Integer issue;
     private String comment;
+    public String com_type;
     private String path;
     @CreatedDate
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")

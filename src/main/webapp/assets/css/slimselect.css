@@ -13,8 +13,8 @@
     padding: 6px;
     border: 1px solid #dcdee2;
     border-radius: 4px;
-    background-color: rgba(255, 255, 255, 0.5); /* Adjust the last value (alpha) from 0 (fully transparent) to 1 (fully opaque) */
-
+    /*background-color: rgba(255, 255, 255, 0.1);  Adjust the last value (alpha) from 0 (fully transparent) to 1 (fully opaque) */
+    font-weight: bolder;
     outline: 0;
     box-sizing: border-box;
     transition: background-color .2s;
@@ -55,7 +55,7 @@
     width: auto;
 }
 .ss-main .ss-single-selected .placeholder .ss-disabled {
-    color: #dedede;
+    /*color: #dedede;*/
 }
 .ss-main .ss-single-selected .ss-deselect {
     display: flex;
@@ -105,7 +105,7 @@
     transition: background-color .2s;
 }
 .ss-main .ss-multi-selected.ss-disabled {
-    background-color: #dcdee2;
+    /*background-color: #dcdee2;*/
     cursor: not-allowed;
 }
 .ss-main .ss-multi-selected.ss-disabled .ss-values .ss-disabled {

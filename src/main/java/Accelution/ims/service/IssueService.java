@@ -251,6 +251,14 @@ public class IssueService {
             attachment.setComment(fileItem.get("comment").asText());
             attachment.setStatus("active");
 
+            String comType = fileItem.get("comtype").asText();
+
+            if ("External".equals(comType)) {
+                attachment.setCom_type("External");
+            } else {
+                attachment.setCom_type("Internal");
+            }
+
             if (file != null) {
                 String directoryPath = "TMS\\Comments\\";
                 File directory = new File(directoryPath);

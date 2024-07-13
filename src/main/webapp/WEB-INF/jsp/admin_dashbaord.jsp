@@ -35,6 +35,14 @@
                 font-size: 12px; /* Adjust font size as needed */
                 font-weight: bolder;
             }
+            .card-footer {
+                display: flex;
+                justify-content: flex-end;
+                padding: 1rem;
+            }
+            .text-right {
+                margin-left: auto;
+            }
         </style>
     </head>
 
@@ -53,8 +61,8 @@
 
                             <div class="row row-group m-0 card-container justify-content-between">
                                 <div class="col-lg-2 col-md-4 mb-4">
-                                    <div class="card" id="Quecrd">
-                                        <div class="card-body">
+                                    <div class="card" id="Quecrd" >
+                                        <div class="card-body" >
                                             <h6 class="text mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                                                     </i></span></h6>
@@ -147,7 +155,9 @@
                                         </div>
                                         <div class="card-footer">
                                             <div class="text-right">
-                                                <button id="addFmrBtn" class="btn btn-sm waves-effect waves-light btn-danger"><i class="icon feather icon-plus"></i>Add Ticket</button>
+                                                <button id="addFmrBtn" class="btn btn-sm waves-effect waves-light btn-danger">
+                                                    <i class="icon feather icon-plus"></i>Add Ticket
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -203,16 +213,32 @@
                                         <label for="issue">Issue<span class="text-danger">*</span></label>
                                         <textarea id="issue"  name="issue" class="form-control" required autocomplete="off"></textarea>
                                     </div>
+                                    <div class="row" style="padding-top: 1em;padding-bottom: 1em;">
+                                        <div class="col-3">
+                                            <label for="comment">Upload Your Attachments Here<span class="text-danger">*</span></label> 
+                                        </div>
+                                        <div class="col-9">
+                                            <div class="row justify-content-end" >
 
-                                    <label for="comment">Upload Your Attachments Here<span class="text-danger">*</span></label>
-                                    <div class="ttt" style="display: flex;flex-direction: row;">
+                                                <div class="text">
+                                                    <button id="addBtn" class="btn btn-primary btn-sm ">
+                                                        <i class="fas fa-plus"></i> Comment
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="ttt" >
 
                                         <div class="table-responsive">
                                             <table class="table table-hover table-bordered m-b-0" id="tbladdAtt" >
                                                 <thead>
                                                     <tr>
                                                         <th>Comment</th>
-                                                        <th>Attachment</th>
+                                                        <th >Attachment</th>
+                                                        <th>Type</th>
                                                         <th style="width:1px;">Action</th>
                                                     </tr>
                                                 </thead>
@@ -223,15 +249,7 @@
                                         </div>
 
                                     </div>
-                                    <div class="row justify-content-end" style="padding: 2em;">
-                                        <div class="row">
-                                            <div class="text">
-                                                <button id="addBtn" class="btn btn-sm waves-effect waves-light btn-danger">
-                                                    <i class="icon feather icon-plus"></i>Add Comment/Attachment
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
+
 
                                     <div class="card-footer d-flex justify-content-end">
                                         <button id="saveBtn" class="btn btn-sm waves-effect waves-light btn-primary" style="margin-right: 10px"><i class="icon feather icon-save"></i>Save</button>
@@ -268,7 +286,8 @@
                 // Create cells in the new row
                 var commentCell = newRow.insertCell(0);
                 var fileCell = newRow.insertCell(1);
-                var actionCell = newRow.insertCell(2);
+                var typeCell = newRow.insertCell(2); // New cell for "Type"
+                var actionCell = newRow.insertCell(3);
 
                 // Create textarea for "Comment" in cell 1
                 var commentInput = document.createElement('textarea');
@@ -285,15 +304,44 @@
                 fileInput.required = true;
                 fileInput.autocomplete = 'off';
 
+                // Create select for "Type" in cell 3
+                var typeSelect = document.createElement('select');
+                typeSelect.name = 'type';
+                typeSelect.classList.add('form-control');
+                typeSelect.required = true;
+
+                var defaultOption = document.createElement('option');
+                defaultOption.value = '';
+                defaultOption.textContent = 'Select Type';
+                defaultOption.disabled = true;
+                defaultOption.selected = true;
+
+                var externalOption = document.createElement('option');
+                externalOption.value = 'External';
+                externalOption.textContent = 'External';
+
+                var internalOption = document.createElement('option');
+                internalOption.value = 'Internal';
+                internalOption.textContent = 'Internal';
+
+                typeSelect.appendChild(defaultOption);
+                typeSelect.appendChild(externalOption);
+                typeSelect.appendChild(internalOption);
+
                 // Append input elements to respective cells
                 commentCell.appendChild(commentInput);
                 fileCell.appendChild(fileInput);
+                typeCell.appendChild(typeSelect);
 
                 // Create a delete button in the action cell
                 var deleteButton = document.createElement('button');
                 deleteButton.classList.add('btn', 'btn-sm', 'btn-danger');
-                deleteButton.textContent = 'Remove';
                 deleteButton.name = 'dele';
+
+                var icon = document.createElement('i');
+                icon.classList.add('far', 'fa-window-minimize');
+
+                deleteButton.appendChild(icon);
 
                 // Add a click event listener to the delete button
                 deleteButton.addEventListener('click', function () {
@@ -307,6 +355,8 @@
                 // Call the addAttachmentRow function with the input values
                 addAttachmentRow(commentInput.value, fileInput.value);
             });
+
+
 
 
             function clearForms() {
@@ -508,10 +558,14 @@
                     if (!comment) {
                         isValid = false;
                     }
+                    let comtype = row.querySelector('select[name="type"]').value;
+                    if (!comtype) {
+                        isValid = false;
+                    }
                 });
 
                 if (!isValid) {
-                    Swal.fire('Error!', 'Please add a comment for each entry in the table', 'error');
+                    Swal.fire('Error!', 'Please add a comment & Select Comment Type for each entry in the table', 'error');
                 }
 
                 return isValid;
@@ -541,10 +595,19 @@
 
                     tableRows.forEach((row, index) => {
                         let comment = row.querySelector('textarea[name="comment"]').value;
+                        let comtype = row.querySelector('select[name="type"]').value;
+
+                        // Get the file input element
+                        let fileInput = row.querySelector('input[name="fileLink"]');
                         let path = "";
+                        if (fileInput && fileInput.files.length > 0) {
+                            path = fileInput.files[0].name; // Get the file name
+                            formData.append('fileLink' + index, fileInput.files[0]); // Append the file to formData
+                        }
 
                         attachmentData.push({
                             comment: comment,
+                            comtype: comtype,
                             path: path
                         });
                     });
@@ -576,56 +639,9 @@
                     }).finally(() => {
                         saveBtn.disabled = false;
                     });
-                } else if (mode === 'update') {
-                    let heading = document.getElementById('heading').value;
-                    let id = $('#saveBtn').data('id');
-                    let deleteIds = handleAttachmentDeletion();
-                    let tableRows = document.querySelectorAll('#tbladdAtt tbody tr');
-                    let attachmentData = [];
-                    let formData = {};
-                    tableRows.forEach((row, index) => {
-                        let fileNameInput = row.querySelector('input[name="fileName"]');
-                        let fileLinkInput = row.querySelector('input[name="fileLink"]');
-                        if (fileNameInput && fileLinkInput) {
-                            let fileName = fileNameInput.value;
-                            let fileLink = fileLinkInput.value;
-                            attachmentData.push({
-                                name: fileName,
-                                link: fileLink
-
-                            });
-                        }
-                    });
-                    let desclist = JSON.stringify(attachmentData);
-                    formData.desclist = desclist;
-                    formData.id = id;
-                    formData.heading = heading;
-                    formData.deleteIds = JSON.stringify(deleted);
-                    fetch('dhamma/update-attachment', {
-                        method: 'POST',
-                        body: new URLSearchParams(formData)
-                    }).then(response => {
-                        if (!response.ok) {
-                            throw new Error(response.statusText);
-                        } else {
-                            Swal.fire('Successful!', 'Unit details updated successfully', 'success');
-                            clearForms();
-                            $('#formSection').hide();
-                            $('#tableSection').fadeIn();
-                            $('#navTab').fadeIn();
-                            dtable.ajax.reload();
-                        }
-                        return response.json();
-                    }).catch(error => {
-                        console.error('Error updating unit details:', error);
-                        Swal.fire('Error!', 'Failed to update Unit details', 'error');
-                    });
                 }
+            });
 
-
-
-            }
-            );
 
 
 //            $('#saveBtn').click(function () {

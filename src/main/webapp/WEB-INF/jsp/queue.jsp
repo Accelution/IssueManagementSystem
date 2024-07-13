@@ -357,7 +357,7 @@
                     let action_td = document.createElement('td');
                     $(action_td).addClass('text-center');
 
-                    $(action_td).append('<a href="javascript:void(0)" id="update" class="editrec"><i class="zmdi zmdi-edit f-w-600 f-16 m-r-10 text-c-green"></i></a>');
+                    $(action_td).append('<a href="javascript:void(0)" id="update" class="editrec"><i class="far fa-edit text-c-green"></i></a>');
 
                     $(row).append(action_td);
                     $(row).data('id', data['id']);
@@ -436,6 +436,7 @@
                                 '<div class="col-4">' +
                                 '<h6>Commented By: ' + comment.ent_by + '</h6>' +
                                 '<h6>Commented On: ' + comment.ent_on + '</h6>' +
+                                '<h6>Comment Type: ' + comment.com_type + '</h6>' +
                                 '</div>' +
                                 '<div class="col-8">' +
                                 '<p>Comment: ' + comment.comment + '</p>';

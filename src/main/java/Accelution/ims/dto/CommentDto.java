@@ -25,6 +25,7 @@ public class CommentDto {
     public String issue;
     public String comment;
     public String path;
+    public String com_type;
     public String status;
     public String ent_by;
     public String ent_on;
