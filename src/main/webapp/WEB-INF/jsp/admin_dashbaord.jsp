@@ -56,10 +56,10 @@
                 <%@include file="jspf/sidebar.jspf" %>
 
                 <div class="content">
-                    <%@include file="jspf/navbar.jspf" %>
+
 
                     <div class="container-fluid">
-
+                        <%@include file="jspf/navbar.jspf" %>
                         <div class="main" id="tableSection">
 
                             <div class="row row-group m-0 card-container justify-content-between" style="padding-bottom:2em">
@@ -78,7 +78,7 @@
                                     <div class="card" id="Appcrd">
                                         <div class="card-body">
                                             <h6 class="text mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-book-open"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-key"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path></svg>
                                                     </i></span></h6>
                                             <div class="progress my-2" style="height:1px;"></div>
                                             <p class="mb-0 text small-font">Approval Pending</p>

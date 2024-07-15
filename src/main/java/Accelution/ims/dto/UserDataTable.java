@@ -18,7 +18,7 @@ public class UserDataTable {
     public Integer id;
     public String username;
     public String name;
-    public String usertype;
+    public String usertypes;
     public String company;
 
     public String ent_on;

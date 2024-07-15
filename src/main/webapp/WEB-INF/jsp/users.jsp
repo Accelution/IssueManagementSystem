@@ -10,6 +10,51 @@
 <html>
     <head>
         <%@include file="jspf/header.jspf" %>
+        <style>
+            .card {
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            }
+
+            .card-container .col {
+                padding: 0;
+            }
+
+            .card-body {
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .text {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+
+            .small-font {
+                font-size: 12px; /* Adjust font size as needed */
+                font-weight: 600;
+            }
+            .card-footer {
+                display: flex;
+                justify-content: flex-end;
+                padding: 1rem;
+            }
+            .text-right {
+                margin-left: auto;
+            }
+            .card-col {
+                margin: 0 5px; /* Adjust the margin as needed */
+            }
+        </style>
     </head>
     <body>
 
@@ -69,8 +114,8 @@
 
                         <div class="" id="formSection" style="display: none">
 
-                            <div class="card" style="width: 80%;">
-                                <div class="card-block p-b-0">
+                            <div class="card" >
+                                <div class="card-block p-b-0" style="padding: 2em">
                                     <div class="card-header">
 
                                         <div class="card-header-right">
@@ -202,7 +247,7 @@
 
                     {"data": "ent_on"},
                     {"data": "ent_by"},
-                    {"data": "usertype"},
+                    {"data": "usertypes"},
                     {"data": "company"},
                     {"data": "mod_on"},
                     {"data": "mod_by"},

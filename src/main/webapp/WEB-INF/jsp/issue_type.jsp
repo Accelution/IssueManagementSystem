@@ -9,7 +9,51 @@
 <html>
     <head>
         <%@include file="jspf/header.jspf" %>
+        <style>
+            .card {
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            }
 
+            .card-container .col {
+                padding: 0;
+            }
+
+            .card-body {
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .text {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+
+            .small-font {
+                font-size: 12px; /* Adjust font size as needed */
+                font-weight: 600;
+            }
+            .card-footer {
+                display: flex;
+                justify-content: flex-end;
+                padding: 1rem;
+            }
+            .text-right {
+                margin-left: auto;
+            }
+            .card-col {
+                margin: 0 5px; /* Adjust the margin as needed */
+            }
+        </style>
     </head>
     <body>
 
@@ -75,14 +119,14 @@
                                                     <input  class="form-control" id="name">
                                                 </div>   
                                             </div>
-                                            <div class="col-3">
-                                                <label for="approval" >Requirement Of Approval</label>
-                                                <select id="approval">
-                                                    <option value="" disabled selected>Select an option</option>
-                                                    <option value="yes">Required</option>
-                                                    <option value="no">Not Required</option>
-                                                </select>  
-                                            </div>
+                                            <!--                                            <div class="col-3">
+                                                                                            <label for="approval" >Requirement Of Approval</label>
+                                                                                            <select id="approval">
+                                                                                                <option value="" disabled selected>Select an option</option>
+                                                                                                <option value="yes">Required</option>
+                                                                                                <option value="no">Not Required</option>
+                                                                                            </select>  
+                                                                                        </div>-->
                                         </div>
 
                                         <div class="card-footer d-flex justify-content-end">
@@ -106,9 +150,9 @@
 
 
         <script>
-            new SlimSelect({
-                select: '#approval'
-            })
+//            SlimSelect({
+//                select: '#approval'
+//            })
             const closeBtn = document.getElementById('closeBtn');
             closeBtn.addEventListener('click', function () {
                 formSection.style.display = 'none';

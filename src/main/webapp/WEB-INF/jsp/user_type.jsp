@@ -9,7 +9,51 @@
 <html lang="en-US" dir="ltr">
     <head>
         <%@include file="jspf/header.jspf" %>
+        <style>
+            .card {
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            }
 
+            .card-container .col {
+                padding: 0;
+            }
+
+            .card-body {
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .text {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+
+            .small-font {
+                font-size: 12px; /* Adjust font size as needed */
+                font-weight: 600;
+            }
+            .card-footer {
+                display: flex;
+                justify-content: flex-end;
+                padding: 1rem;
+            }
+            .text-right {
+                margin-left: auto;
+            }
+            .card-col {
+                margin: 0 5px; /* Adjust the margin as needed */
+            }
+        </style>
     </head>
     <body>
 
@@ -109,7 +153,7 @@
         </main>
         <%@include file="jspf/footer.jspf" %>
         <%@include file="jspf/scripts.jspf" %>
-
+        <script  src="files/jstree/js/jstree.min.js"></script>
         <script>
             const closeBtn = document.getElementById('closeBtn');
             closeBtn.addEventListener('click', function () {

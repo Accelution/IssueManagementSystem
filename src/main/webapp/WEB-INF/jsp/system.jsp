@@ -5,7 +5,51 @@
 <html>
     <head>
         <%@include file="jspf/header.jspf" %>
+        <style>
+            .card {
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            }
 
+            .card-container .col {
+                padding: 0;
+            }
+
+            .card-body {
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .text {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+
+            .small-font {
+                font-size: 12px; /* Adjust font size as needed */
+                font-weight: 600;
+            }
+            .card-footer {
+                display: flex;
+                justify-content: flex-end;
+                padding: 1rem;
+            }
+            .text-right {
+                margin-left: auto;
+            }
+            .card-col {
+                margin: 0 5px; /* Adjust the margin as needed */
+            }
+        </style>
     </head>
     <body>
 
@@ -54,21 +98,18 @@
                         </div>
                         <div class="" id="formSection" style="display: none">
                             <div class="card">
-                                <div class="card-block p-b-0">
-                                    <div class="card-header">
-                                        <ul class="list-unstyled card-option">
-                                            <li><i class="feather icon-x cls-card"></i></li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-lg-6 col-md-12">
+                                <div class="card-block p-b-0" style="padding:2em">
+
+                                    <div class="row">
                                         <div class="form-group">
                                             <label for="system">Please Add Your System Name Here<span class="text-danger">*</span></label>
                                             <input id="system" type="text" name="system" class="form-control"  required autocomplete="off">
                                         </div>
                                     </div>
+                                    <br>
                                     <div class="col">
-                                        <div class="card" style="width: 90%">
-                                            <div class="ttt" style="display: flex;flex-direction: row;">
+                                        <div class="card" >
+                                            <div class="ttt" >
                                                 <div class="table-responsive">
                                                     <table class="table table-hover table-bordered m-b-0" id="tbladdAtt" >
                                                         <thead>
@@ -86,7 +127,7 @@
                                             </div>
                                             <div class="card-footer">
                                                 <div class="text-right">
-                                                    <button id="addBtn" class="btn btn-sm waves-effect waves-light btn-danger"><i class="icon feather icon-plus"></i>Add Module</button>
+                                                    <button id="addBtn" class="btn btn-sm waves-effect waves-light btn-primary"><i class="icon feather icon-plus"></i>Add Module</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -95,7 +136,7 @@
                                     </div>
 
                                     <div class="card-footer d-flex justify-content-end">
-                                        <button id="saveBtn" class="btn btn-sm waves-effect waves-light btn-primary" style="margin-right: 10px"><i class="icon feather icon-save"></i>Save</button>
+                                        <button id="saveBtn" class="btn btn-sm waves-effect waves-light btn-success" style="margin-right: 10px"><i class="icon feather icon-save"></i>Save</button>
                                         <button id="closeBtn" class="btn btn-sm btn-danger"><i class="icon feather icon-x-circle"></i>Close</button>                          
                                     </div>
                                 </div>
