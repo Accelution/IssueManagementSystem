@@ -101,6 +101,11 @@ public class CompanyController {
         return service.getSelect(search, company);
     }
 
+//    @PostMapping("/module-select-systems")
+//    public Iterable<SlimSelectDTO> getSelectMod(@RequestParam String search, HttpSession session) throws Exception {
+//        String company = (String) session.getAttribute("company");
+//        return service.getSelectMod(search, company);
+//    }
     @PostMapping("/company-select")
     public Iterable<SlimSelectDTO> getCompanyselect(@RequestParam String search) throws Exception {
         return service.getCompanyselect(search);

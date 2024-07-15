@@ -58,7 +58,7 @@
 
                         </div>
                         <div class="" id="formSection" style="display: none">
-                            <div class="card" style="width: 80%;">
+                            <div class="card" >
                                 <div class="card-block p-b-0">
                                     <div class="card-header">
                                         <div class="card-header-right">
@@ -68,13 +68,22 @@
                                         </div>
                                     </div>
                                     <div class="card-body" style=" padding-bottom: 0px;" >
-                                        <h5 class="card-title">Issue Types </h5><br><br>
-
-                                        <div class="form-group">
-                                            <label for="inputTime" >Type Name</label>
-                                            <input  class="form-control" id="name">
+                                        <div class="row">
+                                            <div class="col-9">
+                                                <div class="form-group">
+                                                    <label for="inputTime" >Type Name</label>
+                                                    <input  class="form-control" id="name">
+                                                </div>   
+                                            </div>
+                                            <div class="col-3">
+                                                <label for="approval" >Requirement Of Approval</label>
+                                                <select id="approval">
+                                                    <option value="" disabled selected>Select an option</option>
+                                                    <option value="yes">Required</option>
+                                                    <option value="no">Not Required</option>
+                                                </select>  
+                                            </div>
                                         </div>
-
 
                                         <div class="card-footer d-flex justify-content-end">
                                             <button id="saveBtn" class="btn btn-sm waves-effect waves-light btn-primary" style="margin-right: 10px"><i class="icon feather icon-save"></i>Save</button>
@@ -97,6 +106,9 @@
 
 
         <script>
+            new SlimSelect({
+                select: '#approval'
+            })
             const closeBtn = document.getElementById('closeBtn');
             closeBtn.addEventListener('click', function () {
                 formSection.style.display = 'none';

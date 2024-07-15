@@ -33,7 +33,7 @@
 
             .small-font {
                 font-size: 12px; /* Adjust font size as needed */
-                font-weight: bolder;
+                font-weight: 600;
             }
             .card-footer {
                 display: flex;
@@ -42,6 +42,9 @@
             }
             .text-right {
                 margin-left: auto;
+            }
+            .card-col {
+                margin: 0 5px; /* Adjust the margin as needed */
             }
         </style>
     </head>
@@ -59,10 +62,10 @@
 
                         <div class="main" id="tableSection">
 
-                            <div class="row row-group m-0 card-container justify-content-between">
-                                <div class="col-lg-2 col-md-4 mb-4">
-                                    <div class="card" id="Quecrd" >
-                                        <div class="card-body" >
+                            <div class="row row-group m-0 card-container justify-content-between" style="padding-bottom:2em">
+                                <div class="col card-col">
+                                    <div class="card" id="Quecrd">
+                                        <div class="card-body">
                                             <h6 class="text mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                                                     </i></span></h6>
@@ -71,7 +74,18 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-2 col-md-4 mb-4">
+                                <div class="col card-col">
+                                    <div class="card" id="Appcrd">
+                                        <div class="card-body">
+                                            <h6 class="text mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-book-open"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+                                                    </i></span></h6>
+                                            <div class="progress my-2" style="height:1px;"></div>
+                                            <p class="mb-0 text small-font">Approval Pending</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col card-col">
                                     <div class="card" id="InProcrd">
                                         <div class="card-body">
                                             <h6 class="text mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather">
@@ -82,7 +96,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-2 col-md-4 mb-4">
+
+                                <div class="col card-col">
                                     <div class="card" id="Devpcrd">
                                         <div class="card-body">
                                             <h6 class="text mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather">
@@ -93,7 +108,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-2 col-md-4 mb-4">
+                                <div class="col card-col">
                                     <div class="card" id="Qacrd">
                                         <div class="card-body">
                                             <h6 class="text mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather">
@@ -104,7 +119,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-2 col-md-4 mb-4">
+                                <div class="col card-col">
                                     <div class="card" id="Complcrd">
                                         <div class="card-body">
                                             <h6 class="text mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather">
@@ -115,7 +130,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-2 col-md-4 mb-4">
+                                <div class="col card-col">
                                     <div class="card" id="Unsuccrd">
                                         <div class="card-body">
                                             <h6 class="text mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather">
@@ -197,6 +212,12 @@
                                         </div>
                                         <div class="col">
                                             <div class="form-group" style="padding-bottom: 2rem">
+                                                <label for="module" class="col-sm-4 col-form-label allFontByCustomerEdit">Module</label>
+                                                <select class="form-control-sm pull-right" id="module">  </select>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group" style="padding-bottom: 2rem">
                                                 <label for="typeIssue" class="col-sm-4 col-form-label allFontByCustomerEdit">Issue Type</label>
                                                 <select class="form-control-sm pull-right" id="typeIssue">  </select>
                                             </div>
@@ -255,6 +276,71 @@
                                         <button id="saveBtn" class="btn btn-sm waves-effect waves-light btn-primary" style="margin-right: 10px"><i class="icon feather icon-save"></i>Save</button>
                                         <button id="closeBtn" class="btn btn-sm btn-danger"><i class="icon feather icon-x-circle"></i>Close</button>                          
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="" id="formSectionView" style="display: none; padding-top: 1rem;">
+                            <div class="card" style="padding: 1em;">
+                                <div class="card-block p-b-0">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="ref_number">Reference Number<span class="text-danger">*</span></label>
+                                                <input id="ref_numberq" type="text" name="ref_number" class="form-control" required autocomplete="off" disabled="">
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="ent_by">Ent By<span class="text-danger">*</span></label>
+                                                <input id="ent_by" type="text" name="ent_by" class="form-control" required autocomplete="off" disabled="">
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="ent_by">Company<span class="text-danger">*</span></label>
+                                                <input id="companyname" type="text" name="company" class="form-control" required autocomplete="off" disabled="">
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="ent_by">System<span class="text-danger">*</span></label>
+                                                <input id="systemname" type="text" name="system" class="form-control" required autocomplete="off" disabled="">
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="ent_by">Module<span class="text-danger">*</span></label>
+                                                <input id="modulename" type="text" name="module" class="form-control" required autocomplete="off" disabled="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="Issueq">Issue<span class="text-danger">*</span></label>
+                                                <textarea id="Issuequ"  name="Issueq" class="form-control" required autocomplete="off" disabled=""></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <br>
+                                    <div class="row" style="padding-bottom: 2em;">
+                                        <div class="col-12">
+                                            <label for="com" class="col-form-label allFontByCustomerEdit">Comment Section</label>
+                                            <div class="card" style="width: 100%;">
+                                                <div class="card-body" id="com_section">
+                                                    <!-- Comments will be dynamically inserted here -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer d-flex justify-content-end">
+                                        <button id="closeBtnin" class="btn btn-sm btn-danger">
+                                            <i class="feather icon-x-circle"></i>Close
+                                        </button>                                    
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -371,21 +457,21 @@
 
 
             const formSection = document.getElementById('formSection');
+            const formSectionView = document.getElementById('formSectionView');
             const tableSection = document.getElementById('tableSection');
             const closeBtn = document.getElementById('closeBtn');
             const closeBtnin = document.getElementById('closeBtnin');
-            const closeBtnfile = document.getElementById('closeBtnfile');
-            const closeBtnclr = document.getElementById('closeBtnclr');
-            const closeBtnund = document.getElementById('closeBtnund');
-            const closeBtnpay = document.getElementById('closeBtnpay');
-            const closeBtnppun = document.getElementById('closeBtnppun');
-            const closeBtncom = document.getElementById('closeBtncom');
-            const closeBtncomun = document.getElementById('closeBtncomun');
-            const closeBtnrej = document.getElementById('closeBtnrej');
-            const closeBtnrec = document.getElementById('closeBtnrec');
+
 
             closeBtn.addEventListener('click', function () {
                 formSection.style.display = 'none';
+                formSectionView.style.display = 'none';
+                tableSection.style.display = 'block';
+                clearForms();
+            });
+            closeBtnin.addEventListener('click', function () {
+                formSection.style.display = 'none';
+                formSectionView.style.display = 'none';
                 tableSection.style.display = 'block';
                 clearForms();
             });
@@ -481,6 +567,20 @@
             var typeIssue = new SlimSelect(
                     {select: '#typeIssue',
                         placeholder: "Issue Type",
+                        ajax: function (search, callback) {
+                            fetch('type/type-select', {
+                                method: 'POST',
+                                body: new URLSearchParams({search: search || ''})
+                            }).then(res => res.json()).then((data) => {
+                                callback(data);
+                            });
+                        },
+                        allowDeselect: true,
+                        deselectLabel: '<span class="red">?</span>'
+                    });
+            var module = new SlimSelect(
+                    {select: '#module',
+                        placeholder: "Module",
                         ajax: function (search, callback) {
                             fetch('type/type-select', {
                                 method: 'POST',
@@ -680,6 +780,11 @@
                 stage = 'queue';
                 dtable.ajax.reload();
             });
+            $('#Appcrd').click(function () {
+                document.getElementById('tableCard').style.display = 'block';
+                stage = 'approve';
+                dtable.ajax.reload();
+            });
             $('#InProcrd').click(function () {
                 document.getElementById('tableCard').style.display = 'block';
                 stage = 'inprogress';
@@ -690,11 +795,7 @@
                 stage = 'develop';
                 dtable.ajax.reload();
             });
-//            $('#Testpcrd').click(function () {
-//                document.getElementById('tableCard').style.display = 'block';
-//                stage = 'testing';
-//                dtable.ajax.reload();
-//            });
+
             $('#Qacrd').click(function () {
                 document.getElementById('tableCard').style.display = 'block';
                 stage = 'qa';
@@ -786,405 +887,79 @@
 
         <!--editrec-->
         <script>
+            function displayComments(comments) {
+                const comSection = $('#com_section');
+                comSection.empty(); // Clear existing content
+
+                if (comments && comments.length > 0) {
+                    // Reverse the comments to show the latest one first
+                    comments.reverse().forEach(comment => {
+                        let commentHTML =
+                                '<div class="row">' +
+                                '<div class="col-4">' +
+                                '<h6>Commented By: ' + comment.ent_by + '</h6>' +
+                                '<h6>Commented On: ' + comment.ent_on + '</h6>' +
+                                '<h6>Comment Type: ' + comment.com_type + '</h6>' +
+                                '</div>' +
+                                '<div class="col-8">' +
+                                '<p>Comment: ' + comment.comment + '</p>';
+
+                        if (comment.path) {
+                            commentHTML += '<p><a href="issue/path/attachment/' + comment.path + '" target="_blank">View Attachment</a></p>';
+                        }
+
+                        commentHTML +=
+                                '</div>' +
+                                '</div>' +
+                                '<hr>';
+
+                        comSection.append(commentHTML);
+                    });
+                } else {
+                    comSection.html('<p>No comments available.</p>');
+                }
+            }
             $(document).on('click', '.editrec', function () {
                 let row = $(this).closest('tr');
                 let status = row.data('status');
-                if (status === 'Queue') {
-                    loadDiv($('#tableSection'));
-                    let id = $(this).parents('tr').data('id');
-                    fetch('issue/details-all/' + id)
-                            .then(resp => resp.json())
-                            .then((resp) => {
-                                let data = resp.data;
-                                let d2 = data.d2;
-                                let obj = data.obj;
-
-                                $('#ref_numberq').val(obj.ref_number);
-                                $('#Issuequ').val(obj.issue_type);
-                                $('#commentq').val(obj.comment);
-                                //                                $('#productack').val(d1.product_txt);
-                                //                                console.log(d1.issue);
-                                console.log(obj.issue_type);
-                                $('#ent_by').val(d2.entered);
-                                $('#saveBtnin').data('mode', 'update');
-                                $('#saveBtnin').data('id', id);
-                                $('#saveBtnin').html('<i class="icon feather icon-save"></i>Update');
-                                $('#formSectionInprogress').fadeIn();
-                                $('#tableSection').hide();
-                                finishLoadDiv($('#tableSection'));
-                            });
-                } else if (status === 'Development Pending') {
-                    loadDiv($('#tableSection'));
-                    let id = $(this).parents('tr').data('id');
-                    fetch('issue/details-file/' + id)
-                            .then(resp => resp.json())
-                            .then((resp) => {
-                                let data = resp.data;
-                                $('#ref_numberp').val(data.ref_number);
-                                $('#customer_namep').val(data.customer_name);
-                                $('#amountp').val(data.amount);
-                                $('#productp').val(data.productTxt);
-                                $('#saveBtnfile').data('mode', 'update-filepending');
-                                $('#saveBtnfile').data('id', id);
-                                $('#saveBtnfile').html('<i class="icon feather icon-save"></i>Update');
-                                $('#formSectionFilePending').fadeIn();
-                                $('#tableSection').hide();
-                                finishLoadDiv($('#tableSection'));
-                            });
-                } else if (status === 'Exceptions') {
-                    loadDiv($('#tableSection'));
-                    let id = $(this).parents('tr').data('id');
-
-                    // Fetch team and attachment details
-                    fetch('issue/clearance-details/' + id)
-                            .then(resp => resp.json())
-                            .then((resp) => {
-                                let data = resp.data;
-                                let content = resp.data.content;
-                                let product = resp.data.productData;
-
-                                $('#ref_numberc').val(content.ref_number);
-                                $('#customer_namec').val(content.customer_name);
-                                $('#amountc').val(content.amount);
-                                $('#productc').val(product.product_txt);
-                                console.log(data.product_txt);
-                                let attachments = resp.data.videos;
-
-                                // Clear existing rows in the attachment table
-                                $('#tbladdAtts tbody').empty();
-
-                                // Populate the attachment table with fetched data
-                                attachments.forEach((attachment) => {
-                                    // Get the table body
-                                    var tableBody = document.querySelector('#tbladdAtts tbody');
-
-                                    // Create a new row
-                                    var newRow = tableBody.insertRow();
-
-                                    // Create cells in the new row
-                                    var commentCell = newRow.insertCell(0);
-                                    var justificationCell = newRow.insertCell(1);
-                                    var dateCell = newRow.insertCell(2);
-                                    var statusCell = newRow.insertCell(3);
-                                    var modifiedByCell = newRow.insertCell(4);
-                                    var modifiedOnCell = newRow.insertCell(5);
-
-
-                                    // Set the text content of the cells with the fetched values
-                                    commentCell.textContent = attachment.name;
-                                    statusCell.textContent = attachment.status; // Assuming status is available in attachment object
-                                    modifiedByCell.textContent = attachment.modby; // Assuming modifiedBy is available in attachment object
-                                    modifiedOnCell.textContent = attachment.mod_on; // Assuming modifiedOn is available in attachment object
-                                    justificationCell.textContent = attachment.justification; // Assuming modifiedOn is available in attachment object
-                                    dateCell.textContent = attachment.date; // Assuming modifiedOn is available in attachment object
-
-
-                                });
-
-
-                                // Show the form section
-                                $('#saveBtnclr').data('mode', 'update-fileclear');
-                                $('#saveBtnclr').data('id', id);
-                                $('#saveBtnclr').html('<i class="icon feather icon-save"></i>Update'); // Change button text to 'Update'
-                                $('#formSectionFileClearance').fadeIn();
-                                $('#tableSection').hide();
-                                finishLoadDiv($('#tableSection'));
-
-                            });
-                } else if (status === 'Undertaking Recommendation') {
-                    loadDiv($('#tableSection'));
-                    let id = $(this).parents('tr').data('id');
-
-                    // Fetch team and attachment details
-                    fetch('issue/clearance-details/' + id)
-                            .then(resp => resp.json())
-                            .then((resp) => {
-                                let data = resp.data;
-                                let content = resp.data.content;
-                                let product = resp.data.productData;
-
-                                $('#ref_numberrec').val(content.ref_number);
-                                $('#customer_namerec').val(content.customer_name);
-                                $('#amountrec').val(content.amount);
-                                $('#productrec').val(product.product_txt);
-                                console.log(data.product_txt);
-                                let attachments = resp.data.videos;
-
-                                // Clear existing rows in the attachment table
-                                $('#tbladdAttsrec tbody').empty();
-
-                                // Populate the attachment table with fetched data
-                                attachments.forEach((attachment) => {
-                                    // Get the table body
-                                    var tableBody = document.querySelector('#tbladdAttsrec tbody');
-
-                                    // Create a new row
-                                    var newRow = tableBody.insertRow();
-
-                                    // Create cells in the new row
-                                    var commentCell = newRow.insertCell(0);
-                                    var justificationCell = newRow.insertCell(1);
-                                    var dateCell = newRow.insertCell(2);
-                                    var statusCell = newRow.insertCell(3);
-                                    var modifiedByCell = newRow.insertCell(4);
-                                    var modifiedOnCell = newRow.insertCell(5);
-
-
-                                    // Set the text content of the cells with the fetched values
-                                    commentCell.textContent = attachment.name;
-                                    statusCell.textContent = attachment.status; // Assuming status is available in attachment object
-                                    modifiedByCell.textContent = attachment.modby; // Assuming modifiedBy is available in attachment object
-                                    modifiedOnCell.textContent = attachment.mod_on; // Assuming modifiedOn is available in attachment object
-                                    justificationCell.textContent = attachment.justification; // Assuming modifiedOn is available in attachment object
-                                    dateCell.textContent = attachment.date;
-
-                                });
-
-
-                                // Show the form section
-                                $('#saveBtnrec').data('mode', 'update-Recommendation');
-                                $('#saveBtnrec').data('id', id);
-                                $('#saveBtnrec').html('<i class="icon feather icon-save"></i>Update'); // Change button text to 'Update'
-                                $('#formSectionRecommendation').fadeIn();
-                                $('#tableSection').hide();
-                                finishLoadDiv($('#tableSection'));
-
-                            });
-                } else if (status === 'Undertaking Approval Pending') {
-                    loadDiv($('#tableSection'));
-                    let id = $(this).parents('tr').data('id');
-
-
-                    fetch('issue/clearance-details/' + id)
-                            .then(resp => resp.json())
-                            .then((resp) => {
-                                let data = resp.data;
-                                let content = resp.data.content;
-                                let product = resp.data.productData;
-                                let approve = resp.data.approverData;
-
-                                $('#ref_numberu').val(content.ref_number);
-                                $('#customer_nameu').val(content.customer_name);
-                                $('#amountu').val(content.amount);
-                                $('#productu').val(product.product_txt);
-                                $('#appund').val(approve.approvername);
-                                let attachments = resp.data.videos;
-
-                                // Clear existing rows in the attachment table
-                                $('#tbladdAttu tbody').empty();
-
-                                // Populate the attachment table with fetched data
-                                attachments.forEach((attachment) => {
-                                    // Get the table body
-                                    var tableBody = document.querySelector('#tbladdAttu tbody');
-
-                                    // Create a new row
-                                    var newRow = tableBody.insertRow();
-
-                                    // Create cells in the new row
-                                    var commentCell = newRow.insertCell(0);
-                                    var justificationCell = newRow.insertCell(1);
-                                    var dateCell = newRow.insertCell(2);
-                                    var statusCell = newRow.insertCell(3);
-                                    var modifiedByCell = newRow.insertCell(4);
-                                    var modifiedOnCell = newRow.insertCell(5);
-
-
-                                    // Set the text content of the cells with the fetched values
-                                    commentCell.textContent = attachment.name;
-                                    statusCell.textContent = attachment.status; // Assuming status is available in attachment object
-                                    modifiedByCell.textContent = attachment.modby; // Assuming modifiedBy is available in attachment object
-                                    modifiedOnCell.textContent = attachment.mod_on; // Assuming modifiedOn is available in attachment object
-                                    justificationCell.textContent = attachment.justification; // Assuming modifiedOn is available in attachment object
-                                    dateCell.textContent = attachment.date;
-
-
-                                });
-
-                                // Show the form section
-                                $('#saveBtnund').data('mode', 'update-undertaking');
-                                $('#saveBtnund').data('id', id);
-                                $('#saveBtnund').html('<i class="icon feather icon-save"></i>Update'); // Change button text to 'Update'
-                                $('#formSectionApprovalPending').fadeIn();
-                                $('#tableSection').hide();
-                                finishLoadDiv($('#tableSection'));
-
-                            });
-                } else if (status === 'Payment Voucher Hand Over To Finance') {
-                    loadDiv($('#tableSection'));
-                    let id = $(this).parents('tr').data('id');
-                    fetch('issue/clearance-details/' + id)
-                            .then(resp => resp.json())
-                            .then((resp) => {
-                                let data = resp.data;
-                                let content = resp.data.content;
-                                let product = resp.data.productData;
-
-                                $('#ref_numberpay').val(content.ref_number);
-                                $('#customer_namepay').val(content.customer_name);
-                                $('#amountpay').val(content.amount);
-                                $('#productpay').val(product.product_txt);
-                                $('#saveBtnpay').data('mode', 'update-payment');
-                                $('#saveBtnpay').data('id', id);
-                                $('#saveBtnpay').html('<i class="icon feather icon-save"></i>Update');
-                                $('#formSectionPaymentVoucher').fadeIn();
-                                $('#tableSection').hide();
-                                finishLoadDiv($('#tableSection'));
-                            });
-                } else if (status === 'Payment Voucher Hand Over To Finance(Undertaking Approval)') {
-                    loadDiv($('#tableSection'));
-                    let id = $(this).parents('tr').data('id');
-                    fetch('issue/clearance-details/' + id)
-                            .then(resp => resp.json())
-                            .then((resp) => {
-
-                                let data = resp.data;
-                                let content = resp.data.content;
-                                let approve = resp.data.approverData;
-                                let product = resp.data.productData;
-
-
-                                $('#ref_numberppun').val(content.ref_number);
-                                $('#customer_nameppun').val(content.customer_name);
-                                $('#amountppun').val(content.amount);
-                                $('#productppun').val(product.product_txt);
-                                $('#approvername').val(approve.approvername);
-
-
-                                let attachments = resp.data.videos;
-
-                                // Clear existing rows in the attachment table
-                                $('#tbladdAttpay tbody').empty();
-
-                                // Populate the attachment table with fetched data
-                                attachments.forEach((attachment) => {
-                                    // Get the table body
-                                    var tableBody = document.querySelector('#tbladdAttpay tbody');
-
-                                    // Create a new row
-                                    var newRow = tableBody.insertRow();
-
-                                    // Create cells in the new row
-                                    var commentCell = newRow.insertCell(0);
-                                    var justificationCell = newRow.insertCell(1);
-                                    var dateCell = newRow.insertCell(2);
-                                    var statusCell = newRow.insertCell(3);
-                                    var modifiedByCell = newRow.insertCell(4);
-                                    var modifiedOnCell = newRow.insertCell(5);
-
-
-                                    // Set the text content of the cells with the fetched values
-                                    commentCell.textContent = attachment.name;
-                                    statusCell.textContent = attachment.status; // Assuming status is available in attachment object
-                                    modifiedByCell.textContent = attachment.modby; // Assuming modifiedBy is available in attachment object
-                                    modifiedOnCell.textContent = attachment.mod_on; // Assuming modifiedOn is available in attachment object
-                                    justificationCell.textContent = attachment.justification; // Assuming modifiedOn is available in attachment object
-                                    dateCell.textContent = attachment.date; // Assuming modifiedOn is available in attachment object
-
-
-                                });
-
-                                $('#saveBtnppun').data('mode', 'update-payunder');
-                                $('#saveBtnppun').data('id', id);
-                                $('#saveBtnppun').html('<i class="icon feather icon-save"></i>Update');
-                                $('#formSectionPaymentVoucherUnder').fadeIn();
-                                $('#tableSection').hide();
-                                finishLoadDiv($('#tableSection'));
-                            });
-                } else if (status === 'Completed') {
-                    loadDiv($('#tableSection'));
-
-                    let id = $(this).parents('tr').data('id');
-                    fetch('issue/paymentv-details/' + id)
-                            .then(resp => resp.json())
-                            .then((resp) => {
-                                let data = resp.data;
-                                let d1 = data.d1;
-                                let obj = data.obj;
-
-
-                                $('#ref_numbercom').val(obj.ref_number);
-                                $('#customer_namecom').val(obj.customer_name);
-                                $('#amountcom').val(obj.amount);
-                                $('#productcom').val(d1.product_txt);
-                                $('#saveBtnpv').data('mode', 'update-completed');
-                                $('#saveBtnpv').data('id', id);
-                                $('#saveBtnpv').html('<i class="icon feather icon-save"></i>Update'); // Change button text to 'Update'
-                                $('#formSectionCompleted').fadeIn();
-                                $('#tableSection').hide();
-                                finishLoadDiv($('#tableSection'));
-
-
-                            })
-                            .catch(error => {
-                                // Handle fetch error
-                                console.error('Error fetching payment details:', error);
-                            });
-                } else if (status === 'Completed(Undertaking Approval)') {
-                    loadDiv($('#tableSection'));
-
-                    let id = $(this).parents('tr').data('id');
-                    fetch('issue/paymentv-details/' + id)
-                            .then(resp => resp.json())
-                            .then((resp) => {
-                                let data = resp.data;
-                                let d1 = data.d1;
-                                let d2 = data.d2;
-                                let obj = data.obj;
-
-
-                                $('#ref_numbercomund').val(obj.ref_number);
-                                $('#customer_namecomund').val(obj.customer_name);
-                                $('#amountcomund').val(obj.amount);
-                                $('#productcomund').val(d1.product_txt);
-                                $('#approvercomund').val(d2.approvername);
-                                $('#saveBtnpv').data('mode', 'update-completed');
-                                $('#saveBtnpv').data('id', id);
-                                $('#saveBtnpv').html('<i class="icon feather icon-save"></i>Update'); // Change button text to 'Update'
-                                $('#formSectionCompletedUndertaking').fadeIn();
-                                $('#tableSection').hide();
-                                finishLoadDiv($('#tableSection'));
-
-
-                            })
-                            .catch(error => {
-                                // Handle fetch error
-                                console.error('Error fetching payment details:', error);
-                            });
-                } else if (status === 'Unsuccessful') {
-                    loadDiv($('#tableSection'));
-
-
-                    let id = $(this).parents('tr').data('id');
-                    fetch('issue/details-all/' + id)
-                            .then(resp => resp.json())
-                            .then((resp) => {
-                                let data = resp.data;
-                                let d2 = data.d2;
-                                let obj = data.obj;
-
-
-                                $('#ref_numberrej').val(obj.ref_number);
-                                $('#ent_byrej').val(d2.entered);
-                                $('#issue_typerej').val(obj.issue_type);
-                                $('#commentrej').val(obj.comment);
-                                $('#resonrej').val(obj.reason);
-                                $('#saveBtnpv').data('mode', 'update-completed');
-                                $('#saveBtnpv').data('id', id);
-                                $('#saveBtnpv').html('<i class="icon feather icon-save"></i>Update'); // Change button text to 'Update'
-                                $('#formSectionRejected').fadeIn();
-                                $('#tableSection').hide();
-                                finishLoadDiv($('#tableSection'));
-
-
-                            })
-                            .catch(error => {
-                                // Handle fetch error
-                                console.error('Error fetching payment details:', error);
-                            });
-                }
-
+                let id = row.data('id');
+
+                loadDiv($('#tableSection'));
+
+                fetch('issue/details-all/' + id)
+                        .then(resp => resp.json())
+                        .then((resp) => {
+                            let data = resp.data;
+                            let d2 = data.d2;
+                            let d3 = data.d3;
+                            let d4 = data.d4;
+                            let obj = data.obj;
+
+                            // Set the issue details
+                            $('#ref_numberq').val(obj.ref_number);
+                            $('#Issuequ').val(obj.issue);
+                            $('#ent_by').val(d2.entered);
+                            $('#companyname').val(d3.comname);
+                            $('#systemname').val(d4.sysname);
+                            $('#saveBtnin').data('mode', 'update');
+                            $('#saveBtnin').data('id', id);
+                            $('#saveBtnin').html('<i class="icon feather icon-save"></i>Update');
+
+                            // Fetch and display comments
+                            displayComments(data.videos);
+
+                            $('#formSectionView').fadeIn();
+                            $('#tableSection').hide();
+                        })
+                        .catch(error => {
+                            console.error('Error fetching issue details:', error);
+                            // Optionally, display an error message to the user
+                        })
+                        .finally(() => {
+                            finishLoadDiv($('#tableSection'));
+                        });
             });
+
         </script>
     </body>
 

@@ -131,10 +131,11 @@ public class IssueController {
             @RequestParam Integer id,
             @RequestParam(value = "file", required = false) MultipartFile file,
             @RequestParam("desclist") String desclist,
-            @RequestParam(required = false) String statusque
+            @RequestParam(required = false) String statusque,
+            @RequestParam(required = false) String assign
     ) throws Exception {
         System.out.println("Received request to update issue with ID: " + id);
-        return service.updateIssue(id, file, desclist, statusque);
+        return service.updateIssue(id, file, desclist, statusque, assign);
     }
 
     @GetMapping("/details-all/{id}")

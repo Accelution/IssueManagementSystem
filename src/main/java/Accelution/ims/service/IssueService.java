@@ -68,6 +68,8 @@ public class IssueService {
                 sql += " AND `status`='Queue'";
             } else if (stage.equals("inprogress")) {
                 sql += " AND `status`='In Progress'";
+            } else if (stage.equals("approve")) {
+                sql += " AND `status`='Approval Pending'";
             } else if (stage.equals("develop")) {
                 sql += " AND `status`='Development Pending'";
             } else if (stage.equals("testing")) {
@@ -229,6 +231,7 @@ public class IssueService {
     public Iterable<SlimSelectDTO> getPrio(String search) {
         return repo.getPrio("%" + search.trim() + "%");
     }
+
     private final ObjectMapper mapper = new ObjectMapper();
 
     public Issue saveIssue(String issue, String system, String type, String priority, MultipartFile file, String desclist, HttpSession session) throws Exception {
@@ -286,7 +289,7 @@ public class IssueService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public Issue updateIssue(Integer id, MultipartFile file, String desclist, String statusque) throws Exception {
+    public Issue updateIssue(Integer id, MultipartFile file, String desclist, String statusque, String assign) throws Exception {
         Issue updateissue = repo.findById(id).orElseThrow(() -> new IllegalArgumentException("Issue not found with id: " + id));
 
         JsonNode fileList;
@@ -303,6 +306,14 @@ public class IssueService {
             attachment.setIssue(updateissue.getId());
             attachment.setComment(fileItem.get("comment").asText());
             attachment.setStatus("active");
+
+            String comType = fileItem.get("comtype").asText();
+
+            if ("External".equals(comType)) {
+                attachment.setCom_type("External");
+            } else {
+                attachment.setCom_type("Internal");
+            }
 
             if (file != null) {
                 String directoryPath = "TMS/Comments/";
@@ -353,11 +364,14 @@ public class IssueService {
                 case "close":
                     updateissue.setStatus("Closed");
                     break;
+                case "app":
+                    updateissue.setStatus("Approval Pending");
+                    break;
                 default:
                     throw new IllegalArgumentException("Invalid statusque value: " + statusque);
             }
         }
-
+        updateissue.setAssign(assign);
         updateissue = repo.save(updateissue);
         return updateissue;
     }
@@ -374,12 +388,20 @@ public class IssueService {
         Map<String, Object> name = jdbc.queryForMap("SELECT `name` as entered FROM `users` WHERE `id` = ?", issue.getEnt_by());
         issue.setEntUser((String) name.get("entered"));
 
+        Map<String, Object> company = jdbc.queryForMap("SELECT `name` as comname FROM `company` WHERE `id` = ?", issue.getCompany());
+        issue.setComname((String) company.get("comname"));
+
+        Map<String, Object> systemn = jdbc.queryForMap("SELECT `system` as sysname FROM `systems` WHERE `id` = ?", issue.getSystem());
+        issue.setSysname((String) systemn.get("systemn"));
+
         // Fetch the list of active comments
         List<Comment> comments = crepo.findByIssueAndStatus(id, "active");
 
         // Combine all the data into a single map
         Map<String, Object> combinedData = new HashMap<>();
         combinedData.put("d2", name);
+        combinedData.put("d3", company);
+        combinedData.put("d4", systemn);
         combinedData.put("obj", issue);
         combinedData.put("videos", comments);
 

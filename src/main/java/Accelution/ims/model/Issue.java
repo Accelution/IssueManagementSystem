@@ -45,6 +45,10 @@ public class Issue {
 //    private String approverName;
     @Transient
     private String entUser;
+    @Transient
+    private String comname;
+    @Transient
+    private String sysname;
     private String assign;
     private String reason;
     private String status;
