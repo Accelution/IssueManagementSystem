@@ -120,10 +120,11 @@ public class IssueController {
     public Issue saveIssue(@RequestParam("desclist") String desclist, MultipartHttpServletRequest req, HttpSession session) throws Exception {
         String issue = req.getParameter("issue");
         String system = req.getParameter("system");
+        String module = req.getParameter("module");
         String type = req.getParameter("type");
         String priority = req.getParameter("priority");
         MultipartFile file = req.getFile("file");
-        return service.saveIssue(issue, system, type, priority, file, desclist, session);
+        return service.saveIssue(issue, system, module, type, priority, file, desclist, session);
     }
 
     @PostMapping("/update-queue")

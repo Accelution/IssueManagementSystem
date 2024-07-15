@@ -50,7 +50,7 @@
                     </div>
 
                     <!--formSection-queue-->
-                    <div class="" id="formSectionDev" style="display: none; padding-top: 1rem;">
+                    <div class="" id="formSectionDevelopment" style="display: none; padding-top: 1rem;">
                         <div class="card" style="padding: 1em;">
                             <div class="card-block p-b-0">
                                 <div class="row">
@@ -69,13 +69,19 @@
                                     <div class="col">
                                         <div class="form-group">
                                             <label for="ent_by">Company<span class="text-danger">*</span></label>
-                                            <input id="ent_by" type="text" name="ent_by" class="form-control" required autocomplete="off" disabled="">
+                                            <input id="company" type="text" name="company" class="form-control" required autocomplete="off" disabled="">
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="form-group">
                                             <label for="ent_by">System<span class="text-danger">*</span></label>
-                                            <input id="ent_by" type="text" name="ent_by" class="form-control" required autocomplete="off" disabled="">
+                                            <input id="system" type="text" name="system" class="form-control" required autocomplete="off" disabled="">
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="ent_by">Module<span class="text-danger">*</span></label>
+                                            <input id="module" type="text" name="module" class="form-control" required autocomplete="off" disabled="">
                                         </div>
                                     </div>
                                 </div>
@@ -83,7 +89,7 @@
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label for="Issueq">Issue<span class="text-danger">*</span></label>
-                                            <input id="Issuequ" type="text" name="Issueq" class="form-control" required autocomplete="off" disabled="">
+                                            <textarea id="Issuequ"  name="Issueq" class="form-control" required autocomplete="off" disabled=""></textarea>
                                         </div>
                                     </div>
                                     <div class="col-3">
@@ -92,6 +98,7 @@
                                             <div class="selector">
                                                 <select id="statusque">
                                                     <option value="" disabled selected>Select Stage</option>
+
                                                     <option value="qa">QA Pending</option>
                                                     <option value="com">Completed</option>
                                                 </select>
@@ -105,25 +112,34 @@
                                         </div>   
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="d-flex justify-content-end mb-2 ">
-                                            <button id="toggleAddSection" class="btn btn-sm waves-effect waves-light btn-secondary">
-                                                <i class="feather icon-plus"></i> Add Comment
-                                            </button>
+                                <div class="row" style="padding-top: 1em;padding-bottom: 1em;">
+                                    <div class="col-3">
+                                        <label for="comment">Upload Your Attachments Here<span class="text-danger">*</span></label> 
+                                    </div>
+                                    <div class="col-9">
+                                        <div class="row justify-content-end" >
+
+                                            <div class="text">
+                                                <button id="addBtnQ" class="btn btn-primary btn-sm ">
+                                                    <i class="fas fa-plus"></i> Comment
+                                                </button>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
-                                <div id="addSection" style="display: none;">
-                                    <div class="row justify-content-end">
+
+                                <div id="addSection" >
+                                    <div class="row ">
                                         <div class="col-12">
                                             <div class="table-responsive">
                                                 <table class="table table-hover table-bordered m-b-0" id="tbladdAttQ">
                                                     <thead>
                                                         <tr>
                                                             <th>Comment</th>
-                                                            <th>Attachment</th>
-                                                            <th style="width: 1px;">Action</th>
+                                                            <th >Attachment</th>
+                                                            <th>Type</th>
+                                                            <th style="width:1px;">Action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -133,17 +149,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row justify-content-end" style="padding: 2em;">
-                                        <div class="row">
-                                            <div class="text">
-                                                <button id="addBtnQ" class="btn btn-sm waves-effect waves-light btn-danger">
-                                                    <i class="icon feather icon-plus"></i>Add Comment/Attachment
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
+                                </div>
+                                <br>
                                 <div class="row">
                                     <div class="col-12">
                                         <label for="com" class="col-form-label allFontByCustomerEdit">Comment Section</label>
@@ -185,7 +193,8 @@
                 // Create cells in the new row
                 var commentCell = newRow.insertCell(0);
                 var fileCell = newRow.insertCell(1);
-                var actionCell = newRow.insertCell(2);
+                var typeCell = newRow.insertCell(2); // New cell for "Type"
+                var actionCell = newRow.insertCell(3);
 
                 // Create textarea for "Comment" in cell 1
                 var commentInput = document.createElement('textarea');
@@ -202,15 +211,44 @@
                 fileInput.required = true;
                 fileInput.autocomplete = 'off';
 
+                // Create select for "Type" in cell 3
+                var typeSelect = document.createElement('select');
+                typeSelect.name = 'type';
+                typeSelect.classList.add('form-control');
+                typeSelect.required = true;
+
+                var defaultOption = document.createElement('option');
+                defaultOption.value = '';
+                defaultOption.textContent = 'Select Type';
+                defaultOption.disabled = true;
+                defaultOption.selected = true;
+
+                var externalOption = document.createElement('option');
+                externalOption.value = 'External';
+                externalOption.textContent = 'External';
+
+                var internalOption = document.createElement('option');
+                internalOption.value = 'Internal';
+                internalOption.textContent = 'Internal';
+
+                typeSelect.appendChild(defaultOption);
+                typeSelect.appendChild(externalOption);
+                typeSelect.appendChild(internalOption);
+
                 // Append input elements to respective cells
                 commentCell.appendChild(commentInput);
                 fileCell.appendChild(fileInput);
+                typeCell.appendChild(typeSelect);
 
                 // Create a delete button in the action cell
                 var deleteButton = document.createElement('button');
                 deleteButton.classList.add('btn', 'btn-sm', 'btn-danger');
-                deleteButton.textContent = 'Remove';
                 deleteButton.name = 'dele';
+
+                var icon = document.createElement('i');
+                icon.classList.add('far', 'fa-window-minimize');
+
+                deleteButton.appendChild(icon);
 
                 // Add a click event listener to the delete button
                 deleteButton.addEventListener('click', function () {
@@ -222,7 +260,7 @@
                 actionCell.appendChild(deleteButton);
 
                 // Call the addAttachmentRow function with the input values
-                addAttachmentRow(commentInput.value, fileInput.value);
+//                addAttachmentRow(commentInput.value, fileInput.value);
             });
 
 
@@ -235,8 +273,9 @@
             const closeBtnin = document.getElementById('closeBtnin');
 
             closeBtnin.addEventListener('click', function () {
-                formSectionDev.style.display = 'none';
+                formSectionDevelopment.style.display = 'none';
                 tableSection.style.display = 'block';
+                clearForms();
             });
 
             $(document).ready(function () {
@@ -277,7 +316,7 @@
             $('#addFmrBtn').click(function () {
                 $('#saveBtn').data('mode', 'save');
                 $('#saveBtn').html('<i class="icon feather icon-save"></i>Save');
-                clearForm();
+                clearForms();
                 $('#tableSection').hide();
                 $('#formSection').fadeIn();
             });
@@ -285,18 +324,20 @@
                 $('#formSection').hide();
                 $('#tableSection').fadeIn();
             });
-            function clearForm() {
-                $('#formSection').find('input[type!=search]').val('');
-                $('#formSection').find('input[type!=search]').val('');
-                $('#formSection').find('select').each(function () {
-                    if ($(this).data('select')) {
-                        if ($(this).data('select').ajax) {
-                            $(this).data('select').data.data = [];
-                        }
-                        $(this).data('select').set('');
-                    }
-                });
+
+
+            function clearForms() {
+
+                document.getElementById('statusque').selectedIndex = 0;
+                document.getElementById('assign').selectedIndex = 0;
+
+                // Clear table body for attachments
+                let tableBody = document.querySelector('#tbladdAttQ tbody');
+                tableBody.innerHTML = '';
+
+
             }
+
         </script>
 
 
@@ -351,7 +392,7 @@
                     let action_td = document.createElement('td');
                     $(action_td).addClass('text-center');
 
-                    $(action_td).append('<a href="javascript:void(0)" id="update" class="editrec"><i class="zmdi zmdi-edit f-w-600 f-16 m-r-10 text-c-green"></i></a>');
+                    $(action_td).append('<a href="javascript:void(0)" id="update" class="editrec"><i class="far fa-edit text-c-green"></i></a>');
 
                     $(row).append(action_td);
                     $(row).data('id', data['id']);
@@ -380,13 +421,7 @@
 
         <!--editrec-->
         <script>
-            $(document).ready(function () {
-                $('#toggleAddSection').click(function () {
-                    $('#addSection').toggle();
-                });
 
-                // Additional JavaScript code for other functionalities can go here
-            });
             $(document).on('click', '.editrec', function () {
                 let row = $(this).closest('tr');
                 let status = row.data('status');
@@ -398,12 +433,18 @@
                             .then((resp) => {
                                 let data = resp.data;
                                 let d2 = data.d2;
+                                let d3 = data.d3;
+                                let d4 = data.d4;
+                                let d5 = data.d5;
                                 let obj = data.obj;
 
                                 // Set the issue details
                                 $('#ref_numberq').val(obj.ref_number);
                                 $('#Issuequ').val(obj.issue);
                                 $('#ent_by').val(d2.entered);
+                                $('#company').val(d3.comname);
+                                $('#system').val(d4.sysname);
+                                $('#module').val(d5.modulename);
                                 $('#saveBtnin').data('mode', 'update');
                                 $('#saveBtnin').data('id', id);
                                 $('#saveBtnin').html('<i class="icon feather icon-save"></i>Update');
@@ -412,7 +453,7 @@
                                 displayComments(data.videos);
 
                                 // Show the form section and hide the table section
-                                $('#formSectionDev').fadeIn();
+                                $('#formSectionDevelopment').fadeIn();
                                 $('#tableSection').hide();
                                 finishLoadDiv($('#tableSection'));
                             });
@@ -430,6 +471,7 @@
                                 '<div class="col-4">' +
                                 '<h6>Commented By: ' + comment.ent_by + '</h6>' +
                                 '<h6>Commented On: ' + comment.ent_on + '</h6>' +
+                                '<h6>Comment Type: ' + comment.com_type + '</h6>' +
                                 '</div>' +
                                 '<div class="col-8">' +
                                 '<p>Comment: ' + comment.comment + '</p>';
@@ -457,19 +499,6 @@
         </script>
 
         <script>
-
-            function clearForms() {
-
-                document.getElementById('statusque').selectedIndex = 0;
-                document.getElementById('assign').selectedIndex = 0;
-
-                // Clear table body for attachments
-                let tableBody = document.querySelector('#tbladdAttQ tbody');
-                tableBody.innerHTML = '';
-
-                // Hide add comment section if it's visible
-                document.getElementById('addSection').style.display = 'none';
-            }
             document.getElementById('saveBtnin').addEventListener('click', function () {
                 let saveBtnin = document.getElementById('saveBtnin');
                 saveBtnin.disabled = true;
@@ -504,30 +533,44 @@
                     let attachmentData = [];
                     let formData = new FormData();
 
+                    let errorFound = false; // Flag to track if an error is found
+
                     tableRows.forEach((row, index) => {
+                        if (errorFound)
+                            return; // Exit the loop if an error was found
+
                         let comment = row.querySelector('textarea[name="comment"]').value;
                         if (!comment) {
                             Swal.fire('Error!', 'Comment must not be empty', 'error');
                             saveBtnin.disabled = false;
+                            errorFound = true; // Set the flag to true
                             return;
                         }
-                        let fileInput = row.querySelector('input[name="fileLink"]');
-                        let files = fileInput.files;
+                        let comtype = row.querySelector('select[name="type"]').value;
+                        if (!comtype) {
+                            Swal.fire('Error!', 'Comment Type must Be Selected', 'error');
+                            saveBtnin.disabled = false;
+                            errorFound = true; // Set the flag to true
+                            return;
+                        }
 
+                        let fileInput = row.querySelector('input[name="fileLink"]');
                         let path = "";
-                        if (files.length > 0) {
-                            for (let i = 0; i < files.length; i++) {
-                                let fileFieldName = `files[${index}]`;
-                                formData.append(fileFieldName, files[i]);
-                                path = files[i].name;
-                            }
+                        if (fileInput && fileInput.files.length > 0) {
+                            path = fileInput.files[0].name; // Get the file name
+                            formData.append('fileLink' + index, fileInput.files[0]); // Append the file to formData
                         }
 
                         attachmentData.push({
                             comment: comment,
+                            comtype: comtype,
                             path: path
                         });
                     });
+
+                    if (errorFound) {
+                        return; // Exit the main function if an error was found
+                    }
 
                     if (attachmentData.length > 0) {
                         let desclist = JSON.stringify(attachmentData);
@@ -540,6 +583,9 @@
                     if (statusque !== null) {
                         formData.append('statusque', statusque);
                     }
+                    if (assign !== null) {
+                        formData.append('assign', assign);
+                    }
 
                     fetch('issue/update-queue', {
                         method: 'POST',
@@ -551,9 +597,9 @@
                         return response.json();
                     }).then(data => {
                         Swal.fire('Successful!', 'Issue has been successfully updated', 'success');
-                        $('#formSectionDev').hide();
+                        $('#formSectionDevelopment').hide();
                         $('#tableSection').fadeIn();
-                        clearForms()
+                        clearForms();
                         dtable.ajax.reload();
                     }).catch(error => {
                         Swal.fire('Error!', 'Failed to update issue details', 'error');
@@ -562,6 +608,8 @@
                     });
                 }
             });
+
+
         </script>
 
     </body>

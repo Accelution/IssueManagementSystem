@@ -38,6 +38,7 @@ public class Issue {
     private String priority;
     private String type;
     private String system;
+    private String module;
     private String company;
 //    @Transient
 //    private String productTxt;
@@ -49,6 +50,8 @@ public class Issue {
     private String comname;
     @Transient
     private String sysname;
+    @Transient
+    private String modulename;
     private String assign;
     private String reason;
     private String status;

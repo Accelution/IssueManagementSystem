@@ -90,6 +90,10 @@ public class CompanyService {
         return reporr.getSelect("%" + search.trim() + "%", company);
     }
 
+    public Iterable<SlimSelectDTO> getSelectMod(String search, String systems) {
+        return reporr.getSelectMod("%" + search.trim() + "%", systems);
+    }
+
 //    s
     public Iterable<SlimSelectDTO> getCompanyselect(String search) {
         return reporr.getCompanyselect("%" + search.trim() + "%");

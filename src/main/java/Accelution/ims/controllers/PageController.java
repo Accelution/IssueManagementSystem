@@ -76,6 +76,11 @@ public class PageController {
         return "queue";
     }
 
+    @GetMapping("/Approval")
+    public String approval() {
+        return "approval";
+    }
+
     @GetMapping("/Development")
     public String develop() {
         return "development";

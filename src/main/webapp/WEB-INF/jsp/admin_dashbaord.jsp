@@ -213,7 +213,7 @@
                                         <div class="col">
                                             <div class="form-group" style="padding-bottom: 2rem">
                                                 <label for="module" class="col-sm-4 col-form-label allFontByCustomerEdit">Module</label>
-                                                <select class="form-control-sm pull-right" id="module">  </select>
+                                                <select class="form-control-sm pull-right" id="module-select-systems">  </select>
                                             </div>
                                         </div>
                                         <div class="col">
@@ -578,20 +578,28 @@
                         allowDeselect: true,
                         deselectLabel: '<span class="red">?</span>'
                     });
-            var module = new SlimSelect(
-                    {select: '#module',
-                        placeholder: "Module",
-                        ajax: function (search, callback) {
-                            fetch('type/type-select', {
-                                method: 'POST',
-                                body: new URLSearchParams({search: search || ''})
-                            }).then(res => res.json()).then((data) => {
-                                callback(data);
-                            });
-                        },
-                        allowDeselect: true,
-                        deselectLabel: '<span class="red">?</span>'
+            var module = new SlimSelect({
+                select: '#module-select-systems',
+                placeholder: "Module",
+                ajax: function (search, callback) {
+                    fetch('company/module-select-systems', {
+                        method: 'POST',
+                        body: new URLSearchParams({
+                            search: search || '',
+                            systems: document.querySelector('#company-select-systems').value // Get the selected system value
+                        })
+                    }).then(res => res.json()).then((data) => {
+                        callback(data);
                     });
+                },
+                allowDeselect: true,
+                deselectLabel: '<span class="red">?</span>'
+            });
+
+// Ensure module dropdown is cleared when system is changed
+            document.querySelector('#company-select-systems').addEventListener('change', function () {
+                module.setData([]);
+            });
 
 
             $('#addFmrBtn').click(function () {
@@ -627,6 +635,7 @@
             function validateForm() {
                 let issue = document.getElementById('issue').value.trim();
                 let system = document.getElementById('company-select-systems').value.trim();
+                let module = document.getElementById('module-select-systems').value.trim();
                 let type = document.getElementById('typeIssue').value.trim();
                 let priority = document.getElementById('prio').value.trim();
 
@@ -637,6 +646,10 @@
 
                 if (!system) {
                     Swal.fire('Error!', 'Please select a System', 'error');
+                    return false;
+                }
+                if (!module) {
+                    Swal.fire('Error!', 'Please select a Module', 'error');
                     return false;
                 }
 
@@ -686,6 +699,7 @@
                 if (mode === 'save') {
                     let issue = document.getElementById('issue').value;
                     let system = document.getElementById('company-select-systems').value;
+                    let module = document.getElementById('module-select-systems').value;
                     let type = document.getElementById('typeIssue').value;
                     let priority = document.getElementById('prio').value;
 
@@ -716,6 +730,7 @@
                     formData.append('desclist', desclist);
                     formData.append('issue', issue);
                     formData.append('system', system);
+                    formData.append('module', module);
                     formData.append('type', type);
                     formData.append('priority', priority);
 
@@ -933,6 +948,7 @@
                             let d2 = data.d2;
                             let d3 = data.d3;
                             let d4 = data.d4;
+                            let d5 = data.d5;
                             let obj = data.obj;
 
                             // Set the issue details
@@ -941,6 +957,7 @@
                             $('#ent_by').val(d2.entered);
                             $('#companyname').val(d3.comname);
                             $('#systemname').val(d4.sysname);
+                            $('#modulename').val(d5.modulename);
                             $('#saveBtnin').data('mode', 'update');
                             $('#saveBtnin').data('id', id);
                             $('#saveBtnin').html('<i class="icon feather icon-save"></i>Update');

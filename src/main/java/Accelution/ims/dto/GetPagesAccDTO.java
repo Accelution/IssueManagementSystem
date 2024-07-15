@@ -20,6 +20,10 @@ import lombok.Setter;
 public class GetPagesAccDTO {
 
     private Integer id;
+    private String parent;
+    private String level;
+    private String odr;
     private String name;
+    private String status;
     private String url;
 }

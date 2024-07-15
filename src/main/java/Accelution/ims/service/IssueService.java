@@ -234,10 +234,11 @@ public class IssueService {
 
     private final ObjectMapper mapper = new ObjectMapper();
 
-    public Issue saveIssue(String issue, String system, String type, String priority, MultipartFile file, String desclist, HttpSession session) throws Exception {
+    public Issue saveIssue(String issue, String system, String module, String type, String priority, MultipartFile file, String desclist, HttpSession session) throws Exception {
         Issue ticket = new Issue();
         ticket.setIssue(issue);
         ticket.setSystem(system);
+        ticket.setModule(module);
         ticket.setType(type);
         ticket.setPriority(priority);
         String companyFromSession = (String) session.getAttribute("company");
@@ -392,7 +393,10 @@ public class IssueService {
         issue.setComname((String) company.get("comname"));
 
         Map<String, Object> systemn = jdbc.queryForMap("SELECT `system` as sysname FROM `systems` WHERE `id` = ?", issue.getSystem());
-        issue.setSysname((String) systemn.get("systemn"));
+        issue.setSysname((String) systemn.get("sysname"));
+
+        Map<String, Object> modulen = jdbc.queryForMap("SELECT `name` as modulename FROM `modules` WHERE `id` = ?", issue.getModule());
+        issue.setModulename((String) modulen.get("modulename"));
 
         // Fetch the list of active comments
         List<Comment> comments = crepo.findByIssueAndStatus(id, "active");
@@ -402,6 +406,7 @@ public class IssueService {
         combinedData.put("d2", name);
         combinedData.put("d3", company);
         combinedData.put("d4", systemn);
+        combinedData.put("d5", modulen);
         combinedData.put("obj", issue);
         combinedData.put("videos", comments);
 

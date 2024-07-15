@@ -437,6 +437,7 @@
                                 let d2 = data.d2;
                                 let d3 = data.d3;
                                 let d4 = data.d4;
+                                let d5 = data.d5;
                                 let obj = data.obj;
 
                                 // Set the issue details
@@ -445,6 +446,7 @@
                                 $('#ent_by').val(d2.entered);
                                 $('#company').val(d3.comname);
                                 $('#system').val(d4.sysname);
+                                $('#module').val(d5.modulename);
                                 $('#saveBtnin').data('mode', 'update');
                                 $('#saveBtnin').data('id', id);
                                 $('#saveBtnin').html('<i class="icon feather icon-save"></i>Update');

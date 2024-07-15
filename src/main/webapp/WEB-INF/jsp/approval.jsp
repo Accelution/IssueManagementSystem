@@ -20,7 +20,7 @@
                                     <div class="col-sm-12">
                                         <div class="card" id="tableCard">
                                             <div class="card-body" >
-                                                <h5 id="main_name_tag">Ticket Management System - Completed</h5>
+                                                <h5 id="main_name_tag">Ticket Management System - Approval</h5>
                                                 <hr>
 
                                                 <div id="table_card">
@@ -50,7 +50,7 @@
                     </div>
 
                     <!--formSection-queue-->
-                    <div class="" id="formSectionCompleted" style="display: none; padding-top: 1rem;">
+                    <div class="" id="formSectionApproval" style="display: none; padding-top: 1rem;">
                         <div class="card" style="padding: 1em;">
                             <div class="card-block p-b-0">
                                 <div class="row">
@@ -98,14 +98,20 @@
                                             <div class="selector">
                                                 <select id="statusque">
                                                     <option value="" disabled selected>Select Stage</option>
-
-                                                    <option value="open">Re Open</option>
-                                                    <option value="close">Closed</option>
+                                                    <option value="inp">In Progress</option>
+                                                    <option value="devPen">Development Pending</option>
+                                                    <option value="qa">QA Pending</option>
+                                                    <option value="com">Completed</option>
                                                 </select>
                                             </div>
                                         </div> 
                                     </div>
-
+                                    <div class="col-3">
+                                        <div class="form-group" id="assign_section">
+                                            <label for="assign" class="col-form-label allFontByCustomerEdit">Assign To</label>
+                                            <select class="form-control-sm pull-right" id="assign">  </select>
+                                        </div>   
+                                    </div>
                                 </div>
                                 <div class="row" style="padding-top: 1em;padding-bottom: 1em;">
                                     <div class="col-3">
@@ -268,7 +274,7 @@
             const closeBtnin = document.getElementById('closeBtnin');
 
             closeBtnin.addEventListener('click', function () {
-                formSectionCompleted.style.display = 'none';
+                formSectionApproval.style.display = 'none';
                 tableSection.style.display = 'block';
                 clearForms();
             });
@@ -291,6 +297,21 @@
 
 
         <script>
+            var assign = new SlimSelect(
+                    {select: '#assign',
+                        placeholder: "Assign To",
+                        ajax: function (search, callback) {
+                            fetch('issue/assignto', {
+                                method: 'POST',
+                                body: new URLSearchParams({search: search || ''})
+                            }).then(res => res.json()).then((data) => {
+                                callback(data);
+                            });
+                        },
+                        allowDeselect: true,
+                        deselectLabel: '<span class="red">✖</span>'
+                    });
+
 
 
             $('#addFmrBtn').click(function () {
@@ -309,7 +330,7 @@
             function clearForms() {
 
                 document.getElementById('statusque').selectedIndex = 0;
-
+                document.getElementById('assign').selectedIndex = 0;
 
                 // Clear table body for attachments
                 let tableBody = document.querySelector('#tbladdAttQ tbody');
@@ -328,7 +349,7 @@
             })
 
 
-            let stage = 'completed';
+            let stage = 'approve';
 
 
             $.fn.dataTable.ext.errMode = 'none';
@@ -405,7 +426,7 @@
             $(document).on('click', '.editrec', function () {
                 let row = $(this).closest('tr');
                 let status = row.data('status');
-                if (status === 'Completed') {
+                if (status === 'Approval Pending') {
                     loadDiv($('#tableSection'));
                     let id = $(this).parents('tr').data('id');
                     fetch('issue/details-all/' + id)
@@ -433,7 +454,7 @@
                                 displayComments(data.videos);
 
                                 // Show the form section and hide the table section
-                                $('#formSectionCompleted').fadeIn();
+                                $('#formSectionApproval').fadeIn();
                                 $('#tableSection').hide();
                                 finishLoadDiv($('#tableSection'));
                             });
@@ -487,19 +508,27 @@
                 if (mode === 'update') {
                     let id = $('#saveBtnin').data('id');
                     let statusque = document.getElementById('statusque').value || null;
-
+                    let assign = document.getElementById('assign').value || null;
 
                     let tableRows = document.querySelectorAll('#tbladdAttQ tbody tr');
 
                     // If the table is empty, perform the checks for statusque and assign
                     if (tableRows.length === 0) {
-
+                        if (!statusque && !assign) {
+                            Swal.fire('Error!', 'Please select "Status" and "Assign To"', 'error');
+                            saveBtnin.disabled = false;
+                            return;
+                        }
                         if (!statusque) {
                             Swal.fire('Error!', 'Please select "Status"', 'error');
                             saveBtnin.disabled = false;
                             return;
                         }
-
+                        if (!assign) {
+                            Swal.fire('Error!', 'Please select "Assign To"', 'error');
+                            saveBtnin.disabled = false;
+                            return;
+                        }
                     }
 
                     let attachmentData = [];
@@ -555,7 +584,9 @@
                     if (statusque !== null) {
                         formData.append('statusque', statusque);
                     }
-
+                    if (assign !== null) {
+                        formData.append('assign', assign);
+                    }
 
                     fetch('issue/update-queue', {
                         method: 'POST',
@@ -567,7 +598,7 @@
                         return response.json();
                     }).then(data => {
                         Swal.fire('Successful!', 'Issue has been successfully updated', 'success');
-                        $('#formSectionCompleted').hide();
+                        $('#formSectionApproval').hide();
                         $('#tableSection').fadeIn();
                         clearForms();
                         dtable.ajax.reload();
