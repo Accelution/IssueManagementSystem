@@ -158,8 +158,9 @@
                                                             <th>Reference Number</th>
                                                             <th>Issue</th>
                                                             <th>System</th>
+                                                            <th>Module</th>
+                                                            <th>Company</th>
                                                             <th>Priority</th>
-                                                            <th>ENT Date</th>
                                                             <th>Status</th>
                                                             <th>Action</th>
                                                         </tr>
@@ -861,8 +862,9 @@
                     {"data": "ref_number"},
                     {"data": "issue"},
                     {"data": "system"},
+                    {"data": "module"},
+                    {"data": "company"},
                     {"data": "priority"},
-                    {"data": "ent_on"},
                     {"data": "status"}
                 ],
                 "language": {
@@ -881,12 +883,12 @@
 
                     // Color the text and make it bold in the priority column based on its value
                     if (data['priority'] === 'Urgent') {
-                        $('td', row).eq(3).css({
+                        $('td', row).eq(5).css({
                             'color': 'red',
                             'font-weight': 'bold'
                         });
                     } else {
-                        $('td', row).eq(3).css({
+                        $('td', row).eq(5).css({
                             'color': '#e0da16',
                             'font-weight': 'bold'
                         });

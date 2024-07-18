@@ -38,6 +38,8 @@ public class User {
     private String dashboard;
     public String usertype;
     public String company;
+    public String department;
+    public String access;
     private String status;
     @CreatedBy
     private Integer ent_by;

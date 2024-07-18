@@ -30,6 +30,13 @@ public interface CompanyRepo extends CrudRepository<Company, Integer> {
             "select s.id as value,s.system as text from `company` c cross join json_table(c.systems,'$[*]' COLUMNS (`system` int PATH '$[0]'))j  join `systems` s on j.system=s.id WHERE c.id = :company")
     Iterable<SlimSelectDTO> getSelect(@Param("search") String search, @Param("company") String company);
 
+    @Query(
+            "SELECT s.id AS VALUE,s.department AS TEXT FROM `company` c CROSS JOIN JSON_TABLE(c.departments,'$[*]' COLUMNS (`department` INT PATH '$[0]'))j  JOIN `departments` s ON j.department=s.id WHERE c.id = :company")
+    Iterable<SlimSelectDTO> getSelectDep(@Param("search") String search, @Param("company") String company);
+
     @Query("SELECT `id` AS `value`, `name` AS `text` FROM `company`")
     Iterable<SlimSelectDTO> getCompanyselect(@Param("search") String search);
+
+    @Query("SELECT `id` AS `value`, `type` AS `text` FROM `access_type`")
+    Iterable<SlimSelectDTO> getAccType(@Param("search") String search);
 }

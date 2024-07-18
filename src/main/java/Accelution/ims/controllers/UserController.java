@@ -65,15 +65,15 @@ public class UserController {
     }
 
     @PostMapping("/save-user")
-    public ResponseEntity<CommonResponse> saveUser(@RequestParam String username, @RequestParam String name, @RequestParam String dashboard, @RequestParam String usertype, @RequestParam String company) throws Exception {
-        service.saveUser(name, username, dashboard, usertype, company);
+    public ResponseEntity<CommonResponse> saveUser(@RequestParam String username, @RequestParam String name, @RequestParam String dashboard, @RequestParam String usertype, @RequestParam String company, @RequestParam String department, @RequestParam String access) throws Exception {
+        service.saveUser(name, username, dashboard, usertype, company, department, access);
         CommonResponse response = new CommonResponse("Success!", 200);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping("/update-user")
-    public ResponseEntity<CommonResponse> saveUser(@RequestParam Integer id, @RequestParam String username, @RequestParam String dashboard, @RequestParam String name, @RequestParam String usertype, @RequestParam String company) throws Exception {
-        service.updateUser(id, name, username, dashboard, usertype, company);
+    public ResponseEntity<CommonResponse> saveUser(@RequestParam Integer id, @RequestParam String username, @RequestParam String dashboard, @RequestParam String name, @RequestParam String usertype, @RequestParam String company, @RequestParam String department, @RequestParam String access) throws Exception {
+        service.updateUser(id, name, username, dashboard, usertype, company, department, access);
         CommonResponse response = new CommonResponse("Success!", 200);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

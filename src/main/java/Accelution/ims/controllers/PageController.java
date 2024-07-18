@@ -110,4 +110,9 @@ public class PageController {
     public String company() {
         return "company";
     }
+
+    @GetMapping("/Departments")
+    public String department() {
+        return "department";
+    }
 }

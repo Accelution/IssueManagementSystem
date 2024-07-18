@@ -94,25 +94,29 @@ public class UserService {
 
     }
 
-    public User saveUser(String name, String username, String dashboard, String usertype, String company) throws Exception {
+    public User saveUser(String name, String username, String dashboard, String usertype, String company, String department, String access) throws Exception {
         User user = new User();
         user.setUsername(username);
         user.setName(name);
         user.setDashboard(dashboard);
         user.setUsertype(usertype);
         user.setCompany(company);
+        user.setDepartment(department);
+        user.setAccess(access);
         user.setStatus("active");
         user = userRepo.save(user);
         return user;
     }
 
-    public User updateUser(Integer id, String name, String username, String dashboard, String usertype, String company) throws Exception {
+    public User updateUser(Integer id, String name, String username, String dashboard, String usertype, String company, String department, String access) throws Exception {
         User user = userRepo.findById(id).get();
         user.setUsername(username);
         user.setName(name);
         user.setDashboard(dashboard);
         user.setUsertype(usertype);
         user.setCompany(company);
+        user.setDepartment(department);
+        user.setAccess(access);
         user = userRepo.save(user);
         return user;
     }

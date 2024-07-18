@@ -53,21 +53,22 @@ public class CompanyService {
         return systems;
     }
 
-    public Company saves(String name, String email, String contact, String con_name, String con_email, String checkedSystemsJson) throws Exception {
+    public Company saves(String name, String email, String contact, String con_name, String con_email, String checkedSystemsJson, String checkedDepartmentsJson) throws Exception {
         Company company = new Company();
         company.setName(name);
         company.setEmail(email);
         company.setContact(contact);
         company.setCon_name(con_name);
         company.setCon_email(con_email);
-        company.setSystems(checkedSystemsJson); // Save the JSON string directly
+        company.setSystems(checkedSystemsJson);
+        company.setDepartments(checkedDepartmentsJson);
         company.setStatus("active");
 
         // Save the company entity
         return reporr.save(company);
     }
 
-    public Company updates(Integer id, String name, String email, String contact, String con_name, String con_email, String checkedSystemsJson) throws Exception {
+    public Company updates(Integer id, String name, String email, String contact, String con_name, String con_email, String checkedSystemsJson, String checkedDepartmentsJson) throws Exception {
         Company company = reporr.findById(id).orElseThrow(() -> new Exception("Company not found"));
         company.setName(name);
         company.setEmail(email);
@@ -75,6 +76,7 @@ public class CompanyService {
         company.setCon_name(con_name);
         company.setCon_email(con_email);
         company.setSystems(checkedSystemsJson); // Update the systems JSON
+        company.setDepartments(checkedDepartmentsJson);
         return reporr.save(company);
     }
 
@@ -90,6 +92,10 @@ public class CompanyService {
         return reporr.getSelect("%" + search.trim() + "%", company);
     }
 
+    public Iterable<SlimSelectDTO> getSelectDep(String search, String company) {
+        return reporr.getSelectDep("%" + search.trim() + "%", company);
+    }
+
     public Iterable<SlimSelectDTO> getSelectMod(String search, String systems) {
         return reporr.getSelectMod("%" + search.trim() + "%", systems);
     }
@@ -97,6 +103,10 @@ public class CompanyService {
 //    s
     public Iterable<SlimSelectDTO> getCompanyselect(String search) {
         return reporr.getCompanyselect("%" + search.trim() + "%");
+    }
+
+    public Iterable<SlimSelectDTO> getAccType(String search) {
+        return reporr.getAccType("%" + search.trim() + "%");
     }
 
 }

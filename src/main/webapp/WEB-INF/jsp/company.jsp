@@ -144,6 +144,15 @@
                                                     </div>
                                                 </div>
 
+
+                                            </div>
+                                            <div class="col" >
+
+                                                <div class="form-group" style="padding-left: 10px;">
+                                                    <label for="departments">Access Departments<span class="text-danger">*</span></label>
+                                                    <div id="departments"></div>
+                                                </div>
+
                                             </div>
 
                                         </div>
@@ -296,8 +305,41 @@
                                         console.error('Error fetching systems:', error);
                                         // Handle error if needed
                                     });
+
+                            // Fetch departments data from server
+                            fetch('department/department-load')
+                                    .then(response => response.json())
+                                    .then(departmentsData => {
+                                        // Clear previous checkboxes if any
+                                        $('#departments').empty();
+
+                                        // Iterate over fetched data and create checkboxes
+                                        departmentsData.forEach(department => {
+                                            // Create a checkbox element
+                                            let checkbox = $('<input type="checkbox">')
+                                                    .attr('id', 'department_' + department.id) // Set unique id for each checkbox
+                                                    .attr('name', 'departments') // Set common name for checkboxes if needed
+                                                    .val(department.id); // Set value of checkbox, e.g., department id
+
+                                            // Check the checkbox if the department is part of the company departments
+                                            if (data.departments.includes(department.id)) {
+                                                checkbox.prop('checked', true);
+                                            }
+
+                                            // Create a label for the checkbox
+                                            let label = $('<label>').text(department.department).prepend(checkbox);
+
+                                            // Append the label (with checkbox) to the departments div
+                                            $('#departments').append(label).append('<br>'); // Add a line break for better spacing
+                                        });
+                                    })
+                                    .catch(error => {
+                                        console.error('Error fetching departments:', error);
+                                        // Handle error if needed
+                                    });
                         });
             });
+
             function clearForms() {
                 document.getElementById('name').value = '';
                 document.getElementById('email').value = '';
@@ -305,6 +347,7 @@
                 document.getElementById('con_name').value = '';
                 document.getElementById('con_email').value = '';
                 $('input[name="systems"]').prop('checked', false);
+                $('input[name="departments"]').prop('checked', false);
             }
 
 
@@ -330,6 +373,7 @@
                     Swal.fire("Empty Contact Email!", "Please Enter a Valid Contact Email!", "warning");
                     return;
                 }
+
                 let checkedSystems = [];
                 $('input[name="systems"]:checked').each(function () {
                     checkedSystems.push($(this).val());
@@ -339,13 +383,18 @@
                     return;
                 }
 
+                let checkedDepartments = [];
+                $('input[name="departments"]:checked').each(function () {
+                    checkedDepartments.push($(this).val());
+                });
+                if (checkedDepartments.length === 0) {
+                    Swal.fire("No Departments Selected!", "Please Select at Least One Department!", "warning");
+                    return;
+                }
 
                 // Disable the button to prevent multiple clicks
                 saveBtn.disabled = true;
                 let mode = $('#saveBtn').data('mode'); // Get the mode (save or update) from the button's data
-
-                // Check if at least one system is selected
-
 
                 let fd = new FormData();
                 let name = document.getElementById('name').value;
@@ -359,6 +408,7 @@
                 let con_email = document.getElementById('con_email').value;
                 fd.append('con_email', con_email);
                 fd.append('checkedSystems', JSON.stringify(checkedSystems)); // Send the checked systems as JSON string
+                fd.append('checkedDepartments', JSON.stringify(checkedDepartments)); // Send the checked departments as JSON string
 
                 if (mode === 'save') {
                     // Handle the 'save' action
@@ -399,6 +449,7 @@
                     formData.append('con_name', con_name);
                     formData.append('con_email', con_email);
                     formData.append('checkedSystems', JSON.stringify(checkedSystems)); // Send the checked systems as JSON string
+                    formData.append('checkedDepartments', JSON.stringify(checkedDepartments)); // Send the checked departments as JSON string
 
                     $.ajax({
                         url: 'company/updates', // Replace with the actual update endpoint
@@ -434,6 +485,7 @@
                 }
 
             });
+
 
 
 
@@ -562,7 +614,45 @@
                             console.error('Error fetching systems:', error);
                             // Handle error if needed
                         });
+
+                // Fetch departments data from server
+                fetch('department/department-load')  // Replace 'company/departments' with your actual endpoint URL
+                        .then(response => response.json())
+                        .then(departmentsData => {
+                            // Clear previous checkboxes if any
+                            $('#departments').empty();
+
+                            // Iterate over fetched data and create checkboxes
+                            departmentsData.forEach(department => {
+                                // Create a row for each department
+                                let row = $('<div>').addClass('row mb-2');
+
+                                // Create a column for checkbox
+                                let checkboxCol = $('<div>').addClass('col-auto');
+                                let checkbox = $('<input type="checkbox">')
+                                        .attr('id', 'department_' + department.id)  // Set unique id for each checkbox
+                                        .attr('name', 'departments')  // Set common name for checkboxes if needed
+                                        .val(department.id);  // Set value of checkbox, e.g., department id
+                                checkboxCol.append(checkbox);
+
+                                // Create a column for department name
+                                let departmentCol = $('<div>').addClass('col');
+                                let label = $('<label>').addClass('ml-2').text(department.department);
+                                departmentCol.append(label);
+
+                                // Append checkbox and department name to the row
+                                row.append(checkboxCol).append(departmentCol);
+
+                                // Append the row to the departments div
+                                $('#departments').append(row);
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error fetching departments:', error);
+                            // Handle error if needed
+                        });
             });
+
 
 
 

@@ -125,18 +125,19 @@
                                         </div>
                                     </div>
 
-
-
-                                    <div class="form-group">
-                                        <label for="name">Name<span class="text-danger">*</span></label>
-                                        <input id="name" type="text" name="name" class="form-control"  required autocomplete="off">
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="username">Username<span class="text-danger">*</span></label>
-                                        <input id="username"  type="text" name="username" class="form-control" required autocomplete="off">
-                                    </div>
                                     <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="name">Name<span class="text-danger">*</span></label>
+                                                <input id="name" type="text" name="name" class="form-control"  required autocomplete="off">
+                                            </div> 
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="username">Username<span class="text-danger">*</span></label>
+                                                <input id="username"  type="text" name="username" class="form-control" required autocomplete="off">
+                                            </div>
+                                        </div>
                                         <div class="col">
                                             <div class="form-group">
                                                 <label for="user_type">User Type<span class="text-danger">*</span></label>
@@ -144,10 +145,25 @@
                                                 </select>
                                             </div>
                                         </div>
+                                    </div>
+
+
+
+
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <label for="company">Company<span class="text-danger">*</span></label>
+                                                    <select id="company" name="company" class="" required autocomplete="off">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="col">
                                             <div class="form-group">
-                                                <label for="company">Company<span class="text-danger">*</span></label>
-                                                <select id="company" name="company" class="" required autocomplete="off">
+                                                <label for="department">Department<span class="text-danger">*</span></label>
+                                                <select id="department" name="department" class="" required autocomplete="off">
                                                 </select>
                                             </div>
                                         </div>
@@ -155,6 +171,12 @@
                                             <div class="form-group" style="padding-bottom: 2rem">
                                                 <label for="company">Dashboard<span class="text-danger">*</span></label>
                                                 <select class="form-control-sm pull-right" id="dashboard">  </select>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group" style="padding-bottom: 2rem">
+                                                <label for="company">Access Type<span class="text-danger">*</span></label>
+                                                <select class="form-control-sm pull-right" id="access">  </select>
                                             </div>
                                         </div>
                                     </div>
@@ -186,25 +208,55 @@
                 clearForm()
             });
 
-            var typeIssue = new SlimSelect(
-                    {select: '#dashboard',
-                        placeholder: "Select Dashboard",
-                        ajax: function (search, callback) {
-                            fetch('admin/dashbaord-type', {
-                                method: 'POST',
-                                body: new URLSearchParams({search: search || ''})
-                            }).then(res => res.json()).then((data) => {
-                                callback(data);
-                            });
-                        },
-                        allowDeselect: true,
-                        deselectLabel: '<span class="red">✖</span>'
+            var typeIssue = new SlimSelect({
+                select: '#dashboard',
+                placeholder: "Select Dashboard",
+                ajax: function (search, callback) {
+                    fetch('admin/dashbaord-type', {
+                        method: 'POST',
+                        body: new URLSearchParams({search: search || ''})
+                    }).then(res => res.json()).then((data) => {
+                        callback(data);
                     });
-            var dptmnt = new SlimSelect({
+                },
+                allowDeselect: true,
+                deselectLabel: '<span class="red">✖</span>'
+            });
+            var company = new SlimSelect({
                 select: '#company',
                 placeholder: "Company",
                 ajax: function (search, callback) {
                     fetch('company/company-select', {
+                        method: 'POST',
+                        body: new URLSearchParams({search: search || ''})
+                    }).then(res => res.json()).then((data) => {
+                        callback(data);
+                    });
+                },
+                allowDeselect: true,
+                deselectLabel: '<span class="red">✖</span>'
+            });
+            var dptmnt = new SlimSelect({
+                select: '#department',
+                placeholder: "Company",
+                ajax: function (search, callback) {
+                    fetch('company/company-select-departments', {
+                        method: 'POST',
+                        body: new URLSearchParams({search: search || ''})
+                    }).then(res => res.json()).then((data) => {
+                        callback(data);
+                    });
+                },
+                allowDeselect: true,
+                deselectLabel: '<span class="red">✖</span>'
+            });
+
+
+            var access = new SlimSelect({
+                select: '#access',
+                placeholder: "Access Type",
+                ajax: function (search, callback) {
+                    fetch('company/access-type', {
                         method: 'POST',
                         body: new URLSearchParams({search: search || ''})
                     }).then(res => res.json()).then((data) => {
@@ -362,6 +414,14 @@
                     Swal.fire("Dashboard not Selected!", "Please Select a Dashboard!", "warning");
                     return;
                 }
+                if ($('#access').val() === null) {
+                    Swal.fire("Access Type not Selected!", "Please Select a Type!", "warning");
+                    return;
+                }
+                if ($('#department').val() === null) {
+                    Swal.fire("Department not Selected!", "Please Select a Department!", "warning");
+                    return;
+                }
 
 
                 let mode = $('#saveBtn').data('mode');
@@ -375,6 +435,8 @@
                 formData.append('usertype', $('#user_type').val());
                 formData.append('company', $('#company').val());
                 formData.append('dashboard', $('#dashboard').val());
+                formData.append('access', $('#access').val());
+                formData.append('department', $('#department').val());
 
                 Swal.fire({
                     title: 'Are you sure?',

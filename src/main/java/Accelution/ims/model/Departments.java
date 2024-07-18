@@ -27,18 +27,12 @@ import org.springframework.data.relational.core.mapping.Table;
 @Setter
 @Getter
 @ToString
-@Table("company")
-public class Company {
+@Table("departments")
+public class Departments {
 
     @Id
     private Integer id;
-    private String name;
-    private String email;
-    private String contact;
-    private String con_name;
-    private String con_email;
-    private String systems;
-    private String departments;
+    private String department;
     private String status;
 
     @CreatedBy

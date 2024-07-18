@@ -2,10 +2,7 @@
 <html lang="en-US" dir="ltr">
     <head>
         <%@include file="jspf/header.jspf" %>
-        <meta http-equiv="content-type" content="text/html;charset=utf-8" />
-        <link rel="stylesheet" href="/vendors/bootstrap/bootstrap.min.css">
-        <link rel="stylesheet" href="/vendors/fontawesome/all.min.css">
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
         <style>
             .div-load {
                 position: relative;

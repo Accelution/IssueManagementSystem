@@ -78,8 +78,8 @@ public class CompanyController {
         String con_name = req.getParameter("con_name");
         String con_email = req.getParameter("con_email");
         String checkedSystemsJson = req.getParameter("checkedSystems");
-
-        return service.saves(name, email, contact, con_name, con_email, checkedSystemsJson);
+        String checkedDepartmentsJson = req.getParameter("checkedDepartments");
+        return service.saves(name, email, contact, con_name, con_email, checkedSystemsJson, checkedDepartmentsJson);
     }
 
     @PostMapping("/updates")
@@ -92,13 +92,20 @@ public class CompanyController {
         String con_name = req.getParameter("con_name");
         String con_email = req.getParameter("con_email");
         String checkedSystemsJson = req.getParameter("checkedSystems");
-        return service.updates(id, name, email, contact, con_name, con_email, checkedSystemsJson);
+        String checkedDepartmentsJson = req.getParameter("checkedDepartments");
+        return service.updates(id, name, email, contact, con_name, con_email, checkedSystemsJson, checkedDepartmentsJson);
     }
 
     @PostMapping("/company-select-systems")
     public Iterable<SlimSelectDTO> getSelect(@RequestParam String search, HttpSession session) throws Exception {
         String company = (String) session.getAttribute("company");
         return service.getSelect(search, company);
+    }
+
+    @PostMapping("/company-select-departments")
+    public Iterable<SlimSelectDTO> getSelectDep(@RequestParam String search, HttpSession session) throws Exception {
+        String company = (String) session.getAttribute("company");
+        return service.getSelectDep(search, company);
     }
 
     @PostMapping("/module-select-systems")
@@ -109,6 +116,11 @@ public class CompanyController {
     @PostMapping("/company-select")
     public Iterable<SlimSelectDTO> getCompanyselect(@RequestParam String search) throws Exception {
         return service.getCompanyselect(search);
+    }
+
+    @PostMapping("/access-type")
+    public Iterable<SlimSelectDTO> getAccType(@RequestParam String search) throws Exception {
+        return service.getAccType(search);
     }
 
 }

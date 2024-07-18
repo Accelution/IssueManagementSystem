@@ -20,3 +20,8 @@
 <link href="assets/css/user.min.css" rel="stylesheet" id="user-style-default">
 <link href="assets/css/slimselect.css" rel="stylesheet" >
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+
+
+<link rel="stylesheet" href="/vendors/bootstrap/bootstrap.min.css">
+<link rel="stylesheet" href="/vendors/fontawesome/all.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

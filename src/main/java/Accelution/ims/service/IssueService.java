@@ -62,7 +62,7 @@ public class IssueService {
     public DataTablesResponse<IssueDTO> getIssues(DataTableRequest param) throws Exception {
         String stage = param.getData();
 
-        String sql = "SELECT x.`id`,x.`issue`,x.`status`,x.`ref_number`,(SELECT i.system FROM `systems` i WHERE i.`id`=x.`system`)AS `system`,(SELECT p.type FROM `priority` p WHERE p.`id`=x.`priority`)AS `priority`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`ent_by`) AS `ent_by`,`ent_on`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`mod_by`) AS `mod_by`,`mod_on` FROM `issues` X WHERE TRUE";
+        String sql = "SELECT x.`id`,x.`issue`,x.`status`,x.`ref_number`,(SELECT i.system FROM `systems` i WHERE i.`id`=x.`system`)AS `system`,(SELECT m.`name` FROM `modules` m WHERE m.`id`=x.`module`)AS `module`,(SELECT c.`name` FROM `company` c WHERE c.`id`=x.`company`)AS `company`,(SELECT p.type FROM `priority` p WHERE p.`id`=x.`priority`)AS `priority`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`ent_by`) AS `ent_by`,`ent_on`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`mod_by`) AS `mod_by`,`mod_on` FROM `issues` X WHERE TRUE";
         if (!stage.equals("all")) {
             if (stage.equals("queue")) {
                 sql += " AND `status`='Queue'";
