@@ -29,7 +29,7 @@ public class DepartmentsService {
     DepartmentRepo reporr;
 
     public DataTablesResponse<DepartmentDto> getDepartment(DataTableRequest param) throws Exception {
-        return userDts.getData(DepartmentDto.class, param, "SELECT x.`id`,x.`department`,x.`status`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`ent_by`) AS `ent_by`,`ent_on`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`mod_by`) AS `mod_by`,`mod_on` FROM `department` X WHERE TRUE");
+        return userDts.getData(DepartmentDto.class, param, "SELECT x.`id`,x.`department`,x.`status`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`ent_by`) AS `ent_by`,`ent_on`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`mod_by`) AS `mod_by`,`mod_on` FROM `departments` X WHERE TRUE");
 
     }
 

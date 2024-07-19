@@ -20,7 +20,7 @@
                                     <div class="col-sm-12">
                                         <div class="card" id="tableCard">
                                             <div class="card-body" >
-                                                <h5 id="main_name_tag">Ticket Management System - QA</h5>
+                                                <h5 id="main_name_tag">Ticket Management System - Deployment</h5>
                                                 <hr>
 
                                                 <div id="table_card">
@@ -50,7 +50,7 @@
                     </div>
 
                     <!--formSection-queue-->
-                    <div class="" id="formSectionQA" style="display: none; padding-top: 1rem;">
+                    <div class="" id="formSectionDeployment" style="display: none; padding-top: 1rem;">
                         <div class="card" style="padding: 1em;">
                             <div class="card-block p-b-0">
                                 <div class="row">
@@ -100,9 +100,8 @@
                                                     <option value="" disabled selected>Select Stage</option>
 
                                                     <option value="devPen">Development Pending</option>
-                                                    <option value="deploy">Deployment Pending</option>
-
-
+                                                    <option value="qa">QA Pending</option>
+                                                    <option value="com">Completed</option>
                                                 </select>
                                             </div>
                                         </div> 
@@ -275,7 +274,7 @@
             const closeBtnin = document.getElementById('closeBtnin');
 
             closeBtnin.addEventListener('click', function () {
-                formSectionQA.style.display = 'none';
+                formSectionDeployment.style.display = 'none';
                 tableSection.style.display = 'block';
                 clearForms();
             });
@@ -350,7 +349,7 @@
             })
 
 
-            let stage = 'qa';
+            let stage = 'deploy';
 
 
             $.fn.dataTable.ext.errMode = 'none';
@@ -427,7 +426,7 @@
             $(document).on('click', '.editrec', function () {
                 let row = $(this).closest('tr');
                 let status = row.data('status');
-                if (status === 'QA Pending') {
+                if (status === 'Deployment Pending') {
                     loadDiv($('#tableSection'));
                     let id = $(this).parents('tr').data('id');
                     fetch('issue/details-all/' + id)
@@ -455,7 +454,7 @@
                                 displayComments(data.videos);
 
                                 // Show the form section and hide the table section
-                                $('#formSectionQA').fadeIn();
+                                $('#formSectionDeployment').fadeIn();
                                 $('#tableSection').hide();
                                 finishLoadDiv($('#tableSection'));
                             });
@@ -599,7 +598,7 @@
                         return response.json();
                     }).then(data => {
                         Swal.fire('Successful!', 'Issue has been successfully updated', 'success');
-                        $('#formSectionQA').hide();
+                        $('#formSectionDeployment').hide();
                         $('#tableSection').fadeIn();
                         clearForms();
                         dtable.ajax.reload();

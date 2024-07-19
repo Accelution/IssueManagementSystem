@@ -76,6 +76,8 @@ public class IssueService {
                 sql += " AND `status`='Testing Pending'";
             } else if (stage.equals("qa")) {
                 sql += " AND `status`='QA Pending'";
+            } else if (stage.equals("deploy")) {
+                sql += " AND `status`='Deployment Pending'";
             } else if (stage.equals("completed")) {
                 sql += " AND `status`='Completed'";
             } else if (stage.equals("unsucces")) {

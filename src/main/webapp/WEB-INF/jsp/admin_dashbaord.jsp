@@ -64,17 +64,6 @@
 
                             <div class="row row-group m-0 card-container justify-content-between" style="padding-bottom:2em">
                                 <div class="col card-col">
-                                    <div class="card" id="Quecrd">
-                                        <div class="card-body">
-                                            <h6 class="text mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                                                    </i></span></h6>
-                                            <div class="progress my-2" style="height:1px;"></div>
-                                            <p class="mb-0 text small-font">Queue</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col card-col">
                                     <div class="card" id="Appcrd">
                                         <div class="card-body">
                                             <h6 class="text mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather">
@@ -82,6 +71,17 @@
                                                     </i></span></h6>
                                             <div class="progress my-2" style="height:1px;"></div>
                                             <p class="mb-0 text small-font">Approval Pending</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col card-col">
+                                    <div class="card" id="Quecrd">
+                                        <div class="card-body">
+                                            <h6 class="text mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                                    </i></span></h6>
+                                            <div class="progress my-2" style="height:1px;"></div>
+                                            <p class="mb-0 text small-font">Queue</p>
                                         </div>
                                     </div>
                                 </div>
@@ -116,6 +116,17 @@
                                                     </i></span></h6>
                                             <div class="progress my-2" style="height:1px;"></div>
                                             <p class="mb-0 text small-font">QA Pending</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col card-col">
+                                    <div class="card" id="Qacrd">
+                                        <div class="card-body">
+                                            <h6 class="text mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather">
+
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-server"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>                                                    </i></span></h6>
+                                            <div class="progress my-2" style="height:1px;"></div>
+                                            <p class="mb-0 text small-font">Deployment Pending</p>
                                         </div>
                                     </div>
                                 </div>
@@ -201,6 +212,10 @@
                                             </div>
                                         </div>
                                         <div class="col">
+                                            <div class="form-group">
+                                                <label for="department">Department<span class="text-danger">*</span></label>
+                                                <input id="department" type="text" name="department" class="form-control" required autocomplete="off" disabled="">
+                                            </div>
                                         </div>
                                     </div>
 
@@ -609,6 +624,7 @@
                 clearForm();
                 $('#username').val('<%=session.getAttribute("name")%>');
                 $('#company').val('<%=session.getAttribute("company")%>');
+                $('#department').val('<%=session.getAttribute("department")%>');
                 $('#tableSection').hide();
                 $('#formSection').fadeIn();
             });

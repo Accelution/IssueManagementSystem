@@ -115,4 +115,9 @@ public class PageController {
     public String department() {
         return "department";
     }
+
+    @GetMapping("/Deployment")
+    public String deployment() {
+        return "deployment";
+    }
 }
