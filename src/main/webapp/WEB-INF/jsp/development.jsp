@@ -31,8 +31,9 @@
                                                                 <th>Reference Number</th>
                                                                 <th>Issue</th>
                                                                 <th>System</th>
+                                                                <th>Module</th>
+                                                                <th>Company</th>
                                                                 <th>Priority</th>
-                                                                <th>ENT Date</th>
                                                                 <th>Status</th>
                                                                 <th>Action</th>
                                                             </tr>
@@ -52,6 +53,9 @@
                     <!--formSection-queue-->
                     <div class="" id="formSectionDevelopment" style="display: none; padding-top: 1rem;">
                         <div class="card" style="padding: 1em;">
+                            <div class="card-header">
+                                <h5>Ticket Management System - Development Pending</h5>
+                            </div>
                             <div class="card-block p-b-0">
                                 <div class="row">
                                     <div class="col">
@@ -380,8 +384,9 @@
                     {"data": "ref_number"},
                     {"data": "issue"},
                     {"data": "system"},
+                    {"data": "module"},
+                    {"data": "company"},
                     {"data": "priority"},
-                    {"data": "ent_on"},
                     {"data": "status"}
                 ],
                 "language": {
@@ -400,12 +405,12 @@
 
                     // Color the text and make it bold in the priority column based on its value
                     if (data['priority'] === 'Urgent') {
-                        $('td', row).eq(3).css({
+                        $('td', row).eq(5).css({
                             'color': 'red',
                             'font-weight': 'bold'
                         });
                     } else {
-                        $('td', row).eq(3).css({
+                        $('td', row).eq(5).css({
                             'color': '#e0da16',
                             'font-weight': 'bold'
                         });
@@ -466,10 +471,20 @@
                 if (comments && comments.length > 0) {
                     // Reverse the comments to show the latest one first
                     comments.reverse().forEach(comment => {
+                        // Determine the background color based on comment type
+                        let bgColor = '';
+                        if (comment.com_type === 'Internal') {
+                            bgColor = 'background-color: #d4edda;'; // Light green
+                        } else if (comment.com_type === 'External') {
+                            bgColor = 'background-color: #fff3cd;'; // Light amber
+                        }
+
                         let commentHTML =
+                                '<div class="card mb-3" style="' + bgColor + '">' +
+                                '<div class="card-body">' +
                                 '<div class="row">' +
                                 '<div class="col-4">' +
-                                '<h6>Commented By: ' + comment.ent_by + '</h6>' +
+                                '<h6>Commented By: ' + comment.commenter + '</h6>' +
                                 '<h6>Commented On: ' + comment.ent_on + '</h6>' +
                                 '<h6>Comment Type: ' + comment.com_type + '</h6>' +
                                 '</div>' +
@@ -483,7 +498,8 @@
                         commentHTML +=
                                 '</div>' +
                                 '</div>' +
-                                '<hr>';
+                                '</div>' +
+                                '</div>';
 
                         comSection.append(commentHTML);
                     });

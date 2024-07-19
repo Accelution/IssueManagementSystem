@@ -46,8 +46,9 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
-    public User getUser(@PathVariable Integer id) throws Exception {
-        return service.getUser(id);
+    public ResponseEntity<CommonResponse> getUser(@PathVariable Integer id) throws Exception {
+        CommonResponse response = new CommonResponse("Success!", service.getUser(id), 200);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping("/user-type-save")
@@ -141,4 +142,5 @@ public class UserController {
 
         return service.getAllSystems();
     }
+
 }

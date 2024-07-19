@@ -52,6 +52,8 @@ public class Issue {
     private String sysname;
     @Transient
     private String modulename;
+    @Transient
+    private String assigntoc;
     private String assign;
     private String reason;
     private String status;

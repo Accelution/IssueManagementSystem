@@ -1,17 +1,6 @@
 <nav class="navbar navbar-light navbar-glass navbar-top navbar-expand">
-    <!--        <div class="d-flex align-items-center">
-                    <div class="toggle-icon-wrapper">
-                        <button class="btn navbar-toggler-humburger-icon navbar-vertical-toggle" data-bs-toggle="tooltip"
-                                data-bs-placement="left" title="Toggle Navigation"><span class="navbar-toggle-icon"><span
-                                    class="toggle-line"></span></span></button>
-                    </div>
-                    <a class="navbar-brand" href="index">
-                        <div class="d-flex align-items-center py-3">
-                            <span class="font-sans-serif">TMS</span>
-                        </div>
-                    </a>
-                </div>-->
-    <h6 class="mb-0 fw-semi-bold"><%=session.getAttribute("company")%></h6>
+
+    <h5 id="companyNameNav" class="mb-0 fw-semi-bold"></h5>
     <ul class="navbar-nav navbar-nav-icons ms-auto flex-row align-items-center">
         <li class="nav-item">
             <div class="theme-control-toggle fa-icon-wait px-2"><input
@@ -47,6 +36,7 @@
         </li>
     </ul>
 </nav>
+
 <script>
     var isRTL = JSON.parse(localStorage.getItem('isRTL'));
     if (isRTL) {
@@ -70,4 +60,29 @@
         container.classList.add('container-fluid');
     }
 </script>
+<script>
+    $(document).ready(function () {
+        // Assuming you have the user ID available
+        var userId = '<%=session.getAttribute("uid")%>'; // Ensure this is correct
 
+        fetch('admin/user/' + userId)
+                .then(response => response.json())
+                .then(response => {
+                    // Debugging log to check response structure
+                    console.log(response);
+
+                    // Access the nested data object
+                    var data = response.data;
+
+                    // Check if data.d1 and data.d2 exist before accessing properties
+                    if (data.d1 && data.d1.companyname) {
+                        $('#companyNameNav').text(data.d1.companyname);
+                    } else {
+                        console.error('Company name not found in response');
+                    }
+
+                })
+                .catch(error => console.error('Error:', error));
+    });
+
+</script>

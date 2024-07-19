@@ -21,9 +21,12 @@ import Accelution.ims.repo.SystemRepo;
 import Accelution.ims.repo.UserRepo;
 import Accelution.ims.repo.UserTypeRepo;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jdbc.core.mapping.AggregateReference;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -53,11 +56,22 @@ public class UserService {
     public DataTablesResponse<UserTypeDataTable> getUserType(DataTableRequest param) throws Exception {
         return userTypeDt.getData(UserTypeDataTable.class, param, "SELECT x.`id`,x.`name`,x.`status`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`ent_by`) AS `ent_by`,`ent_on`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`mod_by`) AS `mod_by`,`mod_on` FROM `user_type` X WHERE TRUE ");
     }
+    @Autowired
+    private JdbcTemplate jdbc;
 
-    public User getUser(Integer id) throws Exception {
-        User user = userRepo.findById(id).get();
+    public Map<String, Object> getUser(Integer id) throws Exception {
+        User user = userRepo.findById(id).orElseThrow(() -> new Exception("Issue not found"));
 
-        return user;
+        Map<String, Object> companyName = jdbc.queryForMap("SELECT `name` as companyname FROM `company` WHERE `id` = ?", user.getCompany());
+        user.setCompanyname((String) companyName.get("companyname"));
+        Map<String, Object> depName = jdbc.queryForMap("SELECT `department` as departmentname FROM `departments` WHERE `id` = ?", user.getDepartment());
+        user.setDepartmentname((String) depName.get("departmentname"));
+
+        Map<String, Object> combinedData = new HashMap<>();
+        combinedData.put("d1", companyName);
+        combinedData.put("d2", depName);
+
+        return combinedData;
     }
 
     public UserType saveUserType(String name, String pages) throws Exception {

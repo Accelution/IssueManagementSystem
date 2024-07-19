@@ -121,7 +121,7 @@
                 }
             });
         </script>
-        <script src="/vendors/bootstrap/bootstrap.bundle.min.js"></script>
-        <script src="/vendors/fontawesome/all.min.js"></script>
+        <script src="vendors/bootstrap/bootstrap.bundle.min.js"></script>
+        <script src="vendors/fontawesome/all.min.js"></script>
     </body>
 </html>

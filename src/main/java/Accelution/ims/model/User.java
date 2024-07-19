@@ -41,6 +41,10 @@ public class User {
     public String department;
     public String access;
     private String status;
+    @Transient
+    private String companyname;
+    @Transient
+    private String departmentname;
     @CreatedBy
     private Integer ent_by;
     @CreatedDate

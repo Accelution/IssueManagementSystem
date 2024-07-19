@@ -62,13 +62,20 @@
                         <%@include file="jspf/navbar.jspf" %>
                         <div class="main" id="tableSection">
 
-                            <div class="row row-group m-0 card-container justify-content-between" style="padding-bottom:2em">
+                            <div class="row row-group m-0 card-container justify-content-between">
                                 <div class="col card-col">
                                     <div class="card" id="Appcrd">
                                         <div class="card-body">
-                                            <h6 class="text mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-key"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path></svg>
-                                                    </i></span></h6>
+                                            <h6 class="text mb-0" id="approval-container">
+                                                <span id="approval-count">0</span>
+                                                <span class="float-right">
+                                                    <i class="feather">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-key">
+                                                        <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
+                                                        </svg>
+                                                    </i>
+                                                </span>
+                                            </h6>
                                             <div class="progress my-2" style="height:1px;"></div>
                                             <p class="mb-0 text small-font">Approval Pending</p>
                                         </div>
@@ -77,9 +84,17 @@
                                 <div class="col card-col">
                                     <div class="card" id="Quecrd">
                                         <div class="card-body">
-                                            <h6 class="text mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                                                    </i></span></h6>
+                                            <h6 class="text mb-0" id="queue-container">
+                                                <span id="queue-count">0</span>
+                                                <span class="float-right">
+                                                    <i class="feather">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock">
+                                                        <circle cx="12" cy="12" r="10"></circle>
+                                                        <polyline points="12 6 12 12 16 14"></polyline>
+                                                        </svg>
+                                                    </i>
+                                                </span>
+                                            </h6>
                                             <div class="progress my-2" style="height:1px;"></div>
                                             <p class="mb-0 text small-font">Queue</p>
                                         </div>
@@ -88,21 +103,38 @@
                                 <div class="col card-col">
                                     <div class="card" id="InProcrd">
                                         <div class="card-body">
-                                            <h6 class="text mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-book-open"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
-                                                    </i></span></h6>
+                                            <h6 class="text mb-0" id="inprogress-container">
+                                                <span id="inprogress-count">0</span>
+                                                <span class="float-right">
+                                                    <i class="feather">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-book-open">
+                                                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                                                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                                                        </svg>
+                                                    </i>
+                                                </span>
+                                            </h6>
                                             <div class="progress my-2" style="height:1px;"></div>
                                             <p class="mb-0 text small-font">In Progress</p>
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="col card-col">
                                     <div class="card" id="Devpcrd">
                                         <div class="card-body">
-                                            <h6 class="text mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                                                    </i></span></h6>
+                                            <h6 class="text mb-0" id="development-container">
+                                                <span id="development-count">0</span>
+                                                <span class="float-right">
+                                                    <i class="feather">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
+                                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                                        <polyline points="14 2 14 8 20 8"></polyline>
+                                                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                                                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                                                        </svg>
+                                                    </i>
+                                                </span>
+                                            </h6>
                                             <div class="progress my-2" style="height:1px;"></div>
                                             <p class="mb-0 text small-font">Development Pending</p>
                                         </div>
@@ -111,20 +143,38 @@
                                 <div class="col card-col">
                                     <div class="card" id="Qacrd">
                                         <div class="card-body">
-                                            <h6 class="text mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-square"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
-                                                    </i></span></h6>
+                                            <h6 class="text mb-0" id="qa-container">
+                                                <span id="qa-count">0</span>
+                                                <span class="float-right">
+                                                    <i class="feather">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-square">
+                                                        <polyline points="9 11 12 14 22 4"></polyline>
+                                                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                                                        </svg>
+                                                    </i>
+                                                </span>
+                                            </h6>
                                             <div class="progress my-2" style="height:1px;"></div>
                                             <p class="mb-0 text small-font">QA Pending</p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col card-col">
-                                    <div class="card" id="Qacrd">
+                                    <div class="card" id="Deplcrd">
                                         <div class="card-body">
-                                            <h6 class="text mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather">
-
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-server"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>                                                    </i></span></h6>
+                                            <h6 class="text mb-0" id="deployment-container">
+                                                <span id="deployment-count">0</span>
+                                                <span class="float-right">
+                                                    <i class="feather">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-server">
+                                                        <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+                                                        <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+                                                        <line x1="6" y1="6" x2="6.01" y2="6"></line>
+                                                        <line x1="6" y1="18" x2="6.01" y2="18"></line>
+                                                        </svg>
+                                                    </i>
+                                                </span>
+                                            </h6>
                                             <div class="progress my-2" style="height:1px;"></div>
                                             <p class="mb-0 text small-font">Deployment Pending</p>
                                         </div>
@@ -133,20 +183,37 @@
                                 <div class="col card-col">
                                     <div class="card" id="Complcrd">
                                         <div class="card-body">
-                                            <h6 class="text mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                                                    </i></span></h6>
+                                            <h6 class="text mb-0" id="completed-container">
+                                                <span id="completed-count">0</span>
+                                                <span class="float-right">
+                                                    <i class="feather">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle">
+                                                        <path d="M22 11.08v1.84a8.94 8.94 0 0 1-6.92 8.84c-.62.08-1.24.08-1.86.08a8.94 8.94 0 0 1-8.94-8.94v-1.84"></path>
+                                                        <path d="M12 6v6l4 2"></path>
+                                                        </svg>
+                                                    </i>
+                                                </span>
+                                            </h6>
                                             <div class="progress my-2" style="height:1px;"></div>
                                             <p class="mb-0 text small-font">Completed</p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col card-col">
-                                    <div class="card" id="Unsuccrd">
+                                    <div class="card" id="Closcrd">
                                         <div class="card-body">
-                                            <h6 class="text mb-0" id="acknowledgment">0 <span class="float-right"><i class="feather">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-octagon"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
-                                                    </i></span></h6>
+                                            <h6 class="text mb-0" id="closed-container">
+                                                <span id="closed-count">0</span>
+                                                <span class="float-right">
+                                                    <i class="feather">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-circle">
+                                                        <circle cx="12" cy="12" r="10"></circle>
+                                                        <line x1="15" y1="9" x2="9" y2="15"></line>
+                                                        <line x1="9" y1="9" x2="15" y2="15"></line>
+                                                        </svg>
+                                                    </i>
+                                                </span>
+                                            </h6>
                                             <div class="progress my-2" style="height:1px;"></div>
                                             <p class="mb-0 text small-font">Closed</p>
                                         </div>
@@ -154,7 +221,7 @@
                                 </div>
                             </div>
 
-
+                            <br>
                             <div class="row">
                                 <div class="col-12 col-lg-12">
                                     <div class="card" id="tableCard">
@@ -182,7 +249,7 @@
                                         </div>
                                         <div class="card-footer">
                                             <div class="text-right">
-                                                <button id="addFmrBtn" class="btn btn-sm waves-effect waves-light btn-danger">
+                                                <button id="addIssueBtn" class="btn btn-sm waves-effect waves-light btn-danger">
                                                     <i class="icon feather icon-plus"></i>Add Ticket
                                                 </button>
                                             </div>
@@ -376,7 +443,35 @@
 
 
 
+        <script>
+            countCards();
+            function countCards() {
+                const countsMapping = [
+                    {key: 'countAppr', id: 'approval-count'},
+                    {key: 'countQue', id: 'queue-count'},
+                    {key: 'countInpr', id: 'inprogress-count'},
+                    {key: 'countDeve', id: 'development-count'},
+                    {key: 'countQa', id: 'qa-count'},
+                    {key: 'countDeploy', id: 'deployment-count'},
+                    {key: 'countCompl', id: 'completed-count'},
+                    {key: 'countClos', id: 'closed-count'}
+                ];
 
+                $.get('issue/counts', function (resp) {
+                    let data = resp;
+                    console.log(data);
+                    countsMapping.forEach(mapping => {
+                        const element = document.getElementById(mapping.id);
+                        if (element) {
+                            element.innerText = data[mapping.key] || '0'; // Default to '0' if data is undefined
+                        } else {
+                            console.warn(`Element with ID "${mapping.id}" not found.`);
+                        }
+                    });
+                });
+            }
+
+        </script>
         <script>
             document.getElementById('addBtn').addEventListener('click', function () {
                 // Get the table body
@@ -618,16 +713,38 @@
             });
 
 
-            $('#addFmrBtn').click(function () {
+            $('#addIssueBtn').click(function () {
                 $('#saveBtn').data('mode', 'save');
                 $('#saveBtn').html('<i class="icon feather icon-save"></i>Save');
                 clearForm();
-                $('#username').val('<%=session.getAttribute("name")%>');
-                $('#company').val('<%=session.getAttribute("company")%>');
-                $('#department').val('<%=session.getAttribute("department")%>');
-                $('#tableSection').hide();
-                $('#formSection').fadeIn();
+
+                // Assuming you have the user ID available
+                var uid = <%=session.getAttribute("uid")%>; // Replace with actual user ID
+
+                fetch('admin/user/' + uid)
+                        .then(response => response.json())
+                        .then(response => {
+                            console.log(response);
+                            var data = response.data;
+                            // Check if data.d1 and data.d2 exist before accessing properties
+                            if (data.d1 && data.d1.companyname) {
+                                $('#company').val(data.d1.companyname);
+                            } else {
+                                console.error('Company name not found in response');
+                            }
+
+                            if (data.d2 && data.d2.departmentname) {
+                                $('#department').val(data.d2.departmentname);
+                            } else {
+                                console.error('Department name not found in response');
+                            }
+                            $('#username').val('<%=session.getAttribute("name")%>');
+                            $('#tableSection').hide();
+                            $('#formSection').fadeIn();
+                        })
+                        .catch(error => console.error('Error:', error));
             });
+
 
             $('.cls-card').click(function () {
                 $('#formSection').hide();
@@ -762,6 +879,7 @@
                     }).then(data => {
                         Swal.fire('Successful!', 'Ticket has been successfully saved', 'success');
                         clearForms();
+                        countCards();
                         $('#formSection').hide();
                         $('#tableSection').fadeIn();
                         $('#navTab').fadeIn();
@@ -927,10 +1045,20 @@
                 if (comments && comments.length > 0) {
                     // Reverse the comments to show the latest one first
                     comments.reverse().forEach(comment => {
+                        // Determine the background color based on comment type
+                        let bgColor = '';
+                        if (comment.com_type === 'Internal') {
+                            bgColor = 'background-color: #d4edda;'; // Light green
+                        } else if (comment.com_type === 'External') {
+                            bgColor = 'background-color: #fff3cd;'; // Light amber
+                        }
+
                         let commentHTML =
+                                '<div class="card mb-3" style="' + bgColor + '">' +
+                                '<div class="card-body">' +
                                 '<div class="row">' +
                                 '<div class="col-4">' +
-                                '<h6>Commented By: ' + comment.ent_by + '</h6>' +
+                                '<h6>Commented By: ' + comment.commenter + '</h6>' +
                                 '<h6>Commented On: ' + comment.ent_on + '</h6>' +
                                 '<h6>Comment Type: ' + comment.com_type + '</h6>' +
                                 '</div>' +
@@ -944,7 +1072,8 @@
                         commentHTML +=
                                 '</div>' +
                                 '</div>' +
-                                '<hr>';
+                                '</div>' +
+                                '</div>';
 
                         comSection.append(commentHTML);
                     });
@@ -952,6 +1081,8 @@
                     comSection.html('<p>No comments available.</p>');
                 }
             }
+
+
             $(document).on('click', '.editrec', function () {
                 let row = $(this).closest('tr');
                 let status = row.data('status');
@@ -982,7 +1113,7 @@
 
                             // Fetch and display comments
                             displayComments(data.videos);
-
+                            countCards();
                             $('#formSectionView').fadeIn();
                             $('#tableSection').hide();
                         })

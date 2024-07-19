@@ -59,6 +59,11 @@ public class IssueController {
         return service.getPrio(search);
     }
 
+    @GetMapping("/counts")
+    public Map<String, Long> getStatusCounts() {
+        return service.getStatusCounts();
+    }
+
 ////    branch
 //    @PostMapping("/issuetable-all-branches")
 //    public DataTablesResponse<IssueDTO> getIssueBrnch(@RequestBody DataTableRequest param, HttpSession session) throws Exception {
@@ -246,43 +251,4 @@ public class IssueController {
 //        return service.updateVoucher(idd, statusvoucher);
 //
 //    }
-    @GetMapping("/count-all")
-    public Long getcountAllStatus() {
-        return service.countAllStatus();
-    }
-
-    @GetMapping("/count-acknopen")
-    public Long getcountAcknoPendStatus() {
-        return service.countAcknoPendStatus();
-    }
-
-    @GetMapping("/count-ackno")
-    public Long getcountAcknoStatus() {
-        return service.countAcknoStatus();
-    }
-
-    @GetMapping("/count-exception")
-    public Long getcountExceptionsStatus() {
-        return service.countExceptionsStatus();
-    }
-
-    @GetMapping("/count-undertaking")
-    public Long getcountUndertakinStatus() {
-        return service.countUndertakinStatus();
-    }
-
-    @GetMapping("/count-payment")
-    public Long getcountPaymentStatus() {
-        return service.countPaymentStatus();
-    }
-
-    @GetMapping("/count-completed")
-    public Long getCountOfCompletedStatus() {
-        return service.countCompletedStatus();
-    }
-
-    @GetMapping("/count-rejected")
-    public Long getcountRejectedStatus() {
-        return service.countRejectedStatus();
-    }
 }

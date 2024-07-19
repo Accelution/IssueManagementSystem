@@ -33,27 +33,27 @@ public interface IssueRepo extends CrudRepository<Issue, Integer> {
     @Query("SELECT `id` AS `value`, `type` AS `text` FROM `priority`")
     Iterable<SlimSelectDTO> getPrio(@Param("search") String search);
 
-    @Query("SELECT COUNT(*) AS COUNT FROM fmr")
-    Long countByStatusAll();
+    @Query("SELECT COUNT(*) AS COUNT FROM issues WHERE `status` = 'Approval Pending'")
+    Long countByStatusAppr();
 
-    @Query("SELECT COUNT(*) AS COUNT FROM fmr WHERE `status` = 'Acknowledgment Pending'")
-    Long countByStatusAcknoPe();
+    @Query("SELECT COUNT(*) AS COUNT FROM issues WHERE `status` = 'Queue'")
+    Long countByStatusQue();
 
-    @Query("SELECT COUNT(*) AS COUNT FROM fmr WHERE `status` = 'Acknowledged'")
-    Long countByStatusAckno();
+    @Query("SELECT COUNT(*) AS COUNT FROM issues WHERE `status` = 'In Progress'")
+    Long countByStatusInpro();
 
-    @Query("SELECT COUNT(*) AS COUNT FROM fmr WHERE `status` = 'Exceptions'")
-    Long countByStatusExceptions();
+    @Query("SELECT COUNT(*) AS COUNT FROM issues WHERE `status` = 'development Pending'")
+    Long countByStatusDev();
 
-    @Query("SELECT COUNT(*) AS COUNT FROM fmr WHERE `status` = 'Rejected'")
-    Long countByStatusRejected();
+    @Query("SELECT COUNT(*) AS COUNT FROM issues WHERE `status` = 'QA Pending'")
+    Long countByStatusQa();
 
-    @Query("SELECT COUNT(*) AS COUNT FROM fmr WHERE `status` IN ('Undertaking Approval Pending', 'Undertaking Recommendation')")
-    Long countByStatusUnder();
+    @Query("SELECT COUNT(*) AS COUNT FROM issues WHERE `status` = 'Deployment Pending'")
+    Long countByStatusDepl();
 
-    @Query("SELECT COUNT(*) AS COUNT FROM fmr WHERE `status` IN ('Payment Voucher Hand Over To Finance', 'Payment Voucher Hand Over To Finance(Undertaking Approval)')")
-    Long countByStatusPayment();
-
-    @Query("SELECT COUNT(*) AS COUNT FROM fmr WHERE `status` IN ('Completed', 'Completed(Undertaking Approval)')")
+    @Query("SELECT COUNT(*) AS COUNT FROM issues WHERE `status` = 'Completed'")
     Long countByStatusCompleted();
+
+    @Query("SELECT COUNT(*) AS COUNT FROM issues WHERE `status` = 'Closed'")
+    Long countByStatusClosed();
 }

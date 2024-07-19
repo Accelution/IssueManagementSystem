@@ -58,7 +58,20 @@ public class IssueService {
     @Autowired
     private FilePendingRepo issuerepo;
 
-//    Operation
+    public Map<String, Long> getStatusCounts() {
+        Map<String, Long> counts = new HashMap<>();
+
+        counts.put("countAppr", repo.countByStatusAppr());
+        counts.put("countQue", repo.countByStatusQue());
+        counts.put("countInpr", repo.countByStatusInpro());
+        counts.put("countDeve", repo.countByStatusDev());
+        counts.put("countQa", repo.countByStatusQa());
+        counts.put("countDeploy", repo.countByStatusDepl());
+        counts.put("countCompl", repo.countByStatusCompleted());
+        counts.put("countClos", repo.countByStatusClosed());
+        return counts;
+    }
+
     public DataTablesResponse<IssueDTO> getIssues(DataTableRequest param) throws Exception {
         String stage = param.getData();
 
@@ -364,6 +377,9 @@ public class IssueService {
                 case "open":
                     updateissue.setStatus("Queue");
                     break;
+                case "deploy":
+                    updateissue.setStatus("Deployment Pending");
+                    break;
                 case "close":
                     updateissue.setStatus("Closed");
                     break;
@@ -391,17 +407,28 @@ public class IssueService {
         Map<String, Object> name = jdbc.queryForMap("SELECT `name` as entered FROM `users` WHERE `id` = ?", issue.getEnt_by());
         issue.setEntUser((String) name.get("entered"));
 
+        // Fetch the company's name
         Map<String, Object> company = jdbc.queryForMap("SELECT `name` as comname FROM `company` WHERE `id` = ?", issue.getCompany());
         issue.setComname((String) company.get("comname"));
 
+        // Fetch the system's name
         Map<String, Object> systemn = jdbc.queryForMap("SELECT `system` as sysname FROM `systems` WHERE `id` = ?", issue.getSystem());
         issue.setSysname((String) systemn.get("sysname"));
 
+        // Fetch the module's name
         Map<String, Object> modulen = jdbc.queryForMap("SELECT `name` as modulename FROM `modules` WHERE `id` = ?", issue.getModule());
         issue.setModulename((String) modulen.get("modulename"));
 
+//        Map<String, Object> assignto = jdbc.queryForMap("SELECT `name` as assigntoc FROM `users` WHERE `id` = ?", issue.getAssign());
+//        issue.setAssigntoc((String) assignto.get("assigntoc"));
         // Fetch the list of active comments
         List<Comment> comments = crepo.findByIssueAndStatus(id, "active");
+
+        // Fetch the commenter's name for each comment
+        for (Comment comment : comments) {
+            Map<String, Object> commentby = jdbc.queryForMap("SELECT `name` as commenter FROM `users` WHERE `id` = ?", comment.getEnt_by());
+            comment.setCommenter((String) commentby.get("commenter"));
+        }
 
         // Combine all the data into a single map
         Map<String, Object> combinedData = new HashMap<>();
@@ -409,6 +436,7 @@ public class IssueService {
         combinedData.put("d3", company);
         combinedData.put("d4", systemn);
         combinedData.put("d5", modulen);
+//        combinedData.put("d6", assignto);
         combinedData.put("obj", issue);
         combinedData.put("videos", comments);
 
@@ -736,35 +764,4 @@ public class IssueService {
 //        updateissue = repo.save(updateissue);
 //        return updateissue;
 //    }
-    public Long countAllStatus() {
-        return repo.countByStatusAll();
-    }
-
-    public Long countAcknoPendStatus() {
-        return repo.countByStatusAcknoPe();
-    }
-
-    public Long countAcknoStatus() {
-        return repo.countByStatusAckno();
-    }
-
-    public Long countExceptionsStatus() {
-        return repo.countByStatusExceptions();
-    }
-
-    public Long countUndertakinStatus() {
-        return repo.countByStatusUnder();
-    }
-
-    public Long countPaymentStatus() {
-        return repo.countByStatusPayment();
-    }
-
-    public Long countCompletedStatus() {
-        return repo.countByStatusCompleted();
-    }
-
-    public Long countRejectedStatus() {
-        return repo.countByStatusRejected();
-    }
 }
