@@ -374,24 +374,34 @@
             $(document).on('click', '.editrec', function () {
                 loadDiv($('#tableSection'));
                 let id = $(this).parents('tr').data('id');
-                fetch('admin/user/' + id).then(resp => resp.json())
-                        .then((data) => {
-                            clearForm();
-                            $('#name').val(data.name);
-                            $('#username').val(data.username);
-                            if (data.userType) {
-                                user_type.setData([{value: data.userType.id, text: data.userTypeName}]);
-                                user_type.set(data.userType.id);
-                            }
-                            $('#saveBtn').data('mode', 'update');
-                            $('#saveBtn').html('<i class="icon feather icon-save"></i>Update');
-                            $('#saveBtn').data('id', id);
-                            $('#formSection').fadeIn();
-                            $('#tableSection').hide();
+                fetch('admin/user/' + id)
+                        .then(resp => resp.json())
+                        .then(data => {
+                            console.log('Fetched data:', data); // Log the fetched data
 
+                            if (data && data.data && data.data.obj) {
+                                let obj = data.data.obj;
+                                clearForm();
+                                $('#name').val(obj.name);
+                                $('#username').val(obj.username);
+
+                                $('#saveBtn').data('mode', 'update');
+                                $('#saveBtn').html('<i class="icon feather icon-save"></i>Update');
+                                $('#saveBtn').data('id', id);
+                                $('#formSection').fadeIn();
+                                $('#tableSection').hide();
+                            } else {
+                                console.error('Error: obj is undefined in the response data');
+                            }
+
+                            finishLoadDiv($('#tableSection'));
+                        })
+                        .catch(error => {
+                            console.error('Error fetching user data:', error);
                             finishLoadDiv($('#tableSection'));
                         });
             });
+
 
             $('#saveBtn').click(function () {
                 if ($('#name').val().trim() === '') {

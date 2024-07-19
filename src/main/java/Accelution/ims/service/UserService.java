@@ -70,6 +70,7 @@ public class UserService {
         Map<String, Object> combinedData = new HashMap<>();
         combinedData.put("d1", companyName);
         combinedData.put("d2", depName);
+        combinedData.put("obj", user);
 
         return combinedData;
     }
