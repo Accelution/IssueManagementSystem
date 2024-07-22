@@ -230,6 +230,8 @@ public class IssueService {
         ticket.setPriority(priority);
         String companyFromSession = (String) session.getAttribute("company");
         ticket.setCompany(companyFromSession);
+        String departmentFromSession = (String) session.getAttribute("department");
+        ticket.setDepartment(departmentFromSession);
         ticket.setStatus("Queue");
         ticket = repo.save(ticket);
 

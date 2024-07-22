@@ -88,62 +88,6 @@ public class IssueController {
         return service.getStatusCounts(currentUser);
     }
 
-////    branch
-//    @PostMapping("/issuetable-all-branches")
-//    public DataTablesResponse<IssueDTO> getIssueBrnch(@RequestBody DataTableRequest param, HttpSession session) throws Exception {
-//        return service.getIssuesBrnch(param, (Integer) session.getAttribute("uid"));
-//    }
-////Approver
-//
-//    @PostMapping("/issuetable-all-approver")
-//    public DataTablesResponse<IssueDTO> getIssueApprove(@RequestBody DataTableRequest param, HttpSession session) throws Exception {
-//        return service.getIssueApprove(param, (Integer) session.getAttribute("uid"));
-//    }
-//
-//    @PostMapping("/issuetable-file-branch")
-//    public DataTablesResponse<IssueDTO> getIssuefileBranch(@RequestBody DataTableRequest param, HttpSession session) throws Exception {
-//        return service.getIssuefileBranch(param, (Integer) session.getAttribute("uid"));
-//    }
-//
-//    @PostMapping("/issuetable-clearance-branch")
-//    public DataTablesResponse<IssueDTO> getIssueclearanceBranch(@RequestBody DataTableRequest param, HttpSession session) throws Exception {
-//        return service.getIssueclearanceBranch(param, (Integer) session.getAttribute("uid"));
-//    }
-//
-//    @PostMapping("/issuetable-approve-branch")
-//    public DataTablesResponse<IssueDTO> getIssueapprovalBranch(@RequestBody DataTableRequest param, HttpSession session) throws Exception {
-//        return service.getIssueapprovalBranch(param, (Integer) session.getAttribute("uid"));
-//    }
-//
-//    @PostMapping("/issuetable-payment-branch")
-//    public DataTablesResponse<IssueDTO> getIssuepaymentBranch(@RequestBody DataTableRequest param, HttpSession session) throws Exception {
-//        return service.getIssuepaymentBranch(param, (Integer) session.getAttribute("uid"));
-//    }
-//
-//    @PostMapping("/issuetable-paymentua-branch")
-//    public DataTablesResponse<IssueDTO> getIssuepaymentUABranch(@RequestBody DataTableRequest param, HttpSession session) throws Exception {
-//        return service.getIssuepaymentUABranch(param, (Integer) session.getAttribute("uid"));
-//    }
-//
-//    @PostMapping("/issuetable-completed-branch")
-//    public DataTablesResponse<IssueDTO> getIssueCompletedBranch(@RequestBody DataTableRequest param, HttpSession session) throws Exception {
-//        return service.getIssueCompletedBranch(param, (Integer) session.getAttribute("uid"));
-//    }
-//
-//    @PostMapping("/issuetable-reject-branch")
-//    public DataTablesResponse<IssueDTO> getIssueRejectBranch(@RequestBody DataTableRequest param, HttpSession session) throws Exception {
-//        return service.getIssueRejectBranch(param, (Integer) session.getAttribute("uid"));
-//    }
-//
-//    @PostMapping("/search-branch")
-//    public Iterable<SlimSelectDTO> getBranches(@RequestParam String search) throws Exception {
-//        return service.getBranches(search);
-//    }
-//
-//    @PostMapping("/product")
-//    public Iterable<SlimSelectDTO> getProduct(@RequestParam String search) throws Exception {
-//        return service.getProduct(search);
-//    }
     @PostMapping("/save-issue")
     @ResponseBody
     public Issue saveIssue(@RequestParam("desclist") String desclist, MultipartHttpServletRequest req, HttpSession session) throws Exception {

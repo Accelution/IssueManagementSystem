@@ -406,7 +406,42 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="row" style="padding-top: 1em;padding-bottom: 1em;">
+                                        <div class="col-3">
+                                            <label for="comment">Upload Your Attachments Here<span class="text-danger">*</span></label> 
+                                        </div>
+                                        <div class="col-9">
+                                            <div class="row justify-content-end" >
 
+                                                <div class="text">
+                                                    <button id="addBtnCom" class="btn btn-primary btn-sm ">
+                                                        <i class="fas fa-plus"></i> Comment
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="ttt" >
+
+                                        <div class="table-responsive">
+                                            <table class="table table-hover table-bordered m-b-0" id="tbladdAttCom" >
+                                                <thead>
+                                                    <tr>
+                                                        <th>Comment</th>
+                                                        <th >Attachment</th>
+                                                        <th>Type</th>
+                                                        <th style="width:1px;">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- Your table body content goes here -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
                                     <br>
                                     <div class="row" style="padding-bottom: 2em;">
                                         <div class="col-12">
@@ -419,6 +454,10 @@
                                         </div>
                                     </div>
                                     <div class="card-footer d-flex justify-content-end">
+                                        <button id="saveBtnCom" class="btn btn-sm waves-effect waves-light btn-primary" style="margin-right: 10px">
+                                            <i class="icon feather icon-save"></i>Save
+                                        </button>
+
                                         <button id="closeBtnin" class="btn btn-sm btn-danger">
                                             <i class="feather icon-x-circle"></i>Close
                                         </button>                                    
@@ -564,6 +603,9 @@
 
                 let tableBody = document.querySelector('#tbladdAtt tbody');
                 tableBody.innerHTML = '';
+
+                let tableBodyCom = document.querySelector('#tbladdAttCom tbody');
+                tableBodyCom.innerHTML = '';
             }
 
 
@@ -586,47 +628,6 @@
                 tableSection.style.display = 'block';
                 clearForms();
             });
-//            closeBtnin.addEventListener('click', function () {
-//                formSectionInprogress.style.display = 'none';
-//                tableSection.style.display = 'block';
-//            });
-//            closeBtnfile.addEventListener('click', function () {
-//                formSectionFilePending.style.display = 'none';
-//                tableSection.style.display = 'block';
-//            });
-//            closeBtnclr.addEventListener('click', function () {
-//                formSectionFileClearance.style.display = 'none';
-//                tableSection.style.display = 'block';
-//            });
-//            closeBtnund.addEventListener('click', function () {
-//                formSectionApprovalPending.style.display = 'none';
-//                tableSection.style.display = 'block';
-//            });
-//            closeBtnpay.addEventListener('click', function () {
-//                formSectionPaymentVoucher.style.display = 'none';
-//                tableSection.style.display = 'block';
-//            });
-//            closeBtnppun.addEventListener('click', function () {
-//                formSectionPaymentVoucherUnder.style.display = 'none';
-//                tableSection.style.display = 'block';
-//            });
-//            closeBtncom.addEventListener('click', function () {
-//                formSectionCompleted.style.display = 'none';
-//                tableSection.style.display = 'block';
-//            });
-//            closeBtncomun.addEventListener('click', function () {
-//                formSectionCompletedUndertaking.style.display = 'none';
-//                tableSection.style.display = 'block';
-//            });
-//            closeBtnrej.addEventListener('click', function () {
-//                formSectionRejected.style.display = 'none';
-//                tableSection.style.display = 'block';
-//            });
-//            closeBtnrec.addEventListener('click', function () {
-//                formSectionRecommendation.style.display = 'none';
-//                tableSection.style.display = 'block';
-//            });
-
 
 
             $(document).ready(function () {
@@ -644,7 +645,88 @@
             });
 
         </script>
+        <script>
+            document.getElementById('addBtnCom').addEventListener('click', function () {
+                // Get the table body
+                var tableBody = document.querySelector('#tbladdAttCom tbody');
 
+                // Create a new row
+                var newRow = tableBody.insertRow();
+
+                // Create cells in the new row
+                var commentCell = newRow.insertCell(0);
+                var fileCell = newRow.insertCell(1);
+                var typeCell = newRow.insertCell(2); // New cell for "Type"
+                var actionCell = newRow.insertCell(3);
+
+                // Create textarea for "Comment" in cell 1
+                var commentInput = document.createElement('textarea');
+                commentInput.name = 'comment';
+                commentInput.classList.add('form-control');
+                commentInput.required = true;
+                commentInput.autocomplete = 'off';
+
+                // Create input for "File Upload" in cell 2
+                var fileInput = document.createElement('input');
+                fileInput.type = 'file';
+                fileInput.name = 'fileLink';
+                fileInput.classList.add('form-control');
+                fileInput.required = true;
+                fileInput.autocomplete = 'off';
+
+                // Create select for "Type" in cell 3
+                var typeSelect = document.createElement('select');
+                typeSelect.name = 'type';
+                typeSelect.classList.add('form-control');
+                typeSelect.required = true;
+
+                var defaultOption = document.createElement('option');
+                defaultOption.value = 'External';
+                defaultOption.textContent = 'Select Type';
+                defaultOption.disabled = true;
+                defaultOption.selected = true;
+
+                var externalOption = document.createElement('option');
+                externalOption.value = 'External';
+                externalOption.textContent = 'External';
+
+
+                typeSelect.appendChild(defaultOption);
+                typeSelect.appendChild(externalOption);
+
+                // Append input elements to respective cells
+                commentCell.appendChild(commentInput);
+                fileCell.appendChild(fileInput);
+                typeCell.appendChild(typeSelect);
+
+                // Create a delete button in the action cell
+                var deleteButton = document.createElement('button');
+                deleteButton.classList.add('btn', 'btn-sm', 'btn-danger');
+                deleteButton.name = 'dele';
+
+                var icon = document.createElement('i');
+                icon.classList.add('far', 'fa-window-minimize');
+
+                deleteButton.appendChild(icon);
+
+                // Add a click event listener to the delete button
+                deleteButton.addEventListener('click', function () {
+                    // Remove the row when the delete button is clicked
+                    tableBody.removeChild(newRow);
+                });
+
+                // Append the delete button to the action cell
+                actionCell.appendChild(deleteButton);
+
+                // Call the addAttachmentRow function with the input values
+                addAttachmentRow(commentInput.value, fileInput.value);
+            });
+
+
+
+
+
+        </script>
 
         <script>
             var assign = new SlimSelect(
@@ -1110,9 +1192,9 @@
                             $('#companyname').val(d3.comname);
                             $('#systemname').val(d4.sysname);
                             $('#modulename').val(d5.modulename);
-                            $('#saveBtnin').data('mode', 'update');
-                            $('#saveBtnin').data('id', id);
-                            $('#saveBtnin').html('<i class="icon feather icon-save"></i>Update');
+                            $('#saveBtnCom').data('mode', 'update');
+                            $('#saveBtnCom').data('id', id);
+                            $('#saveBtnCom').html('<i class="icon feather icon-save"></i>Update');
 
                             // Fetch and display comments
                             displayComments(data.videos);
@@ -1129,6 +1211,87 @@
                         });
             });
 
+            document.getElementById('saveBtnCom').addEventListener('click', function () {
+                let saveBtnCom = document.getElementById('saveBtnCom');
+                saveBtnCom.disabled = true;
+
+                let mode = $('#saveBtnCom').data('mode');
+                if (mode === 'update') {
+                    let id = $('#saveBtnCom').data('id');
+
+
+                    let tableRows = document.querySelectorAll('#tbladdAttCom tbody tr');
+                    let attachmentData = [];
+                    let formData = new FormData();
+
+                    let errorFound = false; // Flag to track if an error is found
+
+                    tableRows.forEach((row, index) => {
+                        if (errorFound)
+                            return; // Exit the loop if an error was found
+
+                        let comment = row.querySelector('textarea[name="comment"]').value;
+                        if (!comment) {
+                            Swal.fire('Error!', 'Comment must not be empty', 'error');
+                            saveBtnCom.disabled = false;
+                            errorFound = true; // Set the flag to true
+                            return;
+                        }
+                        let comtype = row.querySelector('select[name="type"]').value;
+                        if (!comtype) {
+                            Swal.fire('Error!', 'Comment Type must Be Selected', 'error');
+                            saveBtnCom.disabled = false;
+                            errorFound = true; // Set the flag to true
+                            return;
+                        }
+
+                        let fileInput = row.querySelector('input[name="fileLink"]');
+                        let path = "";
+                        if (fileInput && fileInput.files.length > 0) {
+                            path = fileInput.files[0].name; // Get the file name
+                            formData.append('fileLink' + index, fileInput.files[0]); // Append the file to formData
+                        }
+
+                        attachmentData.push({
+                            comment: comment,
+                            comtype: comtype,
+                            path: path
+                        });
+                    });
+
+                    if (errorFound) {
+                        return; // Exit the main function if an error was found
+                    }
+
+                    if (attachmentData.length > 0) {
+                        let desclist = JSON.stringify(attachmentData);
+                        formData.append('desclist', desclist);
+                    } else {
+                        formData.append('desclist', "[]");
+                    }
+
+                    formData.append('id', id);
+                    fetch('issue/update-queue', {
+                        method: 'POST',
+                        body: formData
+                    }).then(response => {
+                        if (!response.ok) {
+                            throw new Error(response.statusText);
+                        }
+                        return response.json();
+                    }).then(data => {
+                        Swal.fire('Successful!', 'Issue has been successfully updated', 'success');
+                        $('#formSectionView').hide();
+                        $('#tableSection').fadeIn();
+                        clearForms();
+                        dtable.ajax.reload();
+                    }).catch(error => {
+                        Swal.fire('Error!', 'Failed to update issue details', 'error');
+                    }).finally(() => {
+                        saveBtnCom.disabled = false;
+                    });
+                }
+            });
         </script>
     </body>
 

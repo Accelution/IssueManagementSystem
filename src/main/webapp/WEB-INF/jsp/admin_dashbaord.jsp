@@ -894,30 +894,6 @@
 
 
 
-//            $('#saveBtn').click(function () {
-//                return fetch('issue/save', {
-//                    method: 'POST',
-//                    body: new URLSearchParams({
-//                        id: $('#saveBtn').data('id'),
-//                        issue_type: document.getElementById('issue').value,
-//                        priority: document.getElementById('prio').value,
-//                        comment: document.getElementById('commentissue').value,
-//                        assign: document.getElementById('assign').value,
-//                        type: document.getElementById('typeIssue').value,
-//                    })
-//                }).then(response => {
-//                    if (!response.ok) {
-//                        throw new Error(response.statusText);
-//                    } else {
-//                        Swal.fire('Successful!', 'Issue has been successfully saved');
-//                        clearForm();
-//                        $('#formSection').hide();
-//                        $('#tableSection').fadeIn();
-//                        dtable.ajax.reload();
-//                    }
-//                    return response.json();
-//                });
-//            });
 
         </script>
 
