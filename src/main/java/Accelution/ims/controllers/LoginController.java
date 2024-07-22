@@ -63,12 +63,13 @@ public class LoginController {
         if (user == null) {
             return "error";
         } else {
-
+            session.setAttribute("currentUser", user);
             session.setAttribute("uid", user.getId());
             session.setAttribute("username", username);
             session.setAttribute("name", user.name);
             session.setAttribute("company", user.company);
             session.setAttribute("department", user.department);
+            session.setAttribute("access", user.access);
             session.setAttribute("dashboard", user.getDashboard());
 
             return "ok";

@@ -33,27 +33,67 @@ public interface IssueRepo extends CrudRepository<Issue, Integer> {
     @Query("SELECT `id` AS `value`, `type` AS `text` FROM `priority`")
     Iterable<SlimSelectDTO> getPrio(@Param("search") String search);
 
-    @Query("SELECT COUNT(*) AS COUNT FROM issues WHERE `status` = 'Approval Pending'")
-    Long countByStatusAppr();
+    @Query("SELECT COUNT(*) FROM issues WHERE `status` = 'Approval Pending' AND "
+            + "(:companyId IS NULL OR `company` = :companyId) AND "
+            + "(:departmentId IS NULL OR `department` = :departmentId) AND "
+            + "(:userId IS NULL OR `ent_by` = :userId)")
+    Long countByStatusAppr(@Param("companyId") String companyId,
+            @Param("departmentId") String departmentId,
+            @Param("userId") Integer userId);
 
-    @Query("SELECT COUNT(*) AS COUNT FROM issues WHERE `status` = 'Queue'")
-    Long countByStatusQue();
+    @Query("SELECT COUNT(*) FROM issues WHERE `status` = 'Queue' AND "
+            + "(:companyId IS NULL OR `company` = :companyId) AND "
+            + "(:departmentId IS NULL OR `department` = :departmentId) AND "
+            + "(:userId IS NULL OR `ent_by` = :userId)")
+    Long countByStatusQue(@Param("companyId") String companyId,
+            @Param("departmentId") String departmentId,
+            @Param("userId") Integer userId);
 
-    @Query("SELECT COUNT(*) AS COUNT FROM issues WHERE `status` = 'In Progress'")
-    Long countByStatusInpro();
+    @Query("SELECT COUNT(*) FROM issues WHERE `status` = 'In Progress' AND "
+            + "(:companyId IS NULL OR `company` = :companyId) AND "
+            + "(:departmentId IS NULL OR `department` = :departmentId) AND "
+            + "(:userId IS NULL OR `ent_by` = :userId)")
+    Long countByStatusInpro(@Param("companyId") String companyId,
+            @Param("departmentId") String departmentId,
+            @Param("userId") Integer userId);
 
-    @Query("SELECT COUNT(*) AS COUNT FROM issues WHERE `status` = 'development Pending'")
-    Long countByStatusDev();
+    @Query("SELECT COUNT(*) FROM issues WHERE `status` = 'Development Pending' AND "
+            + "(:companyId IS NULL OR `company` = :companyId) AND "
+            + "(:departmentId IS NULL OR `department` = :departmentId) AND "
+            + "(:userId IS NULL OR `ent_by` = :userId)")
+    Long countByStatusDev(@Param("companyId") String companyId,
+            @Param("departmentId") String departmentId,
+            @Param("userId") Integer userId);
 
-    @Query("SELECT COUNT(*) AS COUNT FROM issues WHERE `status` = 'QA Pending'")
-    Long countByStatusQa();
+    @Query("SELECT COUNT(*) FROM issues WHERE `status` = 'QA Pending' AND "
+            + "(:companyId IS NULL OR `company` = :companyId) AND "
+            + "(:departmentId IS NULL OR `department` = :departmentId) AND "
+            + "(:userId IS NULL OR `ent_by` = :userId)")
+    Long countByStatusQa(@Param("companyId") String companyId,
+            @Param("departmentId") String departmentId,
+            @Param("userId") Integer userId);
 
-    @Query("SELECT COUNT(*) AS COUNT FROM issues WHERE `status` = 'Deployment Pending'")
-    Long countByStatusDepl();
+    @Query("SELECT COUNT(*) FROM issues WHERE `status` = 'Deployment Pending' AND "
+            + "(:companyId IS NULL OR `company` = :companyId) AND "
+            + "(:departmentId IS NULL OR `department` = :departmentId) AND "
+            + "(:userId IS NULL OR `ent_by` = :userId)")
+    Long countByStatusDepl(@Param("companyId") String companyId,
+            @Param("departmentId") String departmentId,
+            @Param("userId") Integer userId);
 
-    @Query("SELECT COUNT(*) AS COUNT FROM issues WHERE `status` = 'Completed'")
-    Long countByStatusCompleted();
+    @Query("SELECT COUNT(*) FROM issues WHERE `status` = 'Completed' AND "
+            + "(:companyId IS NULL OR `company` = :companyId) AND "
+            + "(:departmentId IS NULL OR `department` = :departmentId) AND "
+            + "(:userId IS NULL OR `ent_by` = :userId)")
+    Long countByStatusCompleted(@Param("companyId") String companyId,
+            @Param("departmentId") String departmentId,
+            @Param("userId") Integer userId);
 
-    @Query("SELECT COUNT(*) AS COUNT FROM issues WHERE `status` = 'Closed'")
-    Long countByStatusClosed();
+    @Query("SELECT COUNT(*) FROM issues WHERE `status` = 'Closed' AND "
+            + "(:companyId IS NULL OR `company` = :companyId) AND "
+            + "(:departmentId IS NULL OR `department` = :departmentId) AND "
+            + "(:userId IS NULL OR `ent_by` = :userId)")
+    Long countByStatusClosed(@Param("companyId") String companyId,
+            @Param("departmentId") String departmentId,
+            @Param("userId") Integer userId);
 }

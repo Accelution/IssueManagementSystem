@@ -40,10 +40,7 @@ public class Issue {
     private String system;
     private String module;
     private String company;
-//    @Transient
-//    private String productTxt;
-//    @Transient
-//    private String approverName;
+    private String department;
     @Transient
     private String entUser;
     @Transient

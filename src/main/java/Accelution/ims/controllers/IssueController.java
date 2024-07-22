@@ -36,6 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import Accelution.ims.model.User;
 
 @RestController
 @RequestMapping("/issue")
@@ -45,8 +46,14 @@ public class IssueController {
     IssueService service;
 
     @PostMapping("/issuetable-all")
-    public DataTablesResponse<IssueDTO> getIssues(@RequestBody DataTableRequest param) throws Exception {
-        return service.getIssues(param);
+    public DataTablesResponse<IssueDTO> getIssues(@RequestBody DataTableRequest param, HttpSession session) throws Exception {
+        User currentUser = getCurrentUser(session); // Assuming this method retrieves the current user from the session
+        return service.getIssues(param, currentUser);
+    }
+
+    private User getCurrentUser(HttpSession session) {
+        // Assuming you store the current user in the session
+        return (User) session.getAttribute("currentUser");
     }
 
     @PostMapping("/assignto")
@@ -60,8 +67,25 @@ public class IssueController {
     }
 
     @GetMapping("/counts")
-    public Map<String, Long> getStatusCounts() {
-        return service.getStatusCounts();
+    public Map<String, Long> getStatusCounts(HttpSession session) {
+        // Retrieve user details from session
+        Integer userId = (Integer) session.getAttribute("uid");
+        String company = (String) session.getAttribute("company");
+        String department = (String) session.getAttribute("department");
+        String access = (String) session.getAttribute("access");
+
+        if (userId == null || company == null || department == null || access == null) {
+            throw new IllegalArgumentException("User details cannot be null");
+        }
+
+        User currentUser = new User();
+        currentUser.setId(userId);
+        currentUser.setCompany(company);
+        currentUser.setDepartment(department);
+        currentUser.setAccess(access);
+
+        // Pass the user object to the service method
+        return service.getStatusCounts(currentUser);
     }
 
 ////    branch

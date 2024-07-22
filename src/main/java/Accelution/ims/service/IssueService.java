@@ -37,6 +37,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import Accelution.ims.model.User;
 
 /**
  *
@@ -58,187 +59,158 @@ public class IssueService {
     @Autowired
     private FilePendingRepo issuerepo;
 
-    public Map<String, Long> getStatusCounts() {
+    public Map<String, Long> getStatusCounts(User currentUser) {
         Map<String, Long> counts = new HashMap<>();
 
-        counts.put("countAppr", repo.countByStatusAppr());
-        counts.put("countQue", repo.countByStatusQue());
-        counts.put("countInpr", repo.countByStatusInpro());
-        counts.put("countDeve", repo.countByStatusDev());
-        counts.put("countQa", repo.countByStatusQa());
-        counts.put("countDeploy", repo.countByStatusDepl());
-        counts.put("countCompl", repo.countByStatusCompleted());
-        counts.put("countClos", repo.countByStatusClosed());
+        String accessType = getAccessTypeString(currentUser.getAccess());
+        String companyId = null;
+        String departmentId = null;
+        Integer userId = null;
+
+        if (currentUser == null) {
+            throw new IllegalArgumentException("Current user cannot be null");
+        }
+
+        if (accessType != null) {
+            switch (accessType) {
+                case "Company":
+                    companyId = currentUser.getCompany();
+                    break;
+                case "Department":
+                    companyId = currentUser.getCompany();
+                    departmentId = currentUser.getDepartment();
+                    break;
+                case "User":
+                    userId = currentUser.getId();
+                    break;
+                case "All":
+                    // No filtering needed for All
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unknown access type");
+            }
+        }
+
+        counts.put("countAppr", repo.countByStatusAppr(companyId, departmentId, userId));
+        counts.put("countQue", repo.countByStatusQue(companyId, departmentId, userId));
+        counts.put("countInpr", repo.countByStatusInpro(companyId, departmentId, userId));
+        counts.put("countDeve", repo.countByStatusDev(companyId, departmentId, userId));
+        counts.put("countQa", repo.countByStatusQa(companyId, departmentId, userId));
+        counts.put("countDeploy", repo.countByStatusDepl(companyId, departmentId, userId));
+        counts.put("countCompl", repo.countByStatusCompleted(companyId, departmentId, userId));
+        counts.put("countClos", repo.countByStatusClosed(companyId, departmentId, userId));
+
         return counts;
     }
 
-    public DataTablesResponse<IssueDTO> getIssues(DataTableRequest param) throws Exception {
-        String stage = param.getData();
-
-        String sql = "SELECT x.`id`,x.`issue`,x.`status`,x.`ref_number`,(SELECT i.system FROM `systems` i WHERE i.`id`=x.`system`)AS `system`,(SELECT m.`name` FROM `modules` m WHERE m.`id`=x.`module`)AS `module`,(SELECT c.`name` FROM `company` c WHERE c.`id`=x.`company`)AS `company`,(SELECT p.type FROM `priority` p WHERE p.`id`=x.`priority`)AS `priority`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`ent_by`) AS `ent_by`,`ent_on`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`mod_by`) AS `mod_by`,`mod_on` FROM `issues` X WHERE TRUE";
-        if (!stage.equals("all")) {
-            if (stage.equals("queue")) {
-                sql += " AND `status`='Queue'";
-            } else if (stage.equals("inprogress")) {
-                sql += " AND `status`='In Progress'";
-            } else if (stage.equals("approve")) {
-                sql += " AND `status`='Approval Pending'";
-            } else if (stage.equals("develop")) {
-                sql += " AND `status`='Development Pending'";
-            } else if (stage.equals("testing")) {
-                sql += " AND `status`='Testing Pending'";
-            } else if (stage.equals("qa")) {
-                sql += " AND `status`='QA Pending'";
-            } else if (stage.equals("deploy")) {
-                sql += " AND `status`='Deployment Pending'";
-            } else if (stage.equals("completed")) {
-                sql += " AND `status`='Completed'";
-            } else if (stage.equals("unsucces")) {
-                sql += " AND `status`='Closed'";
-            }
+    private String getAccessTypeString(String accessTypeId) {
+        if (accessTypeId == null) {
+            throw new IllegalArgumentException("Access type ID cannot be null");
         }
-        return userDt.getData(IssueDTO.class, param, sql);
 
+        switch (accessTypeId) {
+            case "1":
+                return "All";
+            case "2":
+                return "Company";
+            case "3":
+                return "Department";
+            case "4":
+                return "User";
+            default:
+                throw new IllegalArgumentException("Unknown access type ID");
+        }
     }
 
-//    //    branch
-//    public DataTablesResponse<IssueDTO> getIssuesBrnch(DataTableRequest param, Integer userId) throws Exception {
-//        String stage = param.getData();
-//        StringBuilder sql = new StringBuilder("SELECT x.`id`, x.`customer_name`, x.`status`, x.`ref_number`, "
-//                + "(SELECT `description` FROM `loan`.`product` WHERE `id` = x.`product`) AS product, "
-//                + "(SELECT `name` FROM `loan`.`branch` WHERE `id` = x.`branch`) AS branch, x.`amount`, x.`pendings`, "
-//                + "x.`comment`, x.`approver`, x.`facility_status`, "
-//                + "(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`ent_by`) AS `ent_by`, `ent_on`, "
-//                + "(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`mod_by`) AS `mod_by`, `mod_on` "
-//                + "FROM `issue` x WHERE TRUE AND x.branch = (SELECT `branch` FROM `users` WHERE `id` = ?)");
-//
-//        if (!"all".equals(stage)) {
-//            switch (stage) {
-//                case "acknowledgment":
-//                    sql.append(" AND x.`status`='Acknowledgment Pending'");
-//                    break;
-//                case "file":
-//                    sql.append(" AND x.`status`='Exceptions'");
-//                    break;
-//                case "acknowledged":
-//                    sql.append(" AND x.`status`='Acknowledged'");
-//                    break;
-//                case "underrec":
-//                    sql.append(" AND x.`status`='Undertaking Recommendation'");
-//                    break;
-//                case "underapp":
-//                    sql.append(" AND x.`status`='Undertaking Approval Pending'");
-//                    break;
-//                case "payment":
-//                    sql.append(" AND x.`status`='Payment Voucher Hand Over To Finance'");
-//                    break;
-//                case "paymentunder":
-//                    sql.append(" AND x.`status`='Payment Voucher Hand Over To Finance(Undertaking Approval)'");
-//                    break;
-//                case "completed":
-//                    sql.append(" AND x.`status`='Completed'");
-//                    break;
-//                case "completedun":
-//                    sql.append(" AND x.`status`='Completed(Undertaking Approval)'");
-//                    break;
-//                case "rejected":
-//                    sql.append(" AND x.`status`='Rejected'");
-//                    break;
-//                default:
-//                    break;
-//            }
-//        }
-//
-//        return userDt.getData(IssueDTO.class, param, sql.toString(), userId);
-//    }
-//
-////Approver
-//    public DataTablesResponse<IssueDTO> getIssueApprove(DataTableRequest param, Integer userId) throws Exception {
-//        String stage = param.getData();
-//        String sql;
-//
-//        // Construct SQL query based on the stage
-//        if (stage.equals("underrec")) {
-//            sql = "SELECT x.`id`, x.`customer_name`, x.`status`, x.`ref_number`, "
-//                    + "(SELECT `description` FROM `loan`.`product` WHERE `id` = x.`product`) AS product, "
-//                    + "(SELECT `name` FROM `loan`.`branch` WHERE `id` = x.`branch`) AS branch, "
-//                    + "x.`amount`, x.`pendings`, x.`comment`, x.`approver`, x.`facility_status`, "
-//                    + "(SELECT d.`name` FROM `users` d WHERE d.`id` = x.`ent_by`) AS `ent_by`, "
-//                    + "x.`ent_on`, "
-//                    + "(SELECT d.`name` FROM `users` d WHERE d.`id` = x.`mod_by`) AS `mod_by`, "
-//                    + "x.`mod_on` "
-//                    + "FROM `issue` X "
-//                    + "WHERE x.`status` = 'Undertaking Recommendation'";
-//        } else {
-//            sql = "SELECT x.`id`, x.`customer_name`, x.`status`, x.`ref_number`, "
-//                    + "(SELECT `description` FROM `loan`.`product` WHERE `id` = x.`product`) AS product, "
-//                    + "(SELECT `name` FROM `loan`.`branch` WHERE `id` = x.`branch`) AS branch, "
-//                    + "x.`amount`, x.`pendings`, x.`comment`, x.`approver`, x.`facility_status`, "
-//                    + "(SELECT d.`name` FROM `users` d WHERE d.`id` = x.`ent_by`) AS `ent_by`, "
-//                    + "x.`ent_on`, "
-//                    + "(SELECT d.`name` FROM `users` d WHERE d.`id` = x.`mod_by`) AS `mod_by`, "
-//                    + "x.`mod_on` "
-//                    + "FROM `issue` X "
-//                    + "WHERE x.`approver` = ? AND x.`status` = 'Undertaking Approval Pending'";
-//        }
-//
-//        // Execute the query with the userId parameter if the stage is not underrec
-//        if (!stage.equals("underrec")) {
-//            return userDt.getData(IssueDTO.class, param, sql, userId);
-//        } else {
-//            return userDt.getData(IssueDTO.class, param, sql);
-//        }
-//    }
-//
-//    public DataTablesResponse<IssueDTO> getIssueApprovse(DataTableRequest param, Integer userId) throws Exception {
-//        return userDt.getData(IssueDTO.class, param, "SELECT x.`id`,x.`customer_name`,x.`status`,x.`ref_number`,(SELECT `description` FROM `loan`.`product`  WHERE `id` = x.`product`) AS product,(SELECT `name` FROM `loan`.`branch`  WHERE `id` = x.`branch`) AS branch ,x.`amount`,x.`pendings`,x.`comment`,x.`approver`,x.`facility_status`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`ent_by`) AS `ent_by`,`ent_on`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`mod_by`) AS `mod_by`,`mod_on` FROM `issue` X WHERE `status`='Acknowledgment Pending' AND x.branch = (SELECT `branch` FROM `users` WHERE `id` = ?)", userId);
-//
-//    }
-//
-//    public DataTablesResponse<IssueDTO> getIssuefileBranch(DataTableRequest param, Integer userId) throws Exception {
-//        return userDt.getData(IssueDTO.class, param, "SELECT x.`id`,x.`customer_name`,x.`status`,x.`ref_number`,(SELECT `description` FROM `loan`.`product`  WHERE `id` = x.`product`) AS product,(SELECT `name` FROM `loan`.`branch`  WHERE `id` = x.`branch`) AS branch ,x.`amount`,x.`pendings`,x.`comment`,x.`approver`,x.`facility_status`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`ent_by`) AS `ent_by`,`ent_on`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`mod_by`) AS `mod_by`,`mod_on` FROM `issue` X WHERE `status`='File Pending Details' AND x.branch = (SELECT `branch` FROM `users` WHERE `id` = ?)", userId);
-//
-//    }
-//
-//    public DataTablesResponse<IssueDTO> getIssueclearanceBranch(DataTableRequest param, Integer userId) throws Exception {
-//        return userDt.getData(IssueDTO.class, param, "SELECT x.`id`,x.`customer_name`,x.`status`,x.`ref_number`,(SELECT `description` FROM `loan`.`product`  WHERE `id` = x.`product`) AS product,(SELECT `name` FROM `loan`.`branch`  WHERE `id` = x.`branch`) AS branch ,x.`amount`,x.`pendings`,x.`comment`,x.`approver`,x.`facility_status`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`ent_by`) AS `ent_by`,`ent_on`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`mod_by`) AS `mod_by`,`mod_on` FROM `issue` X WHERE `status`='File Pending Clearance' AND x.branch = (SELECT `branch` FROM `users` WHERE `id` = ?)", userId);
-//
-//    }
-//
-//    public DataTablesResponse<IssueDTO> getIssueapprovalBranch(DataTableRequest param, Integer userId) throws Exception {
-//        return userDt.getData(IssueDTO.class, param, "SELECT x.`id`,x.`customer_name`,x.`status`,x.`ref_number`,(SELECT `description` FROM `loan`.`product`  WHERE `id` = x.`product`) AS product,(SELECT `name` FROM `loan`.`branch`  WHERE `id` = x.`branch`) AS branch ,x.`amount`,x.`pendings`,x.`comment`,(SELECT `name` FROM `users` WHERE `id` = x.`approver`)AS approver,x.`facility_status`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`ent_by`) AS `ent_by`,`ent_on`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`mod_by`) AS `mod_by`,`mod_on` FROM `issue` X WHERE `status`='Undertaking Approval Pending' AND x.branch = (SELECT `branch` FROM `users` WHERE `id` = ?)", userId);
-//
-//    }
-//
-//    public DataTablesResponse<IssueDTO> getIssuepaymentBranch(DataTableRequest param, Integer userId) throws Exception {
-//        return userDt.getData(IssueDTO.class, param, "SELECT x.`id`,x.`customer_name`,x.`status`,x.`ref_number`,(SELECT `description` FROM `loan`.`product`  WHERE `id` = x.`product`) AS product,(SELECT `name` FROM `loan`.`branch`  WHERE `id` = x.`branch`) AS branch ,x.`amount`,x.`pendings`,x.`comment`,x.`approver`,x.`facility_status`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`ent_by`) AS `ent_by`,`ent_on`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`mod_by`) AS `mod_by`,`mod_on` FROM `issue` X WHERE `status`='Payment Voucher Hand Over To Finance' AND x.branch = (SELECT `branch` FROM `users` WHERE `id` = ?)", userId);
-//
-//    }
-//
-//    public DataTablesResponse<IssueDTO> getIssuepaymentUABranch(DataTableRequest param, Integer userId) throws Exception {
-//        return userDt.getData(IssueDTO.class, param, "SELECT x.`id`,x.`customer_name`,x.`status`,x.`ref_number`,(SELECT `description` FROM `loan`.`product`  WHERE `id` = x.`product`) AS product,(SELECT `name` FROM `loan`.`branch`  WHERE `id` = x.`branch`) AS branch ,x.`amount`,x.`pendings`,x.`comment`,x.`approver`,x.`facility_status`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`ent_by`) AS `ent_by`,`ent_on`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`mod_by`) AS `mod_by`,`mod_on` FROM `issue` X WHERE `status`='Payment Voucher Hand Over To Finance(Undertaking Approval)' AND x.branch = (SELECT `branch` FROM `users` WHERE `id` = ?)", userId);
-//
-//    }
-//
-//    public DataTablesResponse<IssueDTO> getIssueCompletedBranch(DataTableRequest param, Integer userId) throws Exception {
-//        return userDt.getData(IssueDTO.class, param, "SELECT x.`id`,x.`customer_name`,x.`status`,x.`ref_number`,(SELECT `description` FROM `loan`.`product`  WHERE `id` = x.`product`) AS product,(SELECT `name` FROM `loan`.`branch`  WHERE `id` = x.`branch`) AS branch ,x.`amount`,x.`pendings`,x.`comment`,x.`approver`,x.`facility_status`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`ent_by`) AS `ent_by`,`ent_on`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`mod_by`) AS `mod_by`,`mod_on` FROM `issue` X WHERE `status`='Completed' AND x.branch = (SELECT `branch` FROM `users` WHERE `id` = ?)", userId);
-//
-//    }
-//
-//    public DataTablesResponse<IssueDTO> getIssueRejectBranch(DataTableRequest param, Integer userId) throws Exception {
-//        return userDt.getData(IssueDTO.class, param, "SELECT x.`id`,x.`customer_name`,x.`status`,x.`ref_number`,(SELECT `description` FROM `loan`.`product`  WHERE `id` = x.`product`) AS product,(SELECT `name` FROM `loan`.`branch`  WHERE `id` = x.`branch`) AS branch ,x.`amount`,x.`pendings`,x.`comment`,x.`approver`,x.`facility_status`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`ent_by`) AS `ent_by`,`ent_on`,(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`mod_by`) AS `mod_by`,`mod_on` FROM `issue` X WHERE `status`='Rejected' AND x.branch = (SELECT `branch` FROM `users` WHERE `id` = ?)", userId);
-//
-//    }
-//
-//
-//
-//    public Iterable<SlimSelectDTO> getBranches(String search) {
-//        return repor.getBranches("%" + search.trim() + "%");
-//    }
-//
-//    public Iterable<SlimSelectDTO> getProduct(String search) {
-//        return repor.getProduct("%" + search.trim() + "%");
-//    }
+    public DataTablesResponse<IssueDTO> getIssues(DataTableRequest param, User currentUser) throws Exception {
+        String stage = param.getData();
+        String accessType = getAccessTypeString(currentUser.getAccess()); // Convert to string
+        String companyId = currentUser.getCompany();
+        String departmentId = currentUser.getDepartment();
+        Integer userId = currentUser.getId();
+
+        // Logging to verify values
+        System.out.println("Stage: " + stage);
+        System.out.println("Raw Access Type: " + currentUser.getAccess());
+        System.out.println("Access Type: " + accessType);
+        System.out.println("Company ID: " + companyId);
+        System.out.println("Department ID: " + departmentId);
+        System.out.println("User ID: " + userId);
+
+        String sql = "SELECT x.`id`, x.`issue`, x.`status`, x.`ref_number`, "
+                + "(SELECT i.system FROM `systems` i WHERE i.`id`=x.`system`) AS `system`, "
+                + "(SELECT m.`name` FROM `modules` m WHERE m.`id`=x.`module`) AS `module`, "
+                + "(SELECT c.`name` FROM `company` c WHERE c.`id`=x.`company`) AS `company`, "
+                + "(SELECT p.type FROM `priority` p WHERE p.`id`=x.`priority`) AS `priority`, "
+                + "(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`ent_by`) AS `ent_by`, `ent_on`, "
+                + "(SELECT d.`name` FROM `users` d WHERE d.`id`=x.`mod_by`) AS `mod_by`, `mod_on` "
+                + "FROM `issues` x WHERE TRUE";
+
+        // Filter by stage
+        if (!stage.equals("all")) {
+            switch (stage) {
+                case "queue":
+                    sql += " AND `status`='Queue'";
+                    break;
+                case "inprogress":
+                    sql += " AND `status`='In Progress'";
+                    break;
+                case "approve":
+                    sql += " AND `status`='Approval Pending'";
+                    break;
+                case "develop":
+                    sql += " AND `status`='Development Pending'";
+                    break;
+                case "testing":
+                    sql += " AND `status`='Testing Pending'";
+                    break;
+                case "qa":
+                    sql += " AND `status`='QA Pending'";
+                    break;
+                case "deploy":
+                    sql += " AND `status`='Deployment Pending'";
+                    break;
+                case "completed":
+                    sql += " AND `status`='Completed'";
+                    break;
+                case "unsucces":
+                    sql += " AND `status`='Closed'";
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        // Filter by access type
+        if (accessType != null) {
+            switch (accessType) {
+                case "All":
+                    // No additional filtering for "All"
+                    System.out.println("Filtering by All");
+                    break;
+                case "Company":
+                    sql += " AND x.`company`='" + companyId + "'";
+                    System.out.println("Filtering by Company");
+                    break;
+                case "Department":
+                    sql += " AND x.`company`='" + companyId + "' AND x.`department`='" + departmentId + "'";
+                    System.out.println("Filtering by Department");
+                    break;
+                case "User":
+                    sql += " AND x.`ent_by`=" + userId;
+                    System.out.println("Filtering by User");
+                    break;
+                default:
+                    System.out.println("Unknown access type");
+                    break;
+            }
+        } else {
+            System.out.println("Access type is null");
+        }
+
+        return userDt.getData(IssueDTO.class, param, sql);
+    }
+
     public Iterable<SlimSelectDTO> getStatus(String search) {
         return repo.getStatus("%" + search.trim() + "%");
     }
