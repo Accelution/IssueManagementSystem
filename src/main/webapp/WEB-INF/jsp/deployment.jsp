@@ -191,7 +191,6 @@
             document.getElementById('addBtnQ').addEventListener('click', function () {
                 // Get the table body
                 var tableBody = document.querySelector('#tbladdAttQ tbody');
-
                 // Create a new row
                 var newRow = tableBody.insertRow();
 
@@ -518,64 +517,80 @@
         <script>
             document.getElementById('saveBtnin').addEventListener('click', function () {
                 let saveBtnin = document.getElementById('saveBtnin');
-                saveBtnin.disabled = true;
+                saveBtnin.disabled = true; // Disable button to prevent multiple submissions
 
                 let mode = $('#saveBtnin').data('mode');
                 if (mode === 'update') {
                     let id = $('#saveBtnin').data('id');
-                    let statusque = document.getElementById('statusque').value || null;
-                    let assign = document.getElementById('assign').value || null;
+                    let statusque = document.getElementById('statusque')?.value || '';
+                    let assign = document.getElementById('assign')?.value || '';
 
                     let tableRows = document.querySelectorAll('#tbladdAttQ tbody tr');
+                    let formData = new FormData();
+                    let errorFound = false; // Flag to track if an error is found
 
-                    // If the table is empty, perform the checks for statusque and assign
+                    formData.append('id', id);
+
+                    // Handle cases where statusque and assign are required
                     if (tableRows.length === 0) {
-                        if (!statusque && !assign) {
-                            Swal.fire('Error!', 'Please select "Status" and "Assign To"', 'error');
+                        if (!statusque.trim() || !assign.trim()) {
+                            let errorMessage = '';
+                            if (!statusque.trim())
+                                errorMessage += 'Please select "Status". ';
+                            if (!assign.trim())
+                                errorMessage += 'Please select "Assign To".';
+                            Swal.fire('Error!', errorMessage, 'error');
                             saveBtnin.disabled = false;
                             return;
                         }
-                        if (!statusque) {
-                            Swal.fire('Error!', 'Please select "Status"', 'error');
-                            saveBtnin.disabled = false;
-                            return;
+                        formData.append('statusque', statusque);
+                        formData.append('assign', assign);
+                    } else {
+                        if (statusque.trim()) {
+                            formData.append('statusque', statusque);
                         }
-                        if (!assign) {
-                            Swal.fire('Error!', 'Please select "Assign To"', 'error');
-                            saveBtnin.disabled = false;
-                            return;
+                        if (assign.trim()) {
+                            formData.append('assign', assign);
                         }
                     }
 
                     let attachmentData = [];
-                    let formData = new FormData();
-
-                    let errorFound = false; // Flag to track if an error is found
-
-                    tableRows.forEach((row, index) => {
+                    let x = 0;
+                    tableRows.forEach((row) => {
                         if (errorFound)
                             return; // Exit the loop if an error was found
 
-                        let comment = row.querySelector('textarea[name="comment"]').value;
-                        if (!comment) {
+                        let commentElement = row.querySelector('textarea[name="comment"]');
+                        let comtypeElement = row.querySelector('select[name="type"]');
+                        let fileInput = row.querySelector('input[name="fileLink"]');
+                        let path = "";
+                        let file = null;
+
+                        if (!commentElement || !comtypeElement) {
+                            console.error('Comment or Comment Type element not found');
+                            return; // Exit if essential elements are missing
+                        }
+
+                        let comment = commentElement.value;
+                        let comtype = comtypeElement.value;
+
+                        if (!comment.trim()) {
                             Swal.fire('Error!', 'Comment must not be empty', 'error');
                             saveBtnin.disabled = false;
                             errorFound = true; // Set the flag to true
                             return;
                         }
-                        let comtype = row.querySelector('select[name="type"]').value;
-                        if (!comtype) {
-                            Swal.fire('Error!', 'Comment Type must Be Selected', 'error');
+                        if (!comtype.trim()) {
+                            Swal.fire('Error!', 'Comment Type must be selected', 'error');
                             saveBtnin.disabled = false;
                             errorFound = true; // Set the flag to true
                             return;
                         }
 
-                        let fileInput = row.querySelector('input[name="fileLink"]');
-                        let path = "";
                         if (fileInput && fileInput.files.length > 0) {
-                            path = fileInput.files[0].name; // Get the file name
-                            formData.append('fileLink' + index, fileInput.files[0]); // Append the file to formData
+                            path = 'file' + x;
+                            file = fileInput.files[0];
+                            formData.append(path, file); // Append each file separately with 'files[]' key
                         }
 
                         attachmentData.push({
@@ -583,48 +598,46 @@
                             comtype: comtype,
                             path: path
                         });
+                        x++;
                     });
 
                     if (errorFound) {
-                        return; // Exit the main function if an error was found
+                        return; // Exit if an error was found
                     }
 
-                    if (attachmentData.length > 0) {
-                        let desclist = JSON.stringify(attachmentData);
-                        formData.append('desclist', desclist);
-                    } else {
-                        formData.append('desclist', "[]");
-                    }
+                    // Always append desclist to FormData, even if empty
+                    formData.append('desclist', JSON.stringify(attachmentData));
 
-                    formData.append('id', id);
-                    if (statusque !== null) {
-                        formData.append('statusque', statusque);
-                    }
-                    if (assign !== null) {
-                        formData.append('assign', assign);
-                    }
+                    // Log FormData for debugging
+                    for (let pair of formData.entries()) {
+                        console.log(`${pair[0]}: ${pair[1]}`);
+                                    }
 
-                    fetch('issue/update-queue', {
-                        method: 'POST',
-                        body: formData
-                    }).then(response => {
-                        if (!response.ok) {
-                            throw new Error(response.statusText);
-                        }
-                        return response.json();
-                    }).then(data => {
-                        Swal.fire('Successful!', 'Issue has been successfully updated', 'success');
-                        $('#formSectionDeployment').hide();
-                        $('#tableSection').fadeIn();
-                        clearForms();
-                        dtable.ajax.reload();
-                    }).catch(error => {
-                        Swal.fire('Error!', 'Failed to update issue details', 'error');
-                    }).finally(() => {
-                        saveBtnin.disabled = false;
-                    });
-                }
-            });
+                                    fetch('issue/update-queue', {
+                                        method: 'POST',
+                                        body: formData
+                                    }).then(response => {
+                                        if (!response.ok) {
+                                            return response.text().then(text => {
+                                                throw new Error(text);
+                                            });
+                                        }
+                                        return response.json();
+                                    }).then(data => {
+                                        Swal.fire('Success!', 'Issue has been successfully updated', 'success');
+                                        $('#formSectionDeployment').hide();
+                                        $('#tableSection').fadeIn();
+                                        clearForms(); // Function to clear forms (you need to define this)
+                                        dtable.ajax.reload(); // Refresh data table (you need to define `dtable`)
+                                    }).catch(error => {
+                                        Swal.fire('Error!', 'Failed to update issue details', 'error');
+                                        console.error('Error:', error); // Log detailed error information
+                                    }).finally(() => {
+                                        saveBtnin.disabled = false; // Re-enable button
+                                    });
+                                }
+                            });
+
 
 
         </script>

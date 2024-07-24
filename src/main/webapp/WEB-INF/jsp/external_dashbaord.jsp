@@ -1033,6 +1033,11 @@
                 stage = 'qa';
                 dtable.ajax.reload();
             });
+            $('#Deplcrd').click(function () {
+                document.getElementById('tableCard').style.display = 'block';
+                stage = 'deploy';
+                dtable.ajax.reload();
+            });
             $('#Complcrd').click(function () {
                 document.getElementById('tableCard').style.display = 'block';
                 stage = 'completed';
@@ -1213,43 +1218,52 @@
 
             document.getElementById('saveBtnCom').addEventListener('click', function () {
                 let saveBtnCom = document.getElementById('saveBtnCom');
-                saveBtnCom.disabled = true;
+                saveBtnCom.disabled = true; // Disable button to prevent multiple submissions
 
                 let mode = $('#saveBtnCom').data('mode');
                 if (mode === 'update') {
                     let id = $('#saveBtnCom').data('id');
 
-
                     let tableRows = document.querySelectorAll('#tbladdAttCom tbody tr');
                     let attachmentData = [];
                     let formData = new FormData();
-
                     let errorFound = false; // Flag to track if an error is found
+
+                    formData.append('id', id);
 
                     tableRows.forEach((row, index) => {
                         if (errorFound)
                             return; // Exit the loop if an error was found
 
-                        let comment = row.querySelector('textarea[name="comment"]').value;
-                        if (!comment) {
+                        let commentElement = row.querySelector('textarea[name="comment"]');
+                        let comtypeElement = row.querySelector('select[name="type"]');
+                        let fileInput = row.querySelector('input[name="fileLink"]');
+                        let path = "";
+
+                        if (!commentElement || !comtypeElement) {
+                            console.error('Comment or Comment Type element not found');
+                            return; // Exit if essential elements are missing
+                        }
+
+                        let comment = commentElement.value;
+                        let comtype = comtypeElement.value;
+
+                        if (!comment.trim()) {
                             Swal.fire('Error!', 'Comment must not be empty', 'error');
                             saveBtnCom.disabled = false;
                             errorFound = true; // Set the flag to true
                             return;
                         }
-                        let comtype = row.querySelector('select[name="type"]').value;
-                        if (!comtype) {
-                            Swal.fire('Error!', 'Comment Type must Be Selected', 'error');
+                        if (!comtype.trim()) {
+                            Swal.fire('Error!', 'Comment Type must be selected', 'error');
                             saveBtnCom.disabled = false;
                             errorFound = true; // Set the flag to true
                             return;
                         }
 
-                        let fileInput = row.querySelector('input[name="fileLink"]');
-                        let path = "";
                         if (fileInput && fileInput.files.length > 0) {
-                            path = fileInput.files[0].name; // Get the file name
-                            formData.append('fileLink' + index, fileInput.files[0]); // Append the file to formData
+                            path = 'file' + index;
+                            formData.append(path, fileInput.files[0]); // Append each file separately with 'file[index]' key
                         }
 
                         attachmentData.push({
@@ -1260,38 +1274,42 @@
                     });
 
                     if (errorFound) {
-                        return; // Exit the main function if an error was found
+                        return; // Exit if an error was found
                     }
 
-                    if (attachmentData.length > 0) {
-                        let desclist = JSON.stringify(attachmentData);
-                        formData.append('desclist', desclist);
-                    } else {
-                        formData.append('desclist', "[]");
-                    }
+                    // Always append desclist to FormData, even if empty
+                    formData.append('desclist', JSON.stringify(attachmentData));
 
-                    formData.append('id', id);
-                    fetch('issue/update-queue', {
-                        method: 'POST',
-                        body: formData
-                    }).then(response => {
-                        if (!response.ok) {
-                            throw new Error(response.statusText);
-                        }
-                        return response.json();
-                    }).then(data => {
-                        Swal.fire('Successful!', 'Issue has been successfully updated', 'success');
-                        $('#formSectionView').hide();
-                        $('#tableSection').fadeIn();
-                        clearForms();
-                        dtable.ajax.reload();
-                    }).catch(error => {
-                        Swal.fire('Error!', 'Failed to update issue details', 'error');
-                    }).finally(() => {
-                        saveBtnCom.disabled = false;
-                    });
-                }
-            });
+                    // Log FormData for debugging
+                    for (let pair of formData.entries()) {
+                        console.log(`${pair[0]}: ${pair[1]}`);
+                                    }
+
+                                    fetch('issue/update-queue', {
+                                        method: 'POST',
+                                        body: formData
+                                    }).then(response => {
+                                        if (!response.ok) {
+                                            return response.text().then(text => {
+                                                throw new Error(text);
+                                            });
+                                        }
+                                        return response.json();
+                                    }).then(data => {
+                                        Swal.fire('Success!', 'Issue has been successfully updated', 'success');
+                                        $('#formSectionView').hide();
+                                        $('#tableSection').fadeIn();
+                                        clearForms(); // Function to clear forms (you need to define this)
+                                        dtable.ajax.reload(); // Refresh data table (you need to define `dtable`)
+                                    }).catch(error => {
+                                        Swal.fire('Error!', 'Failed to update issue details', 'error');
+                                        console.error('Error:', error); // Log detailed error information
+                                    }).finally(() => {
+                                        saveBtnCom.disabled = false; // Re-enable button
+                                    });
+                                }
+                            });
+
         </script>
     </body>
 

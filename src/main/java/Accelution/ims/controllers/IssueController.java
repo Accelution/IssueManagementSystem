@@ -37,6 +37,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import Accelution.ims.model.User;
+import java.util.HashMap;
 
 @RestController
 @RequestMapping("/issue")
@@ -103,13 +104,17 @@ public class IssueController {
     @PostMapping("/update-queue")
     public Issue updateIssue(
             @RequestParam Integer id,
-            @RequestParam(value = "file", required = false) MultipartFile file,
             @RequestParam("desclist") String desclist,
             @RequestParam(required = false) String statusque,
-            @RequestParam(required = false) String assign
+            @RequestParam(required = false) String assign,
+            MultipartHttpServletRequest req
     ) throws Exception {
-        System.out.println("Received request to update issue with ID: " + id);
-        return service.updateIssue(id, file, desclist, statusque, assign);
+
+        Map<String, MultipartFile> files = req.getFileMap();
+        System.out.println(files);
+
+        // Call the service layer to handle the business logic
+        return service.updateIssue(id, files, desclist, statusque, assign);
     }
 
     @GetMapping("/details-all/{id}")

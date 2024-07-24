@@ -951,6 +951,11 @@
                 stage = 'qa';
                 dtable.ajax.reload();
             });
+            $('#Deplcrd').click(function () {
+                document.getElementById('tableCard').style.display = 'block';
+                stage = 'deploy';
+                dtable.ajax.reload();
+            });
             $('#Complcrd').click(function () {
                 document.getElementById('tableCard').style.display = 'block';
                 stage = 'completed';

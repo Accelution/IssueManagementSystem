@@ -4,6 +4,25 @@
         <%@include file="jspf/header.jspf" %>
         <style>
             .card {
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+            .card h3, .card h5 {
+                margin: 0;
+            }
+            .font-weight-bold {
+                font-weight: bold;
+            }
+
+            p {
+                margin-bottom: 0.5rem;
+            }
+            .d-flex {
+                align-items: center;
+            }
+            #Issuequ {
+                font-size: 1.25rem;
+            }
+            .card {
                 height: 100%;
                 display: flex;
                 flex-direction: column;
@@ -364,53 +383,47 @@
                         </div>
 
                         <div class="" id="formSectionView" style="display: none; padding-top: 1rem;">
-                            <div class="card" style="padding: 1em;">
-                                <div class="card-block p-b-0">
+                            <div class="card mt-3" style="padding: 1em;">
+                                <div class="card-body">
+                                    <div class="text-center mb-4">
+                                        <h3 id="companyname" class="font-weight-bold"></h3>
+                                        <h5 id="departmentname" class="text-muted"></h5>
+                                    </div>
+                                    <hr>
                                     <div class="row">
-                                        <div class="col">
-                                            <div class="form-group">
-                                                <label for="ref_number">Reference Number<span class="text-danger">*</span></label>
-                                                <input id="ref_numberq" type="text" name="ref_number" class="form-control" required autocomplete="off" disabled="">
+                                        <!-- Left Column: General Details -->
+                                        <div class="col-md-5">
+                                            <div class="d-flex mb-2">
+                                                <p class="font-weight-bold mb-0 mr-2">Reference Number:</p>
+                                                <p id="ref_numberq" class="mb-0"></p>
+                                            </div>
+                                            <div class="d-flex mb-2">
+                                                <p class="font-weight-bold mb-0 mr-2">Company:</p>
+                                                <p id="companyname" class="mb-0"></p>
+                                            </div>
+                                            <div class="d-flex mb-2">
+                                                <p class="font-weight-bold mb-0 mr-2">System:</p>
+                                                <p id="systemname" class="mb-0"></p>
+                                            </div>
+                                            <div class="d-flex mb-2">
+                                                <p class="font-weight-bold mb-0 mr-2">Module:</p>
+                                                <p id="modulename" class="mb-0"></p>
                                             </div>
                                         </div>
-                                        <div class="col">
-                                            <div class="form-group">
-                                                <label for="ent_by">Ent By<span class="text-danger">*</span></label>
-                                                <input id="ent_by" type="text" name="ent_by" class="form-control" required autocomplete="off" disabled="">
+                                        <!-- Right Column: Issue Description -->
+                                        <div class="col-md-7">
+                                            <div class="mb-2">
+                                                <p id="issue_sentence" class="font-weight-bold mb-0"></p>
                                             </div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="form-group">
-                                                <label for="ent_by">Company<span class="text-danger">*</span></label>
-                                                <input id="companyname" type="text" name="company" class="form-control" required autocomplete="off" disabled="">
-                                            </div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="form-group">
-                                                <label for="ent_by">System<span class="text-danger">*</span></label>
-                                                <input id="systemname" type="text" name="system" class="form-control" required autocomplete="off" disabled="">
-                                            </div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="form-group">
-                                                <label for="ent_by">Module<span class="text-danger">*</span></label>
-                                                <input id="modulename" type="text" name="module" class="form-control" required autocomplete="off" disabled="">
+                                            <div class="mb-2">
+                                                <p id="Issuequ" class="font-weight-bold display-4"></p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label for="Issueq">Issue<span class="text-danger">*</span></label>
-                                                <textarea id="Issuequ"  name="Issueq" class="form-control" required autocomplete="off" disabled=""></textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <br>
-                                    <div class="row" style="padding-bottom: 2em;">
+                                    <hr>
+                                    <div class="row mb-3">
                                         <div class="col-12">
-                                            <label for="com" class="col-form-label allFontByCustomerEdit">Comment Section</label>
+                                            <label class="font-weight-bold">Comment Section:</label>
                                             <div class="card" style="width: 100%;">
                                                 <div class="card-body" id="com_section">
                                                     <!-- Comments will be dynamically inserted here -->
@@ -418,14 +431,16 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <br>
+                                    <br>
                                     <div class="card-footer d-flex justify-content-end">
                                         <button id="closeBtnin" class="btn btn-sm btn-danger">
-                                            <i class="feather icon-x-circle"></i>Close
-                                        </button>                                    
+                                            <i class="feather icon-x-circle"></i> Close
+                                        </button>
                                     </div>
-
                                 </div>
                             </div>
+
                         </div>
 
                     </div>
@@ -927,6 +942,11 @@
                 stage = 'qa';
                 dtable.ajax.reload();
             });
+            $('#Deplcrd').click(function () {
+                document.getElementById('tableCard').style.display = 'block';
+                stage = 'deploy';
+                dtable.ajax.reload();
+            });
             $('#Complcrd').click(function () {
                 document.getElementById('tableCard').style.display = 'block';
                 stage = 'completed';
@@ -1024,9 +1044,9 @@
                         // Determine the background color based on comment type
                         let bgColor = '';
                         if (comment.com_type === 'Internal') {
-                            bgColor = 'background-color: #d4edda;'; // Light green
+                            bgColor = 'background-color: #f5fcf6;'; // Light green
                         } else if (comment.com_type === 'External') {
-                            bgColor = 'background-color: #fff3cd;'; // Light amber
+                            bgColor = 'background-color: #fffae8;'; // Light amber
                         }
 
                         let commentHTML =
@@ -1077,15 +1097,19 @@
                             let obj = data.obj;
 
                             // Set the issue details
-                            $('#ref_numberq').val(obj.ref_number);
-                            $('#Issuequ').val(obj.issue);
-                            $('#ent_by').val(d2.entered);
-                            $('#companyname').val(d3.comname);
-                            $('#systemname').val(d4.sysname);
-                            $('#modulename').val(d5.modulename);
-                            $('#saveBtnin').data('mode', 'update');
-                            $('#saveBtnin').data('id', id);
-                            $('#saveBtnin').html('<i class="icon feather icon-save"></i>Update');
+                            $('#ref_numberq').text(obj.ref_number);
+                            $('#ent_by').text(d2.entered);
+                            $('#companyname').text(d3.comname);
+                            $('#departmentname').text(d4.deptname);
+                            $('#systemname').text(d4.sysname);
+                            $('#modulename').text(d5.modulename);
+
+                            // Create the descriptive sentence
+                            let issueSentence = d2.entered + " entered the following issue on " + obj.ent_on + ":";
+                            $('#issue_sentence').text(issueSentence);
+
+                            // Set the issue description with larger, bold text
+                            $('#Issuequ').text(obj.issue);
 
                             // Fetch and display comments
                             displayComments(data.videos);
@@ -1101,6 +1125,9 @@
                             finishLoadDiv($('#tableSection'));
                         });
             });
+
+
+
 
         </script>
     </body>

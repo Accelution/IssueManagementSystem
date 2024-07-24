@@ -1,6 +1,6 @@
 <nav class="navbar navbar-light navbar-glass navbar-top navbar-expand">
 
-    <h5 id="companyNameNav" class="mb-0 fw-semi-bold"></h5>
+    <h4 id="companyNameNav" class="mb-0 fw-semi-bold"></h4>
     <ul class="navbar-nav navbar-nav-icons ms-auto flex-row align-items-center">
         <li class="nav-item">
             <div class="theme-control-toggle fa-icon-wait px-2"><input

@@ -38,6 +38,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import Accelution.ims.model.User;
+import java.util.ArrayList;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  *
@@ -46,6 +48,8 @@ import Accelution.ims.model.User;
 @Service
 public class IssueService {
 
+    @Value("application.ticket-document-location")
+    private String applicationTicketDocumentLocation;
     @Autowired
     private DataTableRepo<IssueDTO> userDt;
     @Autowired
@@ -128,14 +132,6 @@ public class IssueService {
         String companyId = currentUser.getCompany();
         String departmentId = currentUser.getDepartment();
         Integer userId = currentUser.getId();
-
-        // Logging to verify values
-        System.out.println("Stage: " + stage);
-        System.out.println("Raw Access Type: " + currentUser.getAccess());
-        System.out.println("Access Type: " + accessType);
-        System.out.println("Company ID: " + companyId);
-        System.out.println("Department ID: " + departmentId);
-        System.out.println("User ID: " + userId);
 
         String sql = "SELECT x.`id`, x.`issue`, x.`status`, x.`ref_number`, "
                 + "(SELECT i.system FROM `systems` i WHERE i.`id`=x.`system`) AS `system`, "
@@ -266,6 +262,7 @@ public class IssueService {
                 String[] split = file.getOriginalFilename().split("\\.");
                 File des = new File(directory, ticket.getId() + "_" + i + "." + split[split.length - 1]);
                 file.transferTo(Path.of(des.getAbsolutePath()));
+                System.out.println(des);
                 attachment.setPath(des.getName());
             } else {
                 attachment.setPath(fileItem.get("path").asText());
@@ -279,59 +276,73 @@ public class IssueService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public Issue updateIssue(Integer id, MultipartFile file, String desclist, String statusque, String assign) throws Exception {
-        Issue updateissue = repo.findById(id).orElseThrow(() -> new IllegalArgumentException("Issue not found with id: " + id));
+    public Issue updateIssue(Integer id, Map<String, MultipartFile> files, String desclist, String statusque, String assign) throws IOException {
+        // Fetch the existing issue from the repository
+        Issue updateissue = repo.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Issue not found with id: " + id));
+        System.out.println("Issue found: " + updateissue);
 
+        // Parse the desclist JSON string into a JsonNode object
         JsonNode fileList;
         try {
             fileList = mapper.readTree(desclist);
+            System.out.println("Parsed desclist JSON: " + fileList.toString());
         } catch (IOException e) {
+            System.out.println("Invalid JSON format for desclist: " + desclist);
+            e.printStackTrace();
             throw new IllegalArgumentException("Invalid JSON format for desclist: " + desclist, e);
         }
 
+        // Prepare to collect comments that need to be saved
+        List<Comment> commentsToSave = new ArrayList<>();
+
+        // Process each item in the desclist
         for (int i = 0; i < fileList.size(); i++) {
             JsonNode fileItem = fileList.get(i);
+            System.out.println("Processing fileItem: " + fileItem.toString());
 
-            Comment attachment = new Comment();
-            attachment.setIssue(updateissue.getId());
-            attachment.setComment(fileItem.get("comment").asText());
-            attachment.setStatus("active");
+            // Create a new Comment object
+            Comment comment = new Comment();
+            comment.setIssue(updateissue.getId());
+            comment.setComment(fileItem.get("comment").asText());
+            comment.setStatus("active");
 
+            // Set the comment type based on the JSON data
             String comType = fileItem.get("comtype").asText();
+            comment.setCom_type("External".equals(comType) ? "External" : "Internal");
 
-            if ("External".equals(comType)) {
-                attachment.setCom_type("External");
-            } else {
-                attachment.setCom_type("Internal");
-            }
+            // Initialize the file path variable
+            String filePath = null;
 
+            MultipartFile file = files.get(fileItem.get("path").asText());
             if (file != null) {
+                System.out.println("hereee");
                 String directoryPath = "TMS/Comments/";
                 File directory = new File(directoryPath);
                 if (!directory.exists()) {
-                    if (!directory.mkdirs()) {
-                        throw new IOException("Failed to create directory: " + directoryPath);
-                    }
+                    directory.mkdirs();
                 }
-
-                String[] split = file.getOriginalFilename().split("\\.");
-                File des = new File(directory, updateissue.getId() + "_" + i + "." + split[split.length - 1]);
-                try {
-                    file.transferTo(Path.of(des.getAbsolutePath()));
-                    attachment.setPath(des.getName());
-                } catch (IOException e) {
-                    throw new IOException("Failed to save file: " + des.getAbsolutePath(), e);
-                }
-            } else {
-                attachment.setPath(fileItem.get("path").asText());
+                String OrgfileName = file.getOriginalFilename();
+                String[] split = OrgfileName.split("\\.");
+                String fileName = updateissue.getId() + "_" + i + "." + split[split.length - 1];
+                File destinationFile = new File(directory, fileName);
+                file.transferTo(Path.of(destinationFile.getAbsolutePath()));
+                comment.setPath(fileName);
             }
 
-            attachment = crepo.save(attachment);
-            System.out.println("Attachment ID: " + attachment.getId());
+            // Set the file path for the comment and add the comment to the list of comments to be saved
+            commentsToSave.add(comment);
         }
 
-        // Update issue status based on statusque
+        // Save all comments
+        for (Comment comment : commentsToSave) {
+            crepo.save(comment);
+
+        }
+
+        // Update the issue's status based on statusque
         if (statusque != null && !statusque.trim().isEmpty()) {
+
             switch (statusque) {
                 case "uns":
                     updateissue.setStatus("Closed");
@@ -361,15 +372,19 @@ public class IssueService {
                     updateissue.setStatus("Approval Pending");
                     break;
                 default:
+                    System.out.println("Invalid statusque value: " + statusque);
                     throw new IllegalArgumentException("Invalid statusque value: " + statusque);
             }
         }
-        updateissue.setAssign(assign);
-        updateissue = repo.save(updateissue);
-        return updateissue;
-    }
 
-//
+        if (assign != null) {
+            updateissue.setAssign(assign);
+        }
+
+        Issue savedIssue = repo.save(updateissue);
+
+        return savedIssue;
+    }
     @Autowired
     private JdbcTemplate jdbc;
 

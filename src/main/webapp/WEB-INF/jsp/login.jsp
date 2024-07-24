@@ -60,6 +60,7 @@
                 </div>
             </div>
         </main>
+        <%@include file="jspf/scripts.jspf" %>
         <script>
             function loadDiv(card) {
                 var $this = $(card);

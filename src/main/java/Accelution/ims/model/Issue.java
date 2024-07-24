@@ -33,6 +33,7 @@ public class Issue {
 
     @Id
     private Integer id;
+    @Transient
     private String ref_number;
     private String issue;
     private String priority;
