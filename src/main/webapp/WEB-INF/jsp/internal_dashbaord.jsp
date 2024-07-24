@@ -961,7 +961,7 @@
                 stage = 'completed';
                 dtable.ajax.reload();
             });
-            $('#Unsuccrd').click(function () {
+            $('#Closcrd').click(function () {
                 document.getElementById('tableCard').style.display = 'block';
                 stage = 'unsucces';
                 dtable.ajax.reload();
