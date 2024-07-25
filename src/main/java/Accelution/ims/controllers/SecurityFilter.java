@@ -28,7 +28,7 @@ public class SecurityFilter implements Filter {
         }
         String url = req.getRequestURI();
 
-        if (!(url.contains("/files") | url.contains("/assets") | url.contains("/images") | url.contains("/websocket") | url.contains("/pages") | url.contains("/monitoring"))) {
+        if (!(url.contains("/files") | url.contains("/assets") | url.contains("/images") | url.contains("/websocket") | url.contains("/pages") | url.contains("/Reset-Password") | url.contains("/otp") | url.contains("/changepw") | url.contains("/reset-validate") | url.contains("/reset") | url.contains("/monitoring"))) {
             if (!url.endsWith("/login") && req.getSession().getAttribute("uid") == null) {
                 HttpServletResponse resp = (HttpServletResponse) response;
                 if (url.contains("/ims")) {

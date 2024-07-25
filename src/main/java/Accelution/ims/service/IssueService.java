@@ -408,8 +408,8 @@ public class IssueService {
         Map<String, Object> modulen = jdbc.queryForMap("SELECT `name` as modulename FROM `modules` WHERE `id` = ?", issue.getModule());
         issue.setModulename((String) modulen.get("modulename"));
 
-//        Map<String, Object> assignto = jdbc.queryForMap("SELECT `name` as assigntoc FROM `users` WHERE `id` = ?", issue.getAssign());
-//        issue.setAssigntoc((String) assignto.get("assigntoc"));
+        Map<String, Object> assignto = jdbc.queryForMap("SELECT `name` as assigntoc FROM `users` WHERE `id` = ?", issue.getAssign());
+        issue.setAssigntoc((String) assignto.get("assigntoc"));
         // Fetch the list of active comments
         List<Comment> comments = crepo.findByIssueAndStatus(id, "active");
 
@@ -425,7 +425,7 @@ public class IssueService {
         combinedData.put("d3", company);
         combinedData.put("d4", systemn);
         combinedData.put("d5", modulen);
-//        combinedData.put("d6", assignto);
+        combinedData.put("d6", assignto);
         combinedData.put("obj", issue);
         combinedData.put("videos", comments);
 

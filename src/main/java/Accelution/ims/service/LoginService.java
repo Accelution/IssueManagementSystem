@@ -19,13 +19,47 @@ import org.springframework.stereotype.Service;
 public class LoginService {
 
     @Autowired
-    UserRepo serv;
+    UserRepo repo;
 
     @Autowired
     JdbcTemplate temp;
 
-    public User checkLogin(String username) {
-        return serv.findByUsername(username).orElse(null);
+    public User checkLogin(String username, String password) {
+
+        User user = repo.findByUsername(username).orElse(null);
+
+        if (user != null && user.getPassword().equals(password)) {
+            return user;
+        } else {
+            return null;
+        }
+    }
+
+    public User checkUser(String username) {
+
+        User user = repo.findByUsername(username).orElse(null);
+
+        if (user != null && user.getUsername().equals(username)) {
+            return user;
+        } else {
+            return null;
+        }
+    }
+
+    public void updatePassword(String username, String newPassword) {
+        // Retrieve the user from the database
+        User user = repo.findByUsername(username).orElse(null);
+
+        if (user != null) {
+
+            user.setPassword(newPassword);
+
+            // Save the updated user to the database
+            repo.save(user);
+        } else {
+            // Handle the case where the user is not found in the database
+            // You may throw an exception, log a message, or perform any other appropriate action
+        }
     }
 
     public Map<String, Object> checkLogins(String username) {

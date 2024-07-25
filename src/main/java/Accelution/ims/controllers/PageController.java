@@ -120,4 +120,20 @@ public class PageController {
     public String deployment() {
         return "deployment";
     }
+
+    @GetMapping("/Reset-Password")
+    public String reset() {
+        return "reset_password";
+    }
+
+    @GetMapping("/otp")
+    public String otp() {
+        return "otp";
+    }
+
+    @GetMapping("/changepw")
+    public String changepw() {
+        return "change_password";
+    }
+
 }

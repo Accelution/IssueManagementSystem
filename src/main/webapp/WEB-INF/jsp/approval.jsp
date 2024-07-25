@@ -97,6 +97,21 @@
                                         </div>
                                     </div>
                                     <div class="col-3">
+                                        <div class="form-group">
+                                            <label for="assignto">Currently Assign To<span class="text-danger">*</span></label>
+                                            <input id="assignto" type="text" name="assignto" class="form-control" required autocomplete="off" disabled="">
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <label for="comdate">Completion Date<span class="text-danger">*</span></label>
+                                            <input id="comdate" type="date" name="comdate" class="form-control" required autocomplete="off" disabled="">
+                                        </div> 
+                                    </div>
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-3">
                                         <div class="form-group" style="padding-bottom: 2rem">
                                             <label for="acknow_status" class="col-form-label allFontByCustomerEdit">Choose Next Stage </label>
                                             <div class="selector">
@@ -116,7 +131,14 @@
                                             <select class="form-control-sm pull-right" id="assign">  </select>
                                         </div>   
                                     </div>
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <label for="date">Complete Before<span class="text-danger">*</span></label>
+                                            <input id="date" type="date" name="date" class="form-control" required autocomplete="off" >
+                                        </div> 
+                                    </div>
                                 </div>
+
                                 <div class="row" style="padding-top: 1em;padding-bottom: 1em;">
                                     <div class="col-3">
                                         <label for="comment">Upload Your Attachments Here<span class="text-danger">*</span></label> 
@@ -426,6 +448,7 @@
                                 let d3 = data.d3;
                                 let d4 = data.d4;
                                 let d5 = data.d5;
+                                let d6 = data.d6;
                                 let obj = data.obj;
 
                                 // Set the issue details
@@ -435,6 +458,8 @@
                                 $('#company').val(d3.comname);
                                 $('#system').val(d4.sysname);
                                 $('#module').val(d5.modulename);
+                                $('#assignto').val(d6.assigntoc);
+                                $('#comdate').val(obj.date);
                                 $('#saveBtnin').data('mode', 'update');
                                 $('#saveBtnin').data('id', id);
                                 $('#saveBtnin').html('<i class="icon feather icon-save"></i>Update');

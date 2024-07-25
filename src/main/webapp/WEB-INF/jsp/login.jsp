@@ -47,7 +47,7 @@
                                             </div>
                                         </div>
                                         <div class="col-auto">
-                                            <a class="fs--1" href="forgot-password.html">Forgot Password?</a>
+                                            <a style="cursor: pointer;" href="Reset-Password">Forgot Password?</a>
                                         </div>
                                     </div>
                                     <div class="mb-3">

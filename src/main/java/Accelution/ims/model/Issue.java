@@ -42,6 +42,7 @@ public class Issue {
     private String module;
     private String company;
     private String department;
+    private Date date;
     @Transient
     private String entUser;
     @Transient

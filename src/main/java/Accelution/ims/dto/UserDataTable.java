@@ -18,9 +18,12 @@ public class UserDataTable {
     public Integer id;
     public String username;
     public String name;
-    public String usertypes;
+    public String usertype;
     public String company;
-
+    public String dashboard;
+    public String email;
+    public String department;
+    public String access;
     public String ent_on;
     public String ent_by;
     public String mod_by;

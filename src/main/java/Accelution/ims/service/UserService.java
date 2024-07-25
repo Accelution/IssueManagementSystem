@@ -4,6 +4,7 @@
  */
 package Accelution.ims.service;
 
+import Accelution.ims.controllers.UserMail;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import Accelution.ims.datatable.DataTableRepo;
 import Accelution.ims.datatable.DataTableRequest;
@@ -109,21 +110,66 @@ public class UserService {
 
     }
 
-    public User saveUser(String name, String username, String dashboard, String usertype, String company, String department, String access) throws Exception {
+    private String generateRandomPassword() {
+        // Define characters allowed in the password
+        String allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+        // Generate a random password of length 8
+        StringBuilder password = new StringBuilder();
+        for (int i = 0; i < 8; i++) {
+            int index = (int) (Math.random() * allowedChars.length());
+            password.append(allowedChars.charAt(index));
+        }
+
+        return password.toString();
+    }
+
+    public User saveUser(String name, String username, String usertype, String dashboard, String company, String department, String access, String email) {
+        // Generate a random password
+        String password = generateRandomPassword();
+
+        // Create the user entity
         User user = new User();
-        user.setUsername(username);
         user.setName(name);
-        user.setDashboard(dashboard);
+        user.setUsername(username);
         user.setUsertype(usertype);
+        user.setDashboard(dashboard);
         user.setCompany(company);
         user.setDepartment(department);
         user.setAccess(access);
+        user.setEmail(email);
+        user.setPassword(password); // Set the plaintext password
         user.setStatus("active");
-        user = userRepo.save(user);
-        return user;
-    }
 
-    public User updateUser(Integer id, String name, String username, String dashboard, String usertype, String company, String department, String access) throws Exception {
+        // Save the user entity
+        user = userRepo.save(user);
+
+        // Send email with user credentials
+        boolean emailSent = UserMail.sendUserCredentials(email, username, password);
+
+        if (emailSent) {
+            return user;
+        } else {
+            // If email fails to send, delete the user and throw an exception
+            userRepo.delete(user);
+            throw new RuntimeException("Failed to send email. User creation rolled back.");
+        }
+    }
+//    public User saveUser(String name, String username, String dashboard, String usertype, String company, String department, String access) throws Exception {
+//        User user = new User();
+//        user.setUsername(username);
+//        user.setName(name);
+//        user.setDashboard(dashboard);
+//        user.setUsertype(usertype);
+//        user.setCompany(company);
+//        user.setDepartment(department);
+//        user.setAccess(access);
+//        user.setStatus("active");
+//        user = userRepo.save(user);
+//        return user;
+//    }
+
+    public User updateUser(Integer id, String name, String username, String dashboard, String usertype, String company, String department, String access, String email) throws Exception {
         User user = userRepo.findById(id).get();
         user.setUsername(username);
         user.setName(name);
@@ -132,6 +178,7 @@ public class UserService {
         user.setCompany(company);
         user.setDepartment(department);
         user.setAccess(access);
+        user.setEmail(email);
         user = userRepo.save(user);
         return user;
     }

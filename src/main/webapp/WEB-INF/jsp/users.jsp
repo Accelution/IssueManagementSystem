@@ -140,6 +140,12 @@
                                         </div>
                                         <div class="col">
                                             <div class="form-group">
+                                                <label for="email">Email<span class="text-danger">*</span></label>
+                                                <input id="email"  type="text" name="email" class="form-control" required autocomplete="off">
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
                                                 <label for="user_type">User Type<span class="text-danger">*</span></label>
                                                 <select id="user_type" name="user_type" class="" required autocomplete="off">
                                                 </select>
@@ -238,7 +244,7 @@
             });
             var dptmnt = new SlimSelect({
                 select: '#department',
-                placeholder: "Company",
+                placeholder: "Department",
                 ajax: function (search, callback) {
                     fetch('company/company-select-departments', {
                         method: 'POST',
@@ -299,7 +305,7 @@
 
                     {"data": "ent_on"},
                     {"data": "ent_by"},
-                    {"data": "usertypes"},
+                    {"data": "usertype"},
                     {"data": "company"},
                     {"data": "mod_on"},
                     {"data": "mod_by"},
@@ -347,6 +353,7 @@
             function clearForm() {
                 document.getElementById('name').value = '';
                 document.getElementById('username').value = '';
+                document.getElementById('email').value = '';
                 document.getElementById('user_type').selectedIndex = 0;
                 document.getElementById('company').selectedIndex = 0;
                 document.getElementById('dashboard').selectedIndex = 0;
@@ -384,6 +391,7 @@
                                 clearForm();
                                 $('#name').val(obj.name);
                                 $('#username').val(obj.username);
+                                $('#email').val(obj.email);
 
                                 $('#saveBtn').data('mode', 'update');
                                 $('#saveBtn').html('<i class="icon feather icon-save"></i>Update');
@@ -401,6 +409,89 @@
                             finishLoadDiv($('#tableSection'));
                         });
             });
+            function saveUser() {
+                // Disable the saveBtn
+                $('#saveBtn').prop('disabled', true);
+
+                var userData = {
+                    name: document.getElementById('name').value,
+                    username: document.getElementById('username').value,
+                    email: document.getElementById('email').value,
+                    usertype: document.getElementById('user_type').value,
+                    company: document.getElementById('company').value,
+                    dashboard: document.getElementById('dashboard').value,
+                    access: document.getElementById('access').value,
+                    department: document.getElementById('department').value,
+                };
+
+                fetch('admin/save-user', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(userData)
+                })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(response.statusText);
+                            } else {
+                                return response.json();
+                            }
+                        })
+                        .then(data => {
+                            // Enable the saveBtn
+                            $('#saveBtn').prop('disabled', false);
+
+                            console.error('Error:', error);
+                            Swal.fire('Error!', 'An error occurred while saving the user', 'error');
+
+                        })
+                        .catch(error => {
+                            Swal.fire('Successful!', 'User has been successfully saved', 'success');
+                            clearForm();
+                            $('#formSection').hide();
+                            $('#tableSection').fadeIn();
+                            dtable.ajax.reload();
+                            // Enable the saveBtn in case of error
+                            $('#saveBtn').prop('disabled', false);
+                        });
+            }
+
+
+// Function for updating a user
+            function updateUser() {
+                return fetch('admin/update-user', {
+                    method: 'POST',
+                    body: new URLSearchParams({
+                        id: $('#saveBtn').data('id'),
+                        name: document.getElementById('name').value,
+                        username: document.getElementById('username').value,
+                        email: document.getElementById('email').value,
+                        usertype: document.getElementById('user_type').value,
+                        company: document.getElementById('company').value,
+                        dashboard: document.getElementById('dashboard').value,
+                        access: document.getElementById('access').value,
+                        department: document.getElementById('department').value,
+                    })
+                })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(response.statusText);
+                            } else {
+                                Swal.fire('Successful!', 'User has been successfully updated', 'success');
+                                clearForm();
+                                $('#formSection').hide();
+                                $('#tableSection').fadeIn();
+                                dtable.ajax.reload();
+                            }
+                            return response.json();
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            Swal.fire('Error!', 'An error occurred while updating the user', 'error');
+                        });
+            }
+
 
 
             $('#saveBtn').click(function () {
@@ -410,6 +501,10 @@
                 }
                 if ($('#username').val().trim() === '') {
                     Swal.fire("Empty Username!", "Please Enter a Valid Username!", "warning");
+                    return;
+                }
+                if ($('#email').val().trim() === '') {
+                    Swal.fire("Empty email!", "Please Enter a Valid email!", "warning");
                     return;
                 }
                 if ($('#user_type').val() === null) {
@@ -433,60 +528,17 @@
                     return;
                 }
 
+                var mode = $(this).data('mode'); // Get the mode from the data attribute of the button
 
-                let mode = $('#saveBtn').data('mode');
-
-                const formData = new FormData();
-                if (mode === 'update') {
-                    formData.append('id', $('#saveBtn').data('id'));
+                if (mode === 'save') {
+                    saveUser(); // Call saveUser function if mode is 'save'
+                } else if (mode === 'update') {
+                    updateUser(); // Call updateUser function if mode is 'update'
+                } else {
+                    console.error('Invalid mode specified.');
                 }
-                formData.append('name', $('#name').val().trim());
-                formData.append('username', $('#username').val().trim());
-                formData.append('usertype', $('#user_type').val());
-                formData.append('company', $('#company').val());
-                formData.append('dashboard', $('#dashboard').val());
-                formData.append('access', $('#access').val());
-                formData.append('department', $('#department').val());
-
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "User Will be " + (mode === 'update' ? 'Updated' : 'Saved') + " !",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, Continue!',
-                    showLoaderOnConfirm: true,
-                    searchHighlight: true,
-                    preConfirm: () => {
-                        return fetch('admin/' + $('#saveBtn').data('mode') + '-user', {
-                            method: 'POST',
-                            body: formData
-                        }).then(response => {
-                            if (!response.ok) {
-                                throw new Error(response.statusText);
-                            }
-                            return response.json();
-                        }).catch(error => {
-                            Swal.showValidationMessage('Request failed:' + error);
-                        });
-                    },
-                    allowOutsideClick: () => !Swal.isLoading()
-
-                }).then((result) => {
-                    if (result.value) {
-                        if (result.value.status !== 200) {
-                            Swal.fire('Error!', result.value.msg, 'error');
-                        } else {
-                            Swal.fire('Successfull!', 'User has been updated.', 'success');
-                            clearForm()
-                            dtable.ajax.reload();
-                            $('#formSection').hide();
-                            $('#tableSection').fadeIn();
-                        }
-                    }
-                });
             });
+
 
             $(document).on('click', '.delrec', function () {
                 let id = $(this).parents('tr').data('id');
