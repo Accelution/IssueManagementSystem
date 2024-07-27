@@ -97,6 +97,12 @@
                                         </div>
                                     </div>
                                     <div class="col-3">
+                                        <div class="form-group">
+                                            <label for="assignto">Currently Assign To<span class="text-danger">*</span></label>
+                                            <input id="assignto" type="text" name="assignto" class="form-control" required autocomplete="off" disabled="">
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
                                         <div class="form-group" style="padding-bottom: 2rem">
                                             <label for="acknow_status" class="col-form-label allFontByCustomerEdit">Choose Next Stage </label>
                                             <div class="selector">
@@ -109,6 +115,10 @@
                                             </div>
                                         </div> 
                                     </div>
+                                </div>
+                                <div class="row">
+
+
 
                                 </div>
                                 <div class="row" style="padding-top: 1em;padding-bottom: 1em;">
@@ -420,6 +430,7 @@
                                 let d3 = data.d3;
                                 let d4 = data.d4;
                                 let d5 = data.d5;
+                                let d6 = data.d6;
                                 let obj = data.obj;
 
                                 // Set the issue details
@@ -429,6 +440,8 @@
                                 $('#company').val(d3.comname);
                                 $('#system').val(d4.sysname);
                                 $('#module').val(d5.modulename);
+                                $('#assignto').val(d6.assigntoc);
+                                $('#comdate').val(obj.date);
                                 $('#saveBtnin').data('mode', 'update');
                                 $('#saveBtnin').data('id', id);
                                 $('#saveBtnin').html('<i class="icon feather icon-save"></i>Update');

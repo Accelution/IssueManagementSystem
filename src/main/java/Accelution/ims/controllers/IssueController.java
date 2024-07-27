@@ -107,6 +107,7 @@ public class IssueController {
             @RequestParam("desclist") String desclist,
             @RequestParam(required = false) String statusque,
             @RequestParam(required = false) String assign,
+            @RequestParam(required = false) String date,
             MultipartHttpServletRequest req
     ) throws Exception {
 
@@ -114,7 +115,7 @@ public class IssueController {
         System.out.println(files);
 
         // Call the service layer to handle the business logic
-        return service.updateIssue(id, files, desclist, statusque, assign);
+        return service.updateIssue(id, files, desclist, statusque, assign, date);
     }
 
     @GetMapping("/details-all/{id}")

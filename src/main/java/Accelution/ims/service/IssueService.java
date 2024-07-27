@@ -39,6 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import Accelution.ims.model.User;
 import java.util.ArrayList;
+import java.util.Date;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
@@ -276,7 +277,7 @@ public class IssueService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public Issue updateIssue(Integer id, Map<String, MultipartFile> files, String desclist, String statusque, String assign) throws IOException {
+    public Issue updateIssue(Integer id, Map<String, MultipartFile> files, String desclist, String statusque, String assign, String date) throws IOException {
         // Fetch the existing issue from the repository
         Issue updateissue = repo.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Issue not found with id: " + id));
@@ -380,7 +381,7 @@ public class IssueService {
         if (assign != null) {
             updateissue.setAssign(assign);
         }
-
+        updateissue.setDate(date);
         Issue savedIssue = repo.save(updateissue);
 
         return savedIssue;

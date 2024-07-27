@@ -534,6 +534,7 @@
                     let id = $('#saveBtnin').data('id');
                     let statusque = document.getElementById('statusque')?.value || '';
                     let assign = document.getElementById('assign')?.value || '';
+                    let date = document.getElementById('date')?.value || '';
 
                     let tableRows = document.querySelectorAll('#tbladdAttQ tbody tr');
                     let formData = new FormData();
@@ -543,24 +544,30 @@
 
                     // Handle cases where statusque and assign are required
                     if (tableRows.length === 0) {
-                        if (!statusque.trim() || !assign.trim()) {
+                        if (!statusque.trim() || !assign.trim() || !date.trim()) {
                             let errorMessage = '';
                             if (!statusque.trim())
                                 errorMessage += 'Please select "Status". ';
                             if (!assign.trim())
                                 errorMessage += 'Please select "Assign To".';
+                            if (!date.trim())
+                                errorMessage += 'Please select "Complete Date".';
                             Swal.fire('Error!', errorMessage, 'error');
                             saveBtnin.disabled = false;
                             return;
                         }
                         formData.append('statusque', statusque);
                         formData.append('assign', assign);
+                        formData.append('date', date);
                     } else {
                         if (statusque.trim()) {
                             formData.append('statusque', statusque);
                         }
                         if (assign.trim()) {
                             formData.append('assign', assign);
+                        }
+                        if (date.trim()) {
+                            formData.append('date', date);
                         }
                     }
 

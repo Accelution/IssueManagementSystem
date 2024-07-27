@@ -97,6 +97,21 @@
                                         </div>
                                     </div>
                                     <div class="col-3">
+                                        <div class="form-group">
+                                            <label for="assignto">Currently Assign To<span class="text-danger">*</span></label>
+                                            <input id="assignto" type="text" name="assignto" class="form-control" required autocomplete="off" disabled="">
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <label for="comdate">Completion Date<span class="text-danger">*</span></label>
+                                            <input id="comdate" type="date" name="comdate" class="form-control" required autocomplete="off" disabled="">
+                                        </div> 
+                                    </div>
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-3">
                                         <div class="form-group" style="padding-bottom: 2rem">
                                             <label for="acknow_status" class="col-form-label allFontByCustomerEdit">Choose Next Stage </label>
                                             <div class="selector">
@@ -116,6 +131,12 @@
                                             <label for="assign" class="col-form-label allFontByCustomerEdit">Assign To</label>
                                             <select class="form-control-sm pull-right" id="assign">  </select>
                                         </div>   
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <label for="date">Complete Before<span class="text-danger">*</span></label>
+                                            <input id="date" type="date" name="date" class="form-control" required autocomplete="off" >
+                                        </div> 
                                     </div>
                                 </div>
                                 <div class="row" style="padding-top: 1em;padding-bottom: 1em;">
@@ -442,6 +463,7 @@
                                 let d3 = data.d3;
                                 let d4 = data.d4;
                                 let d5 = data.d5;
+                                let d6 = data.d6;
                                 let obj = data.obj;
 
                                 // Set the issue details
@@ -451,6 +473,8 @@
                                 $('#company').val(d3.comname);
                                 $('#system').val(d4.sysname);
                                 $('#module').val(d5.modulename);
+                                $('#assignto').val(d6.assigntoc);
+                                $('#comdate').val(obj.date);
                                 $('#saveBtnin').data('mode', 'update');
                                 $('#saveBtnin').data('id', id);
                                 $('#saveBtnin').html('<i class="icon feather icon-save"></i>Update');
@@ -525,6 +549,7 @@
                     let id = $('#saveBtnin').data('id');
                     let statusque = document.getElementById('statusque')?.value || '';
                     let assign = document.getElementById('assign')?.value || '';
+                    let date = document.getElementById('date')?.value || '';
 
                     let tableRows = document.querySelectorAll('#tbladdAttQ tbody tr');
                     let formData = new FormData();
@@ -534,24 +559,30 @@
 
                     // Handle cases where statusque and assign are required
                     if (tableRows.length === 0) {
-                        if (!statusque.trim() || !assign.trim()) {
+                        if (!statusque.trim() || !assign.trim() || !date.trim()) {
                             let errorMessage = '';
                             if (!statusque.trim())
                                 errorMessage += 'Please select "Status". ';
                             if (!assign.trim())
                                 errorMessage += 'Please select "Assign To".';
+                            if (!date.trim())
+                                errorMessage += 'Please select "Complete Date".';
                             Swal.fire('Error!', errorMessage, 'error');
                             saveBtnin.disabled = false;
                             return;
                         }
                         formData.append('statusque', statusque);
                         formData.append('assign', assign);
+                        formData.append('date', date);
                     } else {
                         if (statusque.trim()) {
                             formData.append('statusque', statusque);
                         }
                         if (assign.trim()) {
                             formData.append('assign', assign);
+                        }
+                        if (date.trim()) {
+                            formData.append('date', date);
                         }
                     }
 
