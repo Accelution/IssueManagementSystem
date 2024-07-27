@@ -409,15 +409,27 @@ public class IssueService {
         Map<String, Object> modulen = jdbc.queryForMap("SELECT `name` as modulename FROM `modules` WHERE `id` = ?", issue.getModule());
         issue.setModulename((String) modulen.get("modulename"));
 
-        Map<String, Object> assignto = jdbc.queryForMap("SELECT `name` as assigntoc FROM `users` WHERE `id` = ?", issue.getAssign());
-        issue.setAssigntoc((String) assignto.get("assigntoc"));
+        if (issue.getAssign() != null) {
+            System.out.println("Issue Assign ID: " + issue.getAssign());
+            try {
+                Map<String, Object> assignto = jdbc.queryForMap("SELECT `name` as assigntoc FROM `users` WHERE `id` = ?", issue.getAssign());
+                issue.setAssigntoc((String) assignto.get("assigntoc"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
         // Fetch the list of active comments
         List<Comment> comments = crepo.findByIssueAndStatus(id, "active");
 
         // Fetch the commenter's name for each comment
         for (Comment comment : comments) {
-            Map<String, Object> commentby = jdbc.queryForMap("SELECT `name` as commenter FROM `users` WHERE `id` = ?", comment.getEnt_by());
-            comment.setCommenter((String) commentby.get("commenter"));
+            try {
+                Map<String, Object> commentby = jdbc.queryForMap("SELECT `name` as commenter FROM `users` WHERE `id` = ?", comment.getEnt_by());
+                comment.setCommenter((String) commentby.get("commenter"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         // Combine all the data into a single map
@@ -426,7 +438,12 @@ public class IssueService {
         combinedData.put("d3", company);
         combinedData.put("d4", systemn);
         combinedData.put("d5", modulen);
-        combinedData.put("d6", assignto);
+
+// Wrap d6 in a map to match the format of other entries
+        Map<String, Object> assigntocMap = new HashMap<>();
+        assigntocMap.put("assigntoc", issue.getAssigntoc() != null ? issue.getAssigntoc() : "N/A");
+        combinedData.put("d6", assigntocMap);
+
         combinedData.put("obj", issue);
         combinedData.put("videos", comments);
 
